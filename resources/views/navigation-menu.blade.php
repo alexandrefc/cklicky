@@ -19,13 +19,24 @@
                     <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                         {{ __('About') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')">
-                        {{ __('About') }}
+                    <x-jet-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
+                        {{ __('Pricing') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')">
-                        {{ __('About') }}
+                    <x-jet-nav-link href="{{ route('loyalty') }}" :active="request()->routeIs('loyalty')">
+                        {{ __('Loyalty') }}
                     </x-jet-nav-link>
+                    
                 </div>
+                @guest
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+                            {{ __('Login') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                            {{ __('Register') }}
+                        </x-jet-nav-link>
+                    </div>
+                @endguest
             </div>
 
     

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\PricingController;
+use App\Http\Controllers\LoyaltyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
+
+Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty');
 
