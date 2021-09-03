@@ -31,10 +31,12 @@
             </button>
           </div>
         </div>
+        
         <div
           id="scrollContainer"
           class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
         >
+        @foreach ($loyalties as $loyalty)
           <div
             class="flex-none w-2/3 md:w-1/3 h-2/3 mr-8 md:pb-4 border rounded-lg"
           >
@@ -46,27 +48,53 @@
                   alt=""
                 />
               </div>
+
+              
+
               <div class="px-4 py-2">
                 <div class="text-lg leading-6 font-medium space-y-1">
                   <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                    Some title goes here
+                    {{ $loyalty->title }}
                   </h3>
                 </div>
                 <div class="text-lg">
                   <p class="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ad recusandae, consequatur corrupti vel quisquam id itaque
-                    nam asdjhasjkdhaskjhdjahsdjhaskhdashds
-                    akjdhajkshdkjashdj
-                    asdjadhkajdhaksjhdkjashdkjhsakjdhksjhd
-                  </p>
+                    {{ $loyalty->description }}                   </p>
                   <p class="font-medium text-sm text-indigo-600 mt-2">
                     Read more<span class="text-indigo-600">&hellip;</span>
                   </p>
+                  
+                <span class="float-right">
+                    <a 
+                        href="/loyalty/{{ $loyalty->slug }}/edit"
+                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                    Edit
+                    </a>
+                </span>
+
+                <span class="float-right">
+                    <form 
+                        action="/loyalty/{{ $loyalty->slug }}"
+                        method="POST">
+                        @csrf
+                        @method('delete')
+
+                        <button 
+                            class="text-red-500 pr-3"
+                            type="submit">
+                            Delete
+                        </button>
+
+                    </form>
+                </span>
+                
+          
                 </div>
               </div>
             </a>
           </div>
+          
+          @endforeach
           <div
             class="flex-none w-2/3 md:w-1/3 mr-8 md:pb-4 border rounded-lg"
           >
@@ -96,7 +124,9 @@
                 </div>
               </div>
             </a>
+          
           </div>
+          
           <div
             class="flex-none w-2/3 md:w-1/3 mr-8 md:pb-4 border rounded-lg"
           >
@@ -159,5 +189,7 @@
           </div>
         </div>
     </div>
+
+
 
 </x-app-layout>

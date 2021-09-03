@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Coupon;
+use App\Services\UploadImage;
+use App\Services\CreateQrcode;
+use App\Services\CreateSlug;
+use App\Http\Requests\ValidateCreateCoupon;
+use Illuminate\Support\Str;
 
 class LoyaltyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+        $this->couponModel = new Coupon;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,7 @@ class LoyaltyController extends Controller
      */
     public function index()
     {
-        $coupons = (new Coupon())->getAllCoupons();
+        $coupons = $this->couponModel->getAllCoupons();
 
         $loyalties = $coupons;
         
@@ -40,38 +50,13 @@ class LoyaltyController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        $newImageName = (new UploadImage())->uploadImage($request);
-        
-        (new Coupon())->addCoupon($request, $newImageName);
+        // (new Coupon())->addCoupon($request);
+        $this->couponModel->addCoupon($request);
 
-        $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension();
+        $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
+        $request->session()->flash('flash.bannerStyle', 'success');
 
-        $image = $request->image;
-        // $imagePath = $request->file('image')->storeAs('images', $newImageName);
-        // $fitImage = Storage::get($imagePath);
-        // return Storage::download($imagePath);
-
-
-        Image::make($image)->fit(700, 400)->save($image);
-        $image->storeAs('public/images', $newImageName);
-
-        $random = uniqid($request->title, true) . random_int(1111, 9999);
-
-        $urlSlug = Str::of($random)->slug('-');
-        // $urlSlug = Str::of($request->title)->slug('-') . $random;
-
-        // $qrcodeEndPoint = 'http://proximityblog.test/loyalties/' . $urlSlug;
-        $qrcodeEndPoint = 'http://proximityblog.test/points/' . $urlSlug;
-
-        $qrcodeName = uniqid() . '-' . $request->title . '.' . 'svg';
-        QrCode::size(500)
-            ->errorCorrection('H')
-            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
-
-        $qrcodePath = $qrcodeName;
-
-        return redirect('/blog')
-            ->with('message', 'Your post has been added !');
+        return redirect('/loyalty');
     }
 
     /**
@@ -88,24 +73,31 @@ class LoyaltyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $loyalty = $this->couponModel->getCoupon($slug);
+
+        return view('loyalty.edit', compact('loyalty'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $loyalty = $this->couponModel->updateCoupon($request, $slug);
+
+        $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
+        $request->session()->flash('flash.bannerStyle', 'success');
+
+        return redirect('/loyalty');
     }
 
     /**

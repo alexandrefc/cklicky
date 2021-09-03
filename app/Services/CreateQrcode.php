@@ -6,7 +6,8 @@ namespace App\Services;
 // use Illuminate\Database\Eloquent\Model;
 // use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManagerStatic;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CreateQrcode
 {
@@ -15,17 +16,17 @@ class CreateQrcode
     {
         // 
     }
-    public function uploadImage($request)
+    public function createQrcode($slug, $title)
     {
-        if ($request->hasFile('image'))
-        {
-            $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension();
-            $fitImage = $request->image->move(public_path('images'), $newImageName);
-            Image::make($fitImage)->fit(700, 400)->save($fitImage);
-
-        }
         
-        return $newImageName;
+        $qrcodeEndPoint = 'http://cklicky.test/loyalty/' . $slug;
+
+        $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+        QrCode::size(500)
+            ->errorCorrection('H')
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+
+            return $qrcodeName;
     }
       
     public function updateImage($request)

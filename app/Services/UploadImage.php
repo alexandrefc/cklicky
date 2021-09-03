@@ -15,15 +15,15 @@ class UploadImage
     {
         // 
     }
-    public function uploadImage($request)
+    public function uploadImage($image, $title)
     {
-        if ($request->hasFile('image'))
-        {
-            $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension();
-            $fitImage = $request->image->move(public_path('images'), $newImageName);
-            Image::make($fitImage)->fit(700, 400)->save($fitImage);
+        // if ($request->hasFile('image'))
+        // {
+            $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+            $fitImage = $image->move(storage_path('app/public/images/loyalty'), $newImageName);
+            // Image::make($fitImage)->fit(700, 400)->save($fitImage);
 
-        }
+        // }
         
         return $newImageName;
     }

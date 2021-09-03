@@ -29,3 +29,5 @@ Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 
 Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty');
 
+Route::resource('/loyalty', LoyaltyController::class);
+
