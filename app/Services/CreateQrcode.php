@@ -28,20 +28,29 @@ class CreateQrcode
 
             return $qrcodeName;
     }
-      
-    public function updateImage($request)
+
+    public function createCouponQrcode($slug, $title)
     {
-        if ($request->hasFile('image'))
-        {
-            $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension(); 
-            $request->image->move(public_path('images'), $newImageName);
-        // }else{
-        //     $newImageName = $existingImage;
-        }
-        dd($newImageName);
-        return $newImageName;
-    }
         
+        $qrcodeEndPoint = 'http://cklicky.test/coupons/' . $slug;
+
+        $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+        QrCode::size(500)
+            ->errorCorrection('H')
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+
+            return $qrcodeName;
+    }
+
+    public function deleteQrcode($qrcodePath)
+    {
+        if(file_exists(storage_path('app/public/images/qrcodes/' . $qrcodePath)))
+        {
+            unlink(storage_path('app/public/images/qrcodes/' . $qrcodePath));
+        } 
+    }
+      
+    
     
 
     

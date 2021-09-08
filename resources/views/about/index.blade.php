@@ -38,7 +38,7 @@
         <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto py-15 border-b border-gray-200">
             <div>
                 <img 
-                    src="{{ asset('/images/layout/custom-branded-loyalty-solution-lp.jpg') }}" 
+                    src="{{ asset('/layout/custom-branded-loyalty-solution-lp.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl mb-10 mt-12"
@@ -130,7 +130,7 @@
             </div>
             <div class="">
                 <img 
-                    src="{{ asset('/images/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
+                    src="{{ asset('/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl"

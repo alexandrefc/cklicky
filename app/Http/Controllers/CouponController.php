@@ -10,7 +10,7 @@ use App\Services\CreateSlug;
 use App\Http\Requests\ValidateCreateCoupon;
 use Illuminate\Support\Str;
 
-class LoyaltyController extends Controller
+class CouponController extends Controller
 {
     public function __construct()
     {
@@ -24,11 +24,9 @@ class LoyaltyController extends Controller
      */
     public function index()
     {
-        $coupons = $this->couponModel->getAllCoupons();
-
-        $loyalties = $coupons;
-        
-        return view('loyalty.index', compact('loyalties'));
+        $coupons = $this->couponModel->getAllCoupons();        
+    
+        return view('coupons.index', compact('coupons'));
     }
 
     /**
@@ -38,7 +36,7 @@ class LoyaltyController extends Controller
      */
     public function create()
     {
-        return view('loyalty.create');
+        return view('coupons.create');
     }
 
     /**
@@ -47,15 +45,14 @@ class LoyaltyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateCreateCoupon $request)
+    public function store(Request $request)
     {
-        // (new Coupon())->addCoupon($request);
         $this->couponModel->addCoupon($request);
 
         $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/loyalty');
+        return redirect('/coupons');
     }
 
     /**
@@ -72,31 +69,31 @@ class LoyaltyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string  $slug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($slug)
     {
-        $loyalty = $this->couponModel->getCoupon($slug);
+        $coupon = $this->couponModel->getCoupon($slug);
 
-        return view('loyalty.edit', compact('loyalty'));
+        return view('coupons.edit', compact('coupon'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string  $slug
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $slug)
     {
-        $loyalty = $this->couponModel->updateCoupon($request, $slug);
+        $coupon = $this->couponModel->updateCoupon($request, $slug);
 
-        $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
+        $request->session()->flash('flash.banner', 'Coupon has been updated succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/loyalty');
+        return redirect('/coupons');
     }
 
     /**
@@ -105,8 +102,13 @@ class LoyaltyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $slug)
     {
-        //
+        $this->couponModel->deleteCoupon($slug);
+
+        $request->session()->flash('flash.banner', 'Coupon has been deleted succesfully !');
+        $request->session()->flash('flash.bannerStyle', 'success');
+
+        return redirect('/coupons');
     }
 }

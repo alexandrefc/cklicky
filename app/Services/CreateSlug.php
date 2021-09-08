@@ -17,28 +17,14 @@ class CreateSlug
         // 
     }
 
-
     public function createSlug($title)
     {
-        
         $random = uniqid($title, true) . random_int(1111, 9999);
         $slug = Str::of($random)->slug('-');
 
         return $slug;
     }
-      
-    public function updateImage($request)
-    {
-        if ($request->hasFile('image'))
-        {
-            $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension(); 
-            $request->image->move(public_path('images'), $newImageName);
-        // }else{
-        //     $newImageName = $existingImage;
-        }
-        dd($newImageName);
-        return $newImageName;
-    }
+    
         
     
 

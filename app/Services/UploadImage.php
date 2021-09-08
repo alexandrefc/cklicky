@@ -6,6 +6,8 @@ namespace App\Services;
 // use Illuminate\Database\Eloquent\Model;
 // use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class UploadImage
@@ -19,27 +21,39 @@ class UploadImage
     {
         // if ($request->hasFile('image'))
         // {
-            $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
-            $fitImage = $image->move(storage_path('app/public/images/loyalty'), $newImageName);
+            // $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+            // $fitImage = $image->move(storage_path('app/public/images/loyalty'), $newImageName);
             // Image::make($fitImage)->fit(700, 400)->save($fitImage);
 
         // }
         
+        // return $newImageName;
+        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        Image::make($image)->resize(350, 233)->save($image);
+        $image->storeAs('public/images/loyalty', $newImageName);
+        
         return $newImageName;
     }
       
-    public function updateImage($request)
+    public function updateImage($image, $title)
     {
-        if ($request->hasFile('image'))
-        {
-            $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension(); 
-            $request->image->move(public_path('images'), $newImageName);
-        // }else{
-        //     $newImageName = $existingImage;
-        }
-        dd($newImageName);
+        
+        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        Image::make($image)->resize(350, 233)->save($image);
+        $image->storeAs('public/images/loyalty', $newImageName);
+        
         return $newImageName;
     }
+
+    public function deleteImage($image_path) 
+    {
+        if(file_exists(storage_path('app/public/images/loyalty/' . $image_path)))
+        {
+            unlink(storage_path('app/public/images/loyalty/' . $image_path));
+        } 
+    }
+
+
         
     
 

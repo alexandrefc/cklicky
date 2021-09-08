@@ -28,7 +28,7 @@ class Coupon extends Model
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
-        $qrcode_path = (new CreateQrcode())->createQrcode($slug, $request->title);
+        $qrcode_path = (new CreateQrcode())->createCouponQrcode($slug, $request->title);
         
         self::create([
             'title' => $request->title,
@@ -44,32 +44,64 @@ class Coupon extends Model
 
     public function updateCoupon ($request, $slug)
     {
-        $updated_slug = (new CreateSlug())->createSlug($request->title);
-        $updated_image_path = (new UploadImage())->uploadImage($request->image, $request->title);
-        $updated_qrcode_path = (new CreateQrcode())->createQrcode($slug, $request->title);
+        $coupon = self::where('slug', $slug)->first();
+        $existing_image_path = $coupon->image_path;
+
+        // Should be new qrcode and slug ?
+
+        // $existing_qrcode_path = $coupon->qrcode_path;
+        // $existing_slug = $coupon->slug;
+        // $updated_slug = (new CreateSlug())->createSlug($request->title);
+        // $updated_qrcode_path = (new CreateQrcode())->createQrcode($slug, $request->title);
+        
+        if ($request->hasFile('image'))
+        {
+            $updated_image_path = (new UploadImage())->updateImage($request->image, $request->title);
+            (new UploadImage())->deleteImage($existing_image_path);
+        } else {
+            $updated_image_path = $existing_image_path;
+        }
         
         self::where('slug', $slug)
             ->update([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
-            'slug' => $updated_slug,
             'image_path' => $updated_image_path,
-            'qrcode_path' => $updated_qrcode_path,
-            'made_by_id' => auth()->user()->id,
             'venue_id' => $request->venue_id
+            // 'qrcode_path' => $updated_qrcode_path,
+            // 'made_by_id' => auth()->user()->id,
+            // 'slug' => $updated_slug
+            
         ]); 
+        
     }
 
-    public function updateCouponWithImage ($request, $slug, $newImageName){
-        self::where('slug', $slug)
-            ->update([
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'image_path' => $newImageName,
-                'slug' => SlugService::createSlug(Loyalty::class, 'slug', $request->title),
-                'user_id' => auth()->user()->id
-        ]);
+    // public function updateCouponWithImage ($request, $slug, $newImageName){
+    //     self::where('slug', $slug)
+    //         ->update([
+    //             'title' => $request->input('title'),
+    //             'description' => $request->input('description'),
+    //             'image_path' => $newImageName,
+    //             'slug' => SlugService::createSlug(Loyalty::class, 'slug', $request->title),
+    //             'user_id' => auth()->user()->id
+    //     ]);
+    // }
+
+    public function deleteCoupon ($slug)
+    {
+        $coupon = self::where('slug', $slug)->first();
+
+        // if(file_exists(storage_path('app/public/images/loyalty/' . $coupon->image_path)))
+        // {
+        //     unlink(storage_path('app/public/images/loyalty/' . $coupon->image_path));
+        // } else {
+        //     dd("File does not exist");
+        // }
+        (new UploadImage())->deleteImage($coupon->image_path);
+        (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
+        $coupon->delete();
+
     }
 
     
