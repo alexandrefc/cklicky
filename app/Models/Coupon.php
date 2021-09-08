@@ -77,16 +77,12 @@ class Coupon extends Model
         
     }
 
-    // public function updateCouponWithImage ($request, $slug, $newImageName){
-    //     self::where('slug', $slug)
-    //         ->update([
-    //             'title' => $request->input('title'),
-    //             'description' => $request->input('description'),
-    //             'image_path' => $newImageName,
-    //             'slug' => SlugService::createSlug(Loyalty::class, 'slug', $request->title),
-    //             'user_id' => auth()->user()->id
-    //     ]);
-    // }
+    public function showCoupon ($slug)
+    {
+        $coupon = self::where('slug', $slug)->first();
+
+        return $coupon;
+    }
 
     public function deleteCoupon ($slug)
     {

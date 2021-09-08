@@ -63,6 +63,13 @@
                   <p class="font-medium text-sm text-indigo-600 mt-2">
                     Read more<span class="text-indigo-600">&hellip;</span>
                   </p>
+                  <span class="float-right">
+                    <a 
+                        href="/coupons/{{ $coupon->slug }}"
+                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                    Read more
+                    </a>
+                </span>
                   
                 <span class="float-right">
                     <a 
