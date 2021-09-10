@@ -9,7 +9,7 @@
 <div class="w-4/5 m-auto text-left">
     <div class="py-15">
         <h1 class="text-6xl">
-            Coupon creator
+            Point creator
         </h1>
     </div>
 </div>
@@ -29,7 +29,7 @@
 
 <div class="w=4/5 m-auto pt-20">
     <form 
-        action="/coupons"
+        action="/points"
         method="POST"
         enctype="multipart/form-data">
         @csrf
@@ -50,14 +50,17 @@
             name="description"
             placeholder="Description...."
             class="py-20 bg-transparent block border-b-2 w-full h-60 text-xl outline-none"
-            ></textarea>
+        ></textarea>
+
+        <label for="xPoints">Number of points to add:</label>
+            <input 
+                type="number"
+                name="xPoints"
+                {{-- placeholder="Number of points to add" --}}
+                class="bg-transparent border-b-2 w-36 h-20 pt-10 text-xl outline-none inline-block mr-5">
         
         <label for="valid_till">Valid till:</label>
-            <input 
-                type="date" 
-                id="valid_till" 
-                name="valid_till" 
-                placeholder="yyyy-mm-dd hh-mm-ss">
+            <input type="date" id="valid_till" name="valid_till" placeholder="yyyy-mm-dd hh-mm-ss">
 
         <div class="bg-gray-lighter pt-15">
             <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg 
@@ -75,7 +78,7 @@
         <button 
             type="submit"
             class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Create coupon
+            Create point
         </button>
 
     </form>

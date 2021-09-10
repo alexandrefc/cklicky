@@ -38,6 +38,9 @@ Route::resource('/points', PointController::class);
 Route::post('coupons/addtomy/{coupon_id}', [CouponController::class, 'addToMyCoupons'])->name('addToMyCoupons');
 Route::put('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
 
+Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
+Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+
 
 // Info pages controllers
 

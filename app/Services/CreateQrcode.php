@@ -42,6 +42,19 @@ class CreateQrcode
             return $qrcodeName;
     }
 
+    public function createPointQrcode($slug, $title)
+    {
+        
+        $qrcodeEndPoint = 'http://cklicky.test/points/' . $slug;
+
+        $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+        QrCode::size(500)
+            ->errorCorrection('H')
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+
+            return $qrcodeName;
+    }
+
     public function deleteQrcode($qrcodePath)
     {
         if(file_exists(storage_path('app/public/images/qrcodes/' . $qrcodePath)))
