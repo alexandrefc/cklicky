@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Coupon;
+use App\Models\MyCoupon;
+use Illuminate\Support\Str;
+use App\Services\CreateSlug;
+use Illuminate\Http\Request;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
-use App\Services\CreateSlug;
 use App\Http\Requests\ValidateCreateCoupon;
-use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
@@ -112,5 +113,53 @@ class CouponController extends Controller
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/coupons');
+    }
+
+    public function addToMyCoupons($couponId)
+    {
+        $myCoupon = new MyCoupon;
+
+        if (!($myCoupon->checkIfMyCouponExists($couponId)))
+        {
+            $myCoupon->addToMyCoupons($couponId);
+
+            return redirect('/coupons')->banner('Coupon has been added to favourites succesfully !');
+        
+        } else {
+            
+            return redirect('/coupons')->dangerBanner('Coupon has been already added to favourites !');
+            
+        }
+
+    }
+
+    public function redeem($couponId, $userId) 
+    {
+        $myCoupon = new MyCoupon;
+        $coupon = new Coupon;
+
+        if (($coupon->checkIfUserIsManager($couponId)))
+        {
+            if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
+            {
+                $myCoupon->addToMyCoupons($couponId, $userId);
+                $myCoupon->redeemCoupon($couponId, $userId);
+    
+                return redirect('/coupons')->banner('Coupon has been added to favourites and redeemed succesfully !');
+                    
+            } else {
+                if (!($myCoupon->checkIfCouponIsRedeemed($couponId)))
+                {
+                    $myCoupon->redeemCoupon($couponId, $userId);
+                    return redirect('/coupons')->banner('Coupon has been redeemed succesfully !');
+                
+                } else {
+                    return redirect('/coupons')->dangerBanner('Coupon has been already redeemed !');
+                }
+            }
+        } else {
+            return redirect('/coupons')->dangerBanner('Only Manager is permitted to redeem!');
+        }
+        
     }
 }

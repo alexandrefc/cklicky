@@ -33,25 +33,37 @@
         </p>
     </div>
 </div>
-<div class="w=4/5 m-auto pt-1 text-center">
+<div class="blobk-inline w=4/5 m-auto pt-1 text-center">
     <form 
-        action="/myloyalties/addcoupons/{{ $coupon->id }}/{{ $coupon->user_id }}"
+        action="/coupons/addtomy/{{ $coupon->id }}"
+        method="POST"
+        enctype="multipart/form-data">
+        @csrf
+
+        <button 
+            type="submit"
+            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            Add to favourites
+        </button>
+    </form>
+
+</div>
+<div class="block-inline w=4/5 m-auto pt-1 text-center">
+    <form 
+        action="/coupons/redeem/{{ $coupon->id }}/{{ auth()->user()->id }}"
         method="POST"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
-        
-
         <button 
             type="submit"
             class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Add coupons
+            Redeem
         </button>
         
 
     </form>
-
 </div>
 
 {{-- @if (Auth::check() && Gate::allows('admin_only', auth()->user()) ) --}}

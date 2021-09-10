@@ -12,7 +12,7 @@ use App\Services\CreateSlug;
 class Coupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id'];
+    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email'];
 
     public function getAllCoupons ()
     {
@@ -22,6 +22,11 @@ class Coupon extends Model
     public function getCoupon ($slug)
     {
         return self::where('slug', $slug)->first();
+    }
+
+    public function getCouponById($couponId)
+    {
+        return self::where('id', $couponId)->first();
     }
 
     public function addCoupon ($request)
@@ -38,7 +43,8 @@ class Coupon extends Model
             'image_path' => $image_path,
             'qrcode_path' => $qrcode_path,
             'made_by_id' => auth()->user()->id,
-            'venue_id' => $request->venue_id
+            'venue_id' => $request->venue_id,
+            'manager_email' => $request->managerEmail,
         ]); 
     }
 
@@ -88,17 +94,26 @@ class Coupon extends Model
     {
         $coupon = self::where('slug', $slug)->first();
 
-        // if(file_exists(storage_path('app/public/images/loyalty/' . $coupon->image_path)))
-        // {
-        //     unlink(storage_path('app/public/images/loyalty/' . $coupon->image_path));
-        // } else {
-        //     dd("File does not exist");
-        // }
         (new UploadImage())->deleteImage($coupon->image_path);
         (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
+        
         $coupon->delete();
 
     }
 
-    
+    public function checkIfUserIsManager($couponId)
+    {
+        
+        $managerEmail = $this->getCouponById($couponId)->manager_email;
+        
+        if ($managerEmail == auth()->user()->email)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+    } 
+
+     
 }

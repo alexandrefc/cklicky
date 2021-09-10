@@ -33,6 +33,12 @@ Route::resource('/cms', CMSController::class);
 Route::resource('/coupons', CouponController::class);
 Route::resource('/points', PointController::class);
 
+// My loyalty redeem & add points logic
+
+Route::post('coupons/addtomy/{coupon_id}', [CouponController::class, 'addToMyCoupons'])->name('addToMyCoupons');
+Route::put('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
+
+
 // Info pages controllers
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
