@@ -2,21 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\CreateQrcode;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MyCoupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['coupon_id', 'user_id'];
+    protected $fillable = ['coupon_id', 'user_id', 'redeem_qrcode_path'];
 
     public function addToMyCoupons($couponId)
     {
+        $userId = auth()->user()->id;
+        $redeemQrcodePath = (new CreateQrcode())->createRedeemQrcode($couponId, $userId);
+
         self::create([
             'coupon_id' => $couponId,
-            'user_id' => auth()->user()->id            
+            'user_id' => $userId,
+            'redeem_qrcode_path' => $redeemQrcodePath            
         ]);
     } 
+
+    public function getRedeemQrcodePath($couponId)
+    {
+        $myCoupon = self::where('coupon_id', $couponId)
+            ->where('user_id', auth()->user()->id)
+            ->first('redeem_qrcode_path');
+
+        return $myCoupon->redeem_qrcode_path;
+    }
 
     public function checkIfMyCouponExists($couponId)
     {

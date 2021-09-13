@@ -36,7 +36,8 @@ Route::resource('/points', PointController::class);
 // My loyalty redeem & add points logic
 
 Route::post('coupons/addtomy/{coupon_id}', [CouponController::class, 'addToMyCoupons'])->name('addToMyCoupons');
-Route::put('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
+Route::put('coupons/confirmredeem/{slug}', [CouponController::class, 'confirmRedeem']);
+Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
 
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');

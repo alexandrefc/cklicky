@@ -19,7 +19,7 @@ class CreateSlug
 
     public function createSlug($title)
     {
-        $random = uniqid($title, true) . random_int(1111, 9999);
+        $random = uniqid($title, true) . random_int(11111, 99999);
         $slug = Str::of($random)->slug('-');
 
         return $slug;

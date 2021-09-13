@@ -66,7 +66,15 @@ class CouponController extends Controller
     {
         $coupon = $this->couponModel->showCoupon($slug);
 
-        return view('coupons.show', compact('coupon'));
+        return view('coupons.show', compact('coupon')); 
+    }
+
+    public function confirmRedeem($slug)
+    {
+        $coupon = $this->couponModel->showCoupon($slug);
+        $redeemQrcodePath = (new MyCoupon())->getRedeemQrcodePath($coupon->id);
+            
+        return view('coupons.redeem', compact('coupon', 'redeemQrcodePath'));
     }
 
     /**
@@ -151,6 +159,7 @@ class CouponController extends Controller
                 if (!($myCoupon->checkIfCouponIsRedeemed($couponId)))
                 {
                     $myCoupon->redeemCoupon($couponId, $userId);
+
                     return redirect('/coupons')->banner('Coupon has been redeemed succesfully !');
                 
                 } else {

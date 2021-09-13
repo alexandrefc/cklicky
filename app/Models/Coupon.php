@@ -86,7 +86,7 @@ class Coupon extends Model
     public function showCoupon ($slug)
     {
         $coupon = self::where('slug', $slug)->first();
-
+        
         return $coupon;
     }
 
