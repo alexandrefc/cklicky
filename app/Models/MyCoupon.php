@@ -11,9 +11,8 @@ class MyCoupon extends Model
     use HasFactory;
     protected $fillable = ['coupon_id', 'user_id', 'redeem_qrcode_path'];
 
-    public function addToMyCoupons($couponId)
+    public function addToMyCoupons($couponId, $userId)
     {
-        $userId = auth()->user()->id;
         $redeemQrcodePath = (new CreateQrcode())->createRedeemQrcode($couponId, $userId);
 
         self::create([
@@ -32,14 +31,21 @@ class MyCoupon extends Model
         return $myCoupon->redeem_qrcode_path;
     }
 
-    public function checkIfMyCouponExists($couponId)
+    public function getMyCouponById($couponId)
     {
-        return self::where('coupon_id', $couponId)->where('user_id', auth()->user()->id)->exists();
+        return self::where('coupon_id', $couponId)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+    }
+
+    public function checkIfMyCouponExists($couponId, $userId)
+    {
+        return self::where('coupon_id', $couponId)->where('user_id', $userId)->exists();
     }
     
-    public function checkIfCouponIsRedeemed($couponId)
+    public function checkIfCouponIsRedeemed($couponId, $userId)
     {
-        $myCoupon = self::where('coupon_id', $couponId)->where('user_id', auth()->user()->id)->first();
+        $myCoupon = self::where('coupon_id', $couponId)->where('user_id', $userId)->first();
         
         return $myCoupon->redeemed;
     } 

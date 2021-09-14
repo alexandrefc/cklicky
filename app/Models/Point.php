@@ -19,7 +19,7 @@ class Point extends Model
         return self::latest()->get();
     }
 
-    public function getPoint ($slug)
+    public function getPointBySlug ($slug)
     {
         return self::where('slug', $slug)->first();
     }
@@ -84,12 +84,12 @@ class Point extends Model
         
     }
 
-    public function showPoint ($slug)
-    {
-        $point = self::where('slug', $slug)->first();
+    // public function showPoint ($slug)
+    // {
+    //     $point = self::where('slug', $slug)->first();
 
-        return $point;
-    }
+    //     return $point;
+    // }
 
     public function deletePoint ($slug)
     {

@@ -64,14 +64,30 @@ class CouponController extends Controller
      */
     public function show($slug)
     {
-        $coupon = $this->couponModel->showCoupon($slug);
-
-        return view('coupons.show', compact('coupon')); 
+        $coupon = $this->couponModel->getCouponBySlug($slug);
+        $myCoupon = new MyCoupon;
+        $userId = auth()->user()->id;
+        
+        if($myCoupon->checkIfMyCouponExists($coupon->id, $userId))
+        {
+            $isMyCoupon = TRUE; 
+            if($myCoupon->checkIfCouponIsRedeemed($coupon->id, $userId))
+            {
+                $isCouponRedeemed = TRUE; 
+            } else {
+                $isCouponRedeemed = FALSE;
+            };
+        } else {
+            $isMyCoupon = FALSE;
+            $isCouponRedeemed = FALSE;
+        }
+        
+        return view('coupons.show', compact('coupon', 'isMyCoupon', 'isCouponRedeemed')); 
     }
 
     public function confirmRedeem($slug)
     {
-        $coupon = $this->couponModel->showCoupon($slug);
+        $coupon = $this->couponModel->getCouponBySlug($slug);
         $redeemQrcodePath = (new MyCoupon())->getRedeemQrcodePath($coupon->id);
             
         return view('coupons.redeem', compact('coupon', 'redeemQrcodePath'));
@@ -85,7 +101,7 @@ class CouponController extends Controller
      */
     public function edit($slug)
     {
-        $coupon = $this->couponModel->getCoupon($slug);
+        $coupon = $this->couponModel->getCouponbySlug($slug);
 
         return view('coupons.edit', compact('coupon'));
     }
@@ -126,10 +142,11 @@ class CouponController extends Controller
     public function addToMyCoupons($couponId)
     {
         $myCoupon = new MyCoupon;
+        $userId = auth()->user()->id;
 
-        if (!($myCoupon->checkIfMyCouponExists($couponId)))
+        if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
         {
-            $myCoupon->addToMyCoupons($couponId);
+            $myCoupon->addToMyCoupons($couponId, $userId);
 
             return redirect('/coupons')->banner('Coupon has been added to favourites succesfully !');
         
@@ -156,7 +173,7 @@ class CouponController extends Controller
                 return redirect('/coupons')->banner('Coupon has been added to favourites and redeemed succesfully !');
                     
             } else {
-                if (!($myCoupon->checkIfCouponIsRedeemed($couponId)))
+                if (!($myCoupon->checkIfCouponIsRedeemed($couponId, $userId)))
                 {
                     $myCoupon->redeemCoupon($couponId, $userId);
 

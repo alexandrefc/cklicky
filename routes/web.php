@@ -40,7 +40,8 @@ Route::put('coupons/confirmredeem/{slug}', [CouponController::class, 'confirmRed
 Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
 
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
-Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
+Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
 
 
 // Info pages controllers

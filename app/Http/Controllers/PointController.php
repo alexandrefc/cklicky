@@ -59,9 +59,17 @@ class PointController extends Controller
      */
     public function show($slug)
     {
-        $point = $this->pointModel->showPoint($slug);
+        $point = $this->pointModel->getPointBySlug($slug);
 
         return view('points.show', compact('point'));
+    }
+
+    public function confirmAddPoints($slug)
+    {
+        $point = $this->pointModel->getPointBySlug($slug);
+        $addPointsQrcodePath = (new MyPoint())->getAddPointsQrcodePath($point->id);
+            
+        return view('points.addpoints', compact('point', 'addPointsQrcodePath'));
     }
 
     /**
@@ -72,7 +80,7 @@ class PointController extends Controller
      */
     public function edit($slug)
     {
-        $point = $this->pointModel->getPoint($slug);
+        $point = $this->pointModel->getPointBySlug($slug);
 
         return view('points.edit', compact('point'));
     }
@@ -113,8 +121,9 @@ class PointController extends Controller
     public function addToMyPoints($pointId)
     {
         $myPoint = new MyPoint;
+        $userId = auth()->user()->id;
 
-        if (!($myPoint->checkIfMyPointExists($pointId)))
+        if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
         {
             $myPoint->addToMyPoints($pointId);
 
@@ -123,7 +132,6 @@ class PointController extends Controller
         } else {
             
             return redirect('/points')->dangerBanner('Point has been already added to favourites !');
-            
         }
 
     }
@@ -145,7 +153,7 @@ class PointController extends Controller
                 return redirect('/points')->banner('Point has been added to favourites and added succesfully !');
                     
             } else {
-                if (!($myPoint->checkIfPointIsFinished($pointId)))
+                if (!($myPoint->checkIfPointIsFinished($pointId, $userId)))
                 {
                     $myPoint->addPoints($pointId, $userId);
                     return redirect('/points')->banner('Points has been added succesfully !');

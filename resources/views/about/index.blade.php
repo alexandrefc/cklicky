@@ -45,7 +45,7 @@
                     >
             </div>
             
-            <div class="m-auto sm: w-4/5 block">
+            <div class="m-auto w-full sm:w-4/5 block">
                 <h2 class="text-3xl font-extrabold text-gray-600">
                     Intrested in having your own loyalty services under your brand ?
                 </h2>

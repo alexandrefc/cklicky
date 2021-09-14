@@ -19,7 +19,7 @@ class Coupon extends Model
         return self::latest()->get();
     }
 
-    public function getCoupon ($slug)
+    public function getCouponBySlug ($slug)
     {
         return self::where('slug', $slug)->first();
     }
@@ -83,12 +83,12 @@ class Coupon extends Model
         
     }
 
-    public function showCoupon ($slug)
-    {
-        $coupon = self::where('slug', $slug)->first();
+    // public function showCoupon ($slug)
+    // {
+    //     $coupon = self::where('slug', $slug)->first();
         
-        return $coupon;
-    }
+    //     return $coupon;
+    // }
 
     public function deleteCoupon ($slug)
     {

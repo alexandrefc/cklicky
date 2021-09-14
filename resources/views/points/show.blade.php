@@ -50,7 +50,7 @@
 </div>
 <div class="block-inline w=4/5 m-auto pt-1 text-center">
     <form 
-        action="/points/addpoints/{{ $point->id }}/{{ auth()->user()->id }}"
+        action="/points/confirmaddpoints/{{ $point->slug }}"
         method="POST"
         enctype="multipart/form-data">
         @csrf
@@ -65,6 +65,23 @@
 
     </form>
 </div>
+{{-- <div class="block-inline w=4/5 m-auto pt-1 text-center">
+    <form 
+        action="/points/addpoints/{{ $point->id }}/{{ auth()->user()->id }}"
+        method="POST"
+        enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <button 
+            type="submit"
+            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
+            Add Points
+        </button>
+        
+
+    </form>
+</div> --}}
 
 {{-- @if (Auth::check() && Gate::allows('admin_only', auth()->user()) ) --}}
     <div class="pt-10 w-4/5 m-auto text-center">

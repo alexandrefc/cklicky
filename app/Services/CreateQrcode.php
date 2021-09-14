@@ -19,7 +19,7 @@ class CreateQrcode
     public function createQrcode($slug, $title)
     {
         
-        $qrcodeEndPoint = 'http://cklicky.test/loyalty/' . $slug;
+        $qrcodeEndPoint = 'http://ccbe-89-68-171-173.eu.ngrok.io/loyalty/' . $slug;
 
         $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
         QrCode::size(500)
@@ -32,7 +32,7 @@ class CreateQrcode
     public function createCouponQrcode($slug, $title)
     {
         
-        $qrcodeEndPoint = 'http://cklicky.test/coupons/' . $slug;
+        $qrcodeEndPoint = 'http://ccbe-89-68-171-173.eu.ngrok.io/coupons/' . $slug;
         
         $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
         QrCode::size(500)
@@ -45,7 +45,7 @@ class CreateQrcode
     public function createPointQrcode($slug, $title)
     {
         
-        $qrcodeEndPoint = 'http://cklicky.test/points/' . $slug;
+        $qrcodeEndPoint = 'http://ccbe-89-68-171-173.eu.ngrok.io/points/' . $slug;
 
         $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
         QrCode::size(500)
@@ -57,7 +57,7 @@ class CreateQrcode
 
     public function createRedeemQrcode($couponId, $userId)
     {
-        $qrcodeEndPoint = 'http://713d-37-47-107-66.eu.ngrok.io/coupons/redeem/' . $couponId . '/' . $userId;
+        $qrcodeEndPoint = 'http://ccbe-89-68-171-173.eu.ngrok.io/coupons/redeem/' . $couponId . '/' . $userId;
 
         $redeemQrcodeName = uniqid() . '-redeeem.' . 'svg';
         QrCode::size(500)
@@ -67,18 +67,30 @@ class CreateQrcode
             return $redeemQrcodeName;
     }
 
-    public function createAddPointsQrcode($slug, $title)
+    public function createAddPointsQrcode($pointId, $userId)
     {
-        
-        $qrcodeEndPoint = 'http://cklicky.test/coupons/' . $slug;
+        $qrcodeEndPoint = 'http://ccbe-89-68-171-173.eu.ngrok.io/points/addpoints/' . $pointId . '/' . $userId;
 
-        $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+        $addPointsQrcodeName = uniqid() . '-addpoints.' . 'svg';
         QrCode::size(500)
             ->errorCorrection('H')
-            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $addPointsQrcodeName));
 
-            return $qrcodeName;
+            return $addPointsQrcodeName;
     }
+
+    // public function createAddPointsQrcode($slug, $title)
+    // {
+        
+    //     $qrcodeEndPoint = 'http://cklicky.test/coupons/' . $slug;
+
+    //     $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+    //     QrCode::size(500)
+    //         ->errorCorrection('H')
+    //         ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+
+    //         return $qrcodeName;
+    // }
 
     public function deleteQrcode($qrcodePath)
     {
