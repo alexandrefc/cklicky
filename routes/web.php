@@ -7,6 +7,7 @@ use App\Http\Controllers\PointController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\PricingController;
+use App\Http\Controllers\MyLoyaltyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,9 +48,10 @@ Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'ad
 // Info pages controllers
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/myloyalties/{user_id}', [MyLoyaltyController::class, 'index'])->name('myloyalties');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 
-Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty');
+Route::get('/loyalties', [LoyaltyController::class, 'index'])->name('loyalty');
 
 Route::resource('/loyalty', LoyaltyController::class);
 

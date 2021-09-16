@@ -15,18 +15,21 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Home page') }}
-                    </x-jet-nav-link>
+                    {{-- <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-jet-nav-link> --}}
                     <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                         {{ __('About') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
                         {{ __('Pricing') }}
                     </x-jet-nav-link>
-                    {{-- <x-jet-nav-link href="{{ route('loyalty') }}" :active="request()->routeIs('loyalty')">
-                        {{ __('Loyalty') }}
-                    </x-jet-nav-link> --}}
+                    <x-jet-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
+                        {{ __('My Loyalties') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
+                        {{ __('Promotions') }}
+                    </x-jet-nav-link>
                     
                 </div>
                 @guest
@@ -95,7 +98,7 @@
                 @endif --}}
 
                 <!-- Settings Dropdown -->
-                <div class="ml-3 relative">
+                <div class="ml-3 mr-3 relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -146,6 +149,9 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-jet-nav-link>
             </div>
         @endauth
             <!-- Hamburger -->

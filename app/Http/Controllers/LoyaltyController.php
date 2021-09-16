@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Point;
 use App\Models\Coupon;
+use Illuminate\Support\Str;
+use App\Services\CreateSlug;
+use Illuminate\Http\Request;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
-use App\Services\CreateSlug;
 use App\Http\Requests\ValidateCreateCoupon;
-use Illuminate\Support\Str;
 
 class LoyaltyController extends Controller
 {
@@ -16,6 +17,7 @@ class LoyaltyController extends Controller
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->couponModel = new Coupon;
+        $this->pointModel = new Point;
     }
     /**
      * Display a listing of the resource.
@@ -25,10 +27,9 @@ class LoyaltyController extends Controller
     public function index()
     {
         $coupons = $this->couponModel->getAllCoupons();
-
-        $loyalties = $coupons;
+        $points = $this->pointModel->getAllPoints();
         
-        return view('loyalty.index', compact('loyalties'));
+        return view('loyalty.index', compact('coupons', 'points'));
     }
 
     /**

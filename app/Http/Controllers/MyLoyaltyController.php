@@ -4,26 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Point;
 use App\Models\Coupon;
+use App\Models\MyCoupon;
+use App\Models\MyPoint;
 use Illuminate\Http\Request;
 
-class AboutController extends Controller
+class MyLoyaltyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+        $this->couponModel = new Coupon;
+        $this->pointModel = new Point;
+        $this->myCouponModel = new MyCoupon;
+        $this->myPointModel = new MyPoint;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return view('about.index');
-    }
+        $myCoupons = $this->myCouponModel->getMyCouponsByUserId();
+        $myPoints = $this->myPointModel->getMyPointsByUserId();
+        $points = $this->pointModel->getAllPoints();
+        $coupons = $this->couponModel->getAllCoupons();
 
-    public function myloyalties()
-    {
-        $points = (new Point())->getAllPoints();
-        $coupons = (new Coupon())->getAllCoupons();
-
-        return view('myloyalties.index', compact('points', 'coupons'));
+        return view('myloyalties.index', compact('points', 'coupons', 'myCoupons', 'myPoints'));
     }
 
     /**

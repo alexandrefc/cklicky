@@ -38,6 +38,14 @@ class MyCoupon extends Model
             ->first();
     }
 
+    public function getMyCouponsByUserId()
+    {
+        return self::where('user_id', auth()->user()->id)
+            ->get();
+    }
+
+    
+
     public function checkIfMyCouponExists($couponId, $userId)
     {
         return self::where('coupon_id', $couponId)->where('user_id', $userId)->exists();

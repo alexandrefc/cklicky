@@ -24,6 +24,11 @@ class MyPoint extends Model
         ]);
     } 
 
+    public function getMyPointsByUserId()
+    {
+        return self::where('user_id', auth()->user()->id)->get();
+    }
+
     public function checkIfMyPointExists($pointId, $userId)
     {
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();
