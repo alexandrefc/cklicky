@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_admin', 'is_user'
     ];
 
     /**
@@ -58,4 +58,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function addAdmin($userId){
+        self::where('id', $userId)
+            ->update([
+                'is_admin' => 1
+            ]);
+    }
 }

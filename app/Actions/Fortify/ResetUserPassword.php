@@ -2,6 +2,8 @@
 
 namespace App\Actions\Fortify;
 
+use App\Events\PasswordChanged;
+use App\Events\UserRegistered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
@@ -26,5 +28,7 @@ class ResetUserPassword implements ResetsUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        event(new PasswordChanged($input['email']));
     }
 }

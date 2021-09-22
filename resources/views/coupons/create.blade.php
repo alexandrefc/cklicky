@@ -82,4 +82,6 @@
 
 </div>
 
+@livewire('upload-image')
+
 </x-app-layout>

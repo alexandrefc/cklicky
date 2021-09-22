@@ -7,13 +7,18 @@
 
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
                 <li class="pb-1">
-                    <a href="/">
-                        Home
+                    <a href="/dashboard">
+                        Dashboard
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/blog">
-                        About
+                    <a href="/loyalty">
+                        Promotions
+                    </a>
+                </li>
+                <li class="pb-1">
+                    <a href="/myloyalties">
+                        My offers
                     </a>
                 </li>
                 <li class="pb-1">
@@ -38,7 +43,7 @@
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
                 <li class="pb-1">
                     <a href="/">
-                        What we do
+                        About
                     </a>
                 </li>
                 <li class="pb-1">
@@ -62,28 +67,28 @@
 
         <div>
             <h3 class="text-l sm:font-bold text-gray-100">
-                Latest posts
+                White label solution services
             </h3>
 
             <ul class="py-4 sm:text-s pt-4 text-gray-400">
                 <li class="pb-1">
                     <a href="/">
-                        Proximity marketing
+                        Loyalty systems
                     </a>
                 </li>
                 <li class="pb-1">
                     <a href="/">
-                        Beacons
+                        Coupons
                     </a>
                 </li>
                 <li class="pb-1">
                     <a href="/">
-                        Proximity apps
+                        Stamps
                     </a>
                 </li>
                 <li class="pb-1">
                     <a href="/">
-                        Geofence
+                        Points
                     </a>
                 </li>
 

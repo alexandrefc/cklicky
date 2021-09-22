@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<body class="font-sans bg-gray-100">
+<body class="font-sans bg-gray-100 mt-16">
     <div class="min-h-screen flex justify-center items-center">
         <div class="">
             <div class="text-center font-semibold">
@@ -66,25 +66,27 @@
                             </span>
                         </p>
 
-                        <a href="#" class="">
-                            <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
-                                <span class="font-medium">
-                                    Choose Plan
-                                </span>
-                                <span class="pl-2 material-icons align-middle text-sm">
-                                    east
-                                </span>
-                            </p>
-                        </a>
+                        <form  
+                            class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
+                            action="/create-checkout-session.php" method="POST">
+                            @csrf
+                            <input type="hidden" name="lookup_key" value="SP" />
+                            <button class="pl-2 font-medium"
+                                id="checkout-and-portal-button" 
+                                type="submit">Choose Plan</button>
+                            <span class="pl-2 material-icons align-middle text-sm">
+                                east
+                            </span>
+                          </form>
                     </div>
                 </div>
                 <!-- StartUp Card -->
                 <div class="w-80 p-8 bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
-                    <h1 class="text-white font-semibold text-2xl">Startup</h1>
+                    <h1 class="text-white font-semibold text-2xl">White label solution</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
-                        <span class="text-3xl font-semibold">24</span>
-                        <span class="text-gray-400 font-medium">/ user</span>
+                        <span class="text-3xl font-semibold">99</span>
+                        <span class="text-gray-400 font-medium">/ month</span>
                     </p>
                     <hr class="mt-4 border-1 border-gray-600">
                     <div class="pt-8">
@@ -113,16 +115,18 @@
                             </span>
                         </p>
 
-                        <a href="#" class="">
-                            <p class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white">
-                                <span class="font-medium">
-                                    Choose Plan
-                                </span>
-                                <span class="pl-2 material-icons align-middle text-sm">
-                                    east
-                                </span>
-                            </p>
-                        </a>
+                        <form  
+                            class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
+                            action="/create-checkout-session.php" method="POST">
+                            @csrf
+                            <input type="hidden" name="lookup_key" value="WLSB" />
+                            <button class="pl-2 font-medium"
+                                id="checkout-and-portal-button" 
+                                type="submit">Choose Plan</button>
+                            <span class="pl-2 material-icons align-middle text-sm">
+                                east
+                            </span>
+                          </form>
                     </div>
                     <div class="absolute top-4 right-4">
                         <p class="bg-blue-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">Popular</p>
@@ -173,11 +177,25 @@
                                 </span>
                             </p>
                         </a>
+                        <form  
+                            class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
+                            action="/create-checkout-session.php" method="POST">
+                            @csrf
+                            <input type="hidden" name="lookup_key" value="PP" />
+                            <button class="pl-2 font-medium"
+                                id="checkout-and-portal-button" 
+                                type="submit">Choose Plan</button>
+                            <span class="pl-2 material-icons align-middle text-sm">
+                                east
+                            </span>
+                          </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
 </body>
 </body>
 </html>

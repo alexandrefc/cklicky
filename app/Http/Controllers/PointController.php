@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Point;
 use App\Models\MyPoint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PointController extends Controller
 {
@@ -32,7 +33,11 @@ class PointController extends Controller
      */
     public function create()
     {
-        return view('points.create');
+        if(Gate::allows('admin_only', auth()->user())){
+            return view('points.create');
+        };
+
+        
     }
 
     /**

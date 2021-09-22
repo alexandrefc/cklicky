@@ -138,7 +138,7 @@
             </div>
     
         </div>
-        <div class="text-center py-16 bg-white">
+        <div class="text-center py-16 bg-gray-100">
             <div class="text-center items-center">
                 <a 
                 class="bg-blue-500 text-white text-s font-extrabold py-3 px-3 rounded-3xl ml-3"

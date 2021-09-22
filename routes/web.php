@@ -55,3 +55,22 @@ Route::get('/loyalties', [LoyaltyController::class, 'index'])->name('loyalty');
 
 Route::resource('/loyalty', LoyaltyController::class);
 
+// Stripe 
+Route::get('/stripe', function () {
+    return view('pricing/checkout');
+});
+Route::get('/success.html', [PricingController::class, 'success']);
+
+Route::get('/cancel', function () {
+    return view('pricing/cancel');
+});
+Route::post('/create-checkout-session.php', [PricingController::class, 'createCheckoutSession']);
+Route::post('/create-portal-session.php', [PricingController::class, 'createPortalSession']);
+// Route::post('/create-checkout-session.php', function () {
+//     return view('pricing/create-checkout-session');
+// });
+
+Route::get('/subscriptions/webhook.php', [[PricingController::class, 'webhook']]);
+
+
+

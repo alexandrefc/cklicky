@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use App\Models\MyCoupon;
+use App\Mail\WelcomeMail;
 use Illuminate\Support\Str;
 use App\Services\CreateSlug;
 use Illuminate\Http\Request;
 use App\Services\UploadImage;
+use App\Events\UserRegistered;
 use App\Services\CreateQrcode;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ValidateCreateCoupon;
 
 class CouponController extends Controller
@@ -25,6 +28,7 @@ class CouponController extends Controller
      */
     public function index()
     {
+        
         $coupons = $this->couponModel->getAllCoupons();        
     
         return view('coupons.index', compact('coupons'));

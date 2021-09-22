@@ -152,6 +152,13 @@
                 <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
+                <div class="text-center items-center">
+                    <a 
+                    class="bg-blue-500 text-white text-sm font-extrabold py-1 px-2 rounded-3xl ml-3"
+                    href="/login">
+                    Try cKlicky.com for free !
+                </a>
+                </div>
             </div>
         @endauth
             <!-- Hamburger -->
@@ -172,12 +179,18 @@
             <x-jet-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                 {{ __('About') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
-                {{ __('About') }}
+            <x-jet-responsive-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
+                {{ __('Pricing') }}
             </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
+                {{ __('My Loyalties') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
+                {{ __('Promotions') }}
+            </x-jet-responsive-nav-link>
+
         </div>
 
-    
     @auth
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

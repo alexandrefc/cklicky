@@ -11,14 +11,14 @@
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-3xl">
             Your points
-            <a href="/points/create" class=""
+            {{-- <a href="/points/create" class=""
               ><span
                 class="text-salmon font-medium text-lg ml-2 hover:underline"
                 >Create new point
               </span></a
-            >
+            > --}}
           </h2>
-          <div>
+          {{-- <div>
             <button
               class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
             >
@@ -29,7 +29,7 @@
             >
               >>
             </button>
-          </div>
+          </div> --}}
         </div>
         
         <div
@@ -119,14 +119,14 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-3xl">
           Your coupons
-          <a href="/coupons/create" class=""
+          {{-- <a href="/coupons/create" class=""
             ><span
               class="text-salmon font-medium text-lg ml-2 hover:underline"
               >Create new coupon
             </span></a
-          >
+          > --}}
         </h2>
-        <div>
+        {{-- <div>
           <button
             class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
           >
@@ -137,7 +137,7 @@
           >
             >>
           </button>
-        </div>
+        </div> --}}
       </div>
       
       <div

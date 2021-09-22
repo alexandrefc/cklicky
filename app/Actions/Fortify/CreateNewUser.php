@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Events\UserRegistered;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,9 @@ class CreateNewUser implements CreatesNewUsers
                 $this->createTeam($user);
             });
         });
+
+        event(new UserRegistered());
+        
     }
 
     /**
