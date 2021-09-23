@@ -92,6 +92,12 @@ class PricingController extends Controller
         return view('pricing.success', compact('sessionId'));
     }
 
+    public function cancel() {
+
+
+        return view('pricing.cancel');
+    }
+
     public function createCheckoutSession()
     {
         \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');

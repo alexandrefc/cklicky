@@ -61,9 +61,8 @@ Route::get('/stripe', function () {
 });
 Route::get('/success.html', [PricingController::class, 'success']);
 
-Route::get('/cancel', function () {
-    return view('pricing/cancel');
-});
+Route::get('/cancel.html', [PricingController::class, 'cancel']);
+
 Route::post('/create-checkout-session.php', [PricingController::class, 'createCheckoutSession']);
 Route::post('/create-portal-session.php', [PricingController::class, 'createPortalSession']);
 // Route::post('/create-checkout-session.php', function () {
