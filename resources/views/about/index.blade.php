@@ -38,13 +38,108 @@
         <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto py-15 border-b border-gray-200">
             <div>
                 <img 
-                    src="{{ asset('/layout/custom-branded-loyalty-solution-lp.jpg') }}" 
+                    src="{{ asset('/layout/without-app-coupons.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl mb-10 mt-12"
                     >
             </div>
             
+            <div class="m-auto w-full sm:w-4/5 block">
+                <h2 class="text-3xl font-extrabold text-gray-600">
+                    Your clients are tiered of constantly downloding new apps ?
+                </h2>
+                <p class="py-5 text-gray-500 text-s">
+                    With our easy to use admin panel you can setup coupon, stamp & point campaings and deliver them without a need to donwload the app to your customers. 
+                </p>
+                <p class="font-extrabold text-gray-600 text-s pb-9">
+                    We completely rebrand the platform with your brand. 
+                </p>
+                <div class="text-center">
+                    <a 
+                        class="bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-3 rounded-3xl w-screen"
+                        href="/login">
+                        Try cKlicky.com for free !
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto py-15 border-b border-gray-200">
+            <div class="m-auto w-full sm:w-4/5 block">
+                <h2 class="text-3xl font-extrabold text-gray-600">
+                    How does coupons, stamps & points work without the app ?
+                </h2>
+                <p class="py-5 text-gray-500 text-s">
+                    Just login using yuor email and you are set up. Now you can choose your loyalty or receive it from your favourite venue. 
+                </p>
+                <p class="font-extrabold text-gray-600 text-s pb-9">
+                    We completely rebrand the platform with your brand. 
+                </p>
+                <div class="text-center">
+                    <a 
+                        class="bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-3 rounded-3xl w-screen"
+                        href="/login">
+                        Try cKlicky.com for free !
+                    </a>
+                </div>
+            </div>
+            <div>
+                <img 
+                    src="{{ asset('/layout/custom-branded-loyalty-solution-lp.jpg') }}" 
+                    width="700" 
+                    alt=""
+                    class="rounded-xl mb-10 mt-12"
+                    >
+            </div>
+        </div>
+        <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto py-15 border-b border-gray-200">
+            <div>
+                <img 
+                    src="{{ asset('/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
+                    width="700" 
+                    alt=""
+                    class="rounded-xl mb-10 mt-12"
+                    >
+            </div>
+            
+            <div class="m-auto w-full sm:w-4/5 block">
+                <h2 class="text-3xl font-extrabold text-gray-600">
+                    Redeem yuor coupon or add points without a need to download the app !
+                </h2>
+                <p class="py-5 text-gray-500 text-s">
+                    All you need is to scan the qr code with the coupon or stamp camapign and show it to the seller. Seller will redeem coupon or add points by just one click. 
+                </p>
+                <p class="font-extrabold text-gray-600 text-s pb-9">
+                    We completely rebrand the platform with your brand. 
+                </p>
+                <div class="text-center">
+                    <a 
+                        class="bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-3 rounded-3xl w-screen"
+                        href="/login">
+                        Try cKlicky.com for free !
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center p-10 bg-gradient-to-b from-yellow-400 to-red-500 text-white">
+            <h2 class="text-2xl pb-5 text-l">
+                Service we provide...
+            </h2>
+            <span class="font-extrabold block text-4xl py-1">
+                We build a web app with admin panel with your branding. 
+            </span>
+            <span class="font-extrabold block text-4xl py-1">
+                We take care of technology, development and new feature releases.
+            </span>
+            <span class="font-extrabold block text-4xl py-1">
+                <br>
+            </span>
+            <span class="font-extrabold block text-4xl py-1">
+                All this in just 14 days.
+            </span>
+        </div>
+        <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto">
             <div class="m-auto w-full sm:w-4/5 block">
                 <h2 class="text-3xl font-extrabold text-gray-600">
                     Intrested in having your own loyalty services under your brand ?
@@ -62,25 +157,15 @@
                         Try cKlicky.com for free !
                     </a>
                 </div>
-                
             </div>
-        </div>
-        <div class="text-center p-10 bg-gradient-to-b from-yellow-400 to-red-500 text-white">
-            <h2 class="text-2xl pb-5 text-l">
-                Service we provide...
-            </h2>
-            <span class="font-extrabold block text-4xl py-1">
-                We build a web app with admin panel with your branding. 
-            </span>
-            <span class="font-extrabold block text-4xl py-1">
-                We take care of technology, development and new feature releases.
-            </span>
-            <span class="font-extrabold block text-4xl py-1">
-                <br>
-            </span>
-            <span class="font-extrabold block text-4xl py-1">
-                All this in just 14 days.
-            </span>
+            <div>
+                <img 
+                    src="{{ asset('/layout/redeem-coupon-without-app.jpg') }}" 
+                    width="700" 
+                    alt=""
+                    class="rounded-xl mb-10 mt-12"
+                    >
+            </div>
         </div>
         <div class="text-center py-10 bg-gray-100">
             <h2 class="text-4xl font-bold">
@@ -130,7 +215,7 @@
             </div>
             <div class="">
                 <img 
-                    src="{{ asset('/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
+                    src="{{ asset('/layout/white-label-solution.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl"

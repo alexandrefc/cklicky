@@ -33,6 +33,12 @@
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
 
+            <x-jet-section-border />
+
+            <div class="mt-10 sm:mt-0">
+                @livewire('manage-subscriptions-form')
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
                 <x-jet-section-border />
 

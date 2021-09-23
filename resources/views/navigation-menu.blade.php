@@ -127,6 +127,15 @@
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
+                            @auth
+                                <x-jet-dropdown-link href="{{ route('dashboard') }}">
+                                    {{ __('Dashboard') }}
+                                </x-jet-dropdown-link>
+                                
+                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                    {{ __('Subscription') }}
+                                </x-jet-dropdown-link>
+                            @endauth
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
