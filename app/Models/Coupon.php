@@ -14,6 +14,11 @@ class Coupon extends Model
     use HasFactory;
     protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email'];
 
+    public function venue()
+    {
+        return $this->belongsTo(Venue::class);
+    }
+    
     public function getAllCoupons ()
     {
         return self::latest()->get();

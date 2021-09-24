@@ -57,7 +57,7 @@
                 </p>
                 <div class="text-center">
                     <a 
-                        class="bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-3 rounded-3xl w-screen"
+                        class="bg-green-500 text-white text-s font-extrabold py-1 px-3 rounded-3xl w-screen"
                         href="/login">
                         Try cKlicky.com for free !
                     </a>

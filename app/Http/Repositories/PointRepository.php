@@ -1,46 +1,38 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Repositories;
 
+use App\Models\Point;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Interfaces\PointInterface;
 
-class Point extends Model
+class PointRepository implements PointInterface
 {
-    use HasFactory;
 
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'add_x_points'];
-
-    public function venue()
+    public function getAllPoints()
     {
-        return $this->belongsTo(Venue::class);
+        return Point::latest()->get();
     }
 
-    public function getAllPoints ()
+    public function getPointById($id)
     {
-        return self::latest()->get();
+        return Point::where('id', $id)->first();
     }
 
     public function getPointBySlug ($slug)
     {
-        return self::where('slug', $slug)->first();
+        return Point::where('slug', $slug)->first();
     }
 
-    public function getPointById($pointId)
-    {
-        return self::where('id', $pointId)->first();
-    }
-
-    public function addPoint ($request)
+    public function addPoint($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
-        self::create([
+        Point::create([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
@@ -54,9 +46,9 @@ class Point extends Model
         ]); 
     }
 
-    public function updatePoint ($request, $slug)
+    public function updatePoint($request, $slug)
     {
-        $point = self::where('slug', $slug)->first();
+        $point = Point::where('slug', $slug)->first();
         $existing_image_path = $point->image_path;
 
         // Should be new qrcode and slug ?
@@ -74,7 +66,7 @@ class Point extends Model
             $updated_image_path = $existing_image_path;
         }
         
-        self::where('slug', $slug)
+        Point::where('slug', $slug)
             ->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -86,25 +78,16 @@ class Point extends Model
             // 'slug' => $updated_slug
             
         ]); 
-        
     }
 
-    // public function showPoint ($slug)
-    // {
-    //     $point = self::where('slug', $slug)->first();
-
-    //     return $point;
-    // }
-
-    public function deletePoint ($slug)
+    public function deletePoint($slug)
     {
-        $point = self::where('slug', $slug)->first();
+        $point = Point::where('slug', $slug)->first();
 
         (new UploadImage())->deleteImage($point->image_path);
         (new CreateQrcode())->deleteQrcode($point->qrcode_path);
         
         $point->delete();
-
     }
 
     public function checkIfUserIsManager($pointId)

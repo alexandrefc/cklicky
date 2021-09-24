@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\PointInterface;
 use App\Models\Point;
 use App\Models\MyPoint;
 use Illuminate\Http\Request;
@@ -9,10 +10,12 @@ use Illuminate\Support\Facades\Gate;
 
 class PointController extends Controller
 {
-    public function __construct()
+    private $pointInterface;
+    public function __construct(PointInterface $pointInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->pointModel = new Point;
+        $this->pointInterface = $pointInterface;
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +24,7 @@ class PointController extends Controller
      */
     public function index()
     {
-        $points = $this->pointModel->getAllPoints();
+        $points = $this->pointInterface->getAllPoints();
 
         return view('points.index', compact('points'));
     }
@@ -48,7 +51,7 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
-        $this->pointModel->addPoint($request);
+        $this->pointInterface->addPoint($request);
 
         $request->session()->flash('flash.banner', 'point has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -64,14 +67,14 @@ class PointController extends Controller
      */
     public function show($slug)
     {
-        $point = $this->pointModel->getPointBySlug($slug);
+        $point = $this->pointInterface->getPointBySlug($slug);
 
         return view('points.show', compact('point'));
     }
 
     public function confirmAddPoints($slug)
     {
-        $point = $this->pointModel->getPointBySlug($slug);
+        $point = $this->pointInterface->getPointBySlug($slug);
         $addPointsQrcodePath = (new MyPoint())->getAddPointsQrcodePath($point->id);
             
         return view('points.addpoints', compact('point', 'addPointsQrcodePath'));
@@ -85,7 +88,7 @@ class PointController extends Controller
      */
     public function edit($slug)
     {
-        $point = $this->pointModel->getPointBySlug($slug);
+        $point = $this->pointInterface->getPointBySlug($slug);
 
         return view('points.edit', compact('point'));
     }
@@ -99,7 +102,7 @@ class PointController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $point = $this->pointModel->updatePoint($request, $slug);
+        $this->pointInterface->updatePoint($request, $slug);
 
         $request->session()->flash('flash.banner', 'point has been updated succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -115,7 +118,7 @@ class PointController extends Controller
      */
     public function destroy(Request $request, $slug)
     {
-        $this->pointModel->deletePoint($slug);
+        $this->pointInterface->deletePoint($slug);
 
         $request->session()->flash('flash.banner', 'point has been deleted succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -144,11 +147,11 @@ class PointController extends Controller
     public function addPoints($pointId, $userId) 
     {
         $myPoint = new MyPoint;
-        $point = new Point;
+        // $point = new Point;
         // $pointR = $point->getPointById($pointId);
         // $addXPoints = $pointR->add_x_points;
 
-        if (($point->checkIfUserIsManager($pointId)))
+        if (($this->pointInterface->checkIfUserIsManager($pointId)))
         {
             if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
             {

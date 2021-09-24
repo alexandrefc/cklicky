@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CMSController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\VenueController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\PricingController;
@@ -43,6 +44,10 @@ Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 're
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
 Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+
+// Venues
+
+Route::resource('/venues', VenueController::class);
 
 
 // Info pages controllers

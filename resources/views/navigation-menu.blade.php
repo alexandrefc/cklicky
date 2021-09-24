@@ -30,6 +30,9 @@
                     <x-jet-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
                         {{ __('Promotions') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="/venues" :active="request()->routeIs('venues')">
+                        {{ __('Venues') }}
+                    </x-jet-nav-link>
                     
                 </div>
                 @guest
@@ -163,7 +166,7 @@
                 </x-jet-nav-link>
                 <div class="text-center items-center">
                     <a 
-                    class="bg-blue-500 text-white text-sm font-extrabold py-1 px-2 rounded-3xl ml-3"
+                    class="bg-green-500 text-white text-sm font-extrabold py-1 px-2 rounded-3xl ml-3"
                     href="/login">
                     Try cKlicky.com for free !
                 </a>
@@ -196,6 +199,9 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
                 {{ __('Promotions') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="/venues" :active="request()->routeIs('venues')">
+                {{ __('Venues') }}
             </x-jet-responsive-nav-link>
 
         </div>
