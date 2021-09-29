@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Interfaces\PointInterface;
 use App\Models\Point;
 use App\Models\MyPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\VenueInterface;
+use App\Http\Repositories\VenueRepository;
 
 class PointController extends Controller
 {
@@ -36,9 +38,13 @@ class PointController extends Controller
      */
     public function create()
     {
+        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+
         if(Gate::allows('admin_only', auth()->user())){
-            return view('points.create');
-        };
+            return view('points.create', compact('venues'));
+        } else {
+            return redirect('/points')->dangerBanner('Only Admin is allowed !');
+        }
 
         
     }
@@ -51,7 +57,7 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
-        $this->pointInterface->addPoint($request);
+        $this->pointInterface->createPoint($request);
 
         $request->session()->flash('flash.banner', 'point has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');

@@ -6,17 +6,15 @@
         </h2>
     </x-slot>
 
-<div class="w-4/5 m-auto text-center py-16">
-    <div class="">
+<div class=" w-4/5 m-auto text-center py-16">
         <h1 class="text-6xl">
             {{ $venue->title }}
         </h1>
-    </div>
 </div>
 
 <div class="sm:grid grid-cols-1 gap-20 w-1/3 mx-auto border-t border-gray-200 text-center">
     <div>
-        <img class="inline" src="{{ asset('images/loyalty/' . $venue->logo_path) }}" width="700" alt="">
+        <img class="inline" src="{{ asset('images/loyalty/' . $venue->logo_path) }}" width="200" alt="">
     </div>
     
     <div>
@@ -33,7 +31,7 @@
         </p>
     </div>
 </div>
-<div class="blobk-inline w=4/5 m-auto pt-1 text-center">
+<div class="block-inline w=4/5 m-auto pt-1 text-center">
     <form 
         action="/venues/addtomy/{{ $venue->id }}"
         method="POST"
@@ -84,7 +82,7 @@
 </div> --}}
 
 {{-- @if (Auth::check() && Gate::allows('admin_only', auth()->user()) ) --}}
-    <div class="pt-10 w-4/5 m-auto text-center">
+    <div class="block-inline pt-10 w-4/5 m-auto text-center">
         <img class="inline" src="{{ asset('images/qrcodes/' . $venue->qrcode_path) }}" width="300" alt="">
     </div>
 {{-- @endif --}}

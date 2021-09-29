@@ -8,9 +8,12 @@ interface VenueInterface
 
     public function getVenueById($id);
 
-    public function addVenue($request);
+    public function createVenue($request);
 
-    public function deleteVenue();
+    public function deleteVenue($slug);
 
-    public function updateVenue($request);
+    public function updateVenue($request, $slug);
+
+    public function getAllManagerVenues($id);
+    
 }

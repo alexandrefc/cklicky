@@ -52,7 +52,7 @@ class CouponController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        $this->couponModel->addCoupon($request);
+        $this->couponModel->createCoupon($request);
 
         $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');

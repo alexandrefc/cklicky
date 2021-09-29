@@ -26,7 +26,7 @@ class PointRepository implements PointInterface
         return Point::where('slug', $slug)->first();
     }
 
-    public function addPoint($request)
+    public function createPoint($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);

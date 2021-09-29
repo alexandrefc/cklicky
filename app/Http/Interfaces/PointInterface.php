@@ -10,7 +10,7 @@ interface PointInterface
 
     public function getPointBySlug ($slug);
 
-    public function addPoint($request);
+    public function createPoint($request);
 
     public function updatePoint($request, $slug);
 

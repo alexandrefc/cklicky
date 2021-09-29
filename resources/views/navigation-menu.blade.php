@@ -24,9 +24,11 @@
                     <x-jet-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
                         {{ __('Pricing') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
-                        {{ __('My Loyalties') }}
-                    </x-jet-nav-link>
+                    @auth
+                        <x-jet-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
+                            {{ __('My Loyalties') }}
+                        </x-jet-nav-link>
+                    @endauth
                     <x-jet-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
                         {{ __('Promotions') }}
                     </x-jet-nav-link>
@@ -194,9 +196,11 @@
             <x-jet-responsive-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
                 {{ __('Pricing') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
-                {{ __('My Loyalties') }}
-            </x-jet-responsive-nav-link>
+            @auth
+                <x-jet-responsive-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
+                    {{ __('My Loyalties') }}
+                </x-jet-responsive-nav-link>
+            @endauth
             <x-jet-responsive-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
                 {{ __('Promotions') }}
             </x-jet-responsive-nav-link>

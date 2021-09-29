@@ -75,6 +75,19 @@
             </label>
         </div>
 
+       
+        <label for="cars">Choose a venue:</label>
+
+            <select name="venueId" id="venueId">
+                @foreach ($venues as $venue)
+                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
+                @endforeach
+                {{-- <option value="1">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option> --}}
+            </select>
+
         <button 
             type="submit"
             class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">

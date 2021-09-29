@@ -1,61 +1,63 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Repositories;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Coupon;
+use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
-use App\Services\CreateSlug;
+use App\Http\Interfaces\CouponInterface;
 
-class Coupon extends Model
+class CouponRepository implements CouponInterface
 {
-    use HasFactory;
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email'];
 
-    public function venue()
+    public function getAllCoupons()
     {
-        return $this->belongsTo(Venue::class);
-    }
-    
-    public function getAllCoupons ()
-    {
-        return self::latest()->get();
+        return Coupon::all();
     }
 
-    public function getCouponBySlug ($slug)
+    public function getCouponById($id)
     {
-        return self::where('slug', $slug)->first();
+        return Coupon::where('id', $id)->first();
     }
 
-    public function getCouponById($couponId)
+    public function getCouponBySlug($slug)
     {
-        return self::where('id', $couponId)->first();
+        return Coupon::where('slug', $slug)->first();
     }
 
-    public function addCoupon ($request)
+    public function createCoupon($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
-        $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
-        $qrcode_path = (new CreateQrcode())->createCouponQrcode($slug, $request->title);
+        $logo_path = (new UploadImage())->uploadImage($request->logo, $request->title);
+        $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
-        self::create([
+        return Coupon::create([
             'title' => $request->title,
             'description' => $request->description,
-            'valid_till' => $request->valid_till,
+            'pin' => $request->pin,
             'slug' => $slug,
-            'image_path' => $image_path,
+            'logo_path' => $logo_path,
             'qrcode_path' => $qrcode_path,
-            'made_by_id' => auth()->user()->id,
-            'venue_id' => $request->venue_id,
-            'manager_email' => $request->managerEmail,
-        ]); 
+            'user_id' => auth()->user()->id,
+            'manage_by_id' => auth()->user()->id,
+            'location' => $request->location
+        ]);
     }
 
-    public function updateCoupon ($request, $slug)
+    public function deleteCoupon($slug)
     {
-        $coupon = self::where('slug', $slug)->first();
+        $coupon = Coupon::where('slug', $slug)->first();
+
+        (new UploadImage())->deleteImage($coupon->image_path);
+        (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
+        
+        $coupon->delete();
+    }
+
+    public function updateCoupon($request, $slug)
+    {
+        $coupon = Coupon::where('slug', $slug)->first();
         $existing_image_path = $coupon->image_path;
 
         // Should be new qrcode and slug ?
@@ -73,7 +75,7 @@ class Coupon extends Model
             $updated_image_path = $existing_image_path;
         }
         
-        self::where('slug', $slug)
+        Coupon::where('slug', $slug)
             ->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -85,29 +87,16 @@ class Coupon extends Model
             // 'slug' => $updated_slug
             
         ]); 
-        
     }
 
-    // public function showCoupon ($slug)
-    // {
-    //     $coupon = self::where('slug', $slug)->first();
-        
-    //     return $coupon;
-    // }
-
-    public function deleteCoupon ($slug)
+    public function getAllManagerCoupons($id) 
     {
-        $coupon = self::where('slug', $slug)->first();
-
-        (new UploadImage())->deleteImage($coupon->image_path);
-        (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
-        
-        $coupon->delete();
-
+        return Coupon::where('user_id', $id)->get();
     }
 
     public function checkIfUserIsManager($couponId)
     {
+        
         $managerEmail = $this->getCouponById($couponId)->manager_email;
         
         if ($managerEmail == auth()->user()->email)
@@ -116,5 +105,6 @@ class Coupon extends Model
         } else {
             return FALSE;
         }
+
     } 
 }

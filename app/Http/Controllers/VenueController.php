@@ -43,7 +43,7 @@ class VenueController extends Controller
      */
     public function store(Request $request)
     {
-        $this->venueInterface->addVenue($request);
+        $this->venueInterface->createVenue($request);
 
         $request->session()->flash('flash.banner', 'Venue has been created succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');

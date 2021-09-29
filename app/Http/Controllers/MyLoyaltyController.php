@@ -6,6 +6,7 @@ use App\Models\Point;
 use App\Models\Coupon;
 use App\Models\MyCoupon;
 use App\Models\MyPoint;
+use App\Models\Venue;
 use Illuminate\Http\Request;
 
 class MyLoyaltyController extends Controller
@@ -15,6 +16,7 @@ class MyLoyaltyController extends Controller
         $this->middleware('auth', ['except' => ['show']]);
         $this->couponModel = new Coupon;
         $this->pointModel = new Point;
+        $this->venueModel = new Venue();
         $this->myCouponModel = new MyCoupon;
         $this->myPointModel = new MyPoint;
     }
