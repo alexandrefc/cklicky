@@ -34,7 +34,7 @@ class Coupon extends Model
         return self::where('id', $couponId)->first();
     }
 
-    public function addCoupon ($request)
+    public function createCoupon ($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
