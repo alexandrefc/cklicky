@@ -8,7 +8,7 @@
     <div class="container my-8 mx-8">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-3xl">
-          Your venues
+          Your point cards
           {{-- <a href="/points/create" class=""
             ><span
               class="text-salmon font-medium text-lg ml-2 hover:underline"
@@ -64,6 +64,13 @@
                 <p class="font-medium text-sm text-indigo-600 mt-2">
                   Read more<span class="text-indigo-600">&hellip;</span>
                 </p>
+                <span class="text-gray-500">
+                  Offered by <span class="font-bold italic text-gray-800">Venue Name</span>
+                  , Valid till {{ date('jS M Y', strtotime($point->valid_till)) }}
+                </span>
+                <p class="text-xl text-gray-700 leading-8 font-light">
+                  Your have collected  {{ $myPoint->points_amount }} points                
+                </p>
                 <span class="float-right">
                   <a 
                       href="/points/{{ $point->slug }}"
@@ -118,7 +125,7 @@
     <div class="container my-8 mx-8">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-3xl">
-            Your points
+            Your venues
             {{-- <a href="/points/create" class=""
               ><span
                 class="text-salmon font-medium text-lg ml-2 hover:underline"

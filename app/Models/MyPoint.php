@@ -4,23 +4,27 @@ namespace App\Models;
 
 use App\Models\Point;
 use App\Services\CreateQrcode;
+use App\Services\TimeToRedeem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Http\Repositories\PointRepository;
 
 class MyPoint extends Model
 {
     use HasFactory;
-    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path'];
+    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem'];
 
     public function addToMyPoints($pointId)
     {
         $userId = auth()->user()->id;
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
+        $user_time_to_redeem = (new PointRepository())->getTimeToRedeem($pointId);
 
         self::create([
             'point_id' => $pointId,
             'user_id' => $userId, 
-            'add_points_qrcode_path' => $addPointsQrcodePath       
+            'add_points_qrcode_path' => $addPointsQrcodePath,
+            'user_time_to_redeem' => $user_time_to_redeem    
         ]);
     } 
 

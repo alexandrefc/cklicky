@@ -12,7 +12,7 @@ class Point extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'add_x_points'];
+    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'add_x_points', 'valid_till', 'x_time_to_redeem', 'type_of_period_to_redeem'];
 
     public function venue()
     {

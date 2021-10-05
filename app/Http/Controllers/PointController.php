@@ -18,6 +18,7 @@ class PointController extends Controller
         $this->middleware('auth', ['except' => ['show']]);
         $this->pointModel = new Point;
         $this->pointInterface = $pointInterface;
+        
     }
     /**
      * Display a listing of the resource.
@@ -57,6 +58,7 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->pointInterface->createPoint($request);
 
         $request->session()->flash('flash.banner', 'point has been adeed succesfully !');

@@ -6,6 +6,7 @@ use App\Models\Point;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use App\Services\TimeToRedeem;
 use App\Http\Interfaces\PointInterface;
 
 class PointRepository implements PointInterface
@@ -42,7 +43,9 @@ class PointRepository implements PointInterface
             'made_by_id' => auth()->user()->id,
             'venue_id' => $request->venue_id,
             'manager_email' => $request->managerEmail,
-            'add_x_points' => $request->xPoints
+            'add_x_points' => $request->xPoints,
+            'x_time_to_redeem' => $request->xTimeToRedeem,
+            'type_of_period_to_redeem' => $request->period
         ]); 
     }
 
@@ -102,4 +105,11 @@ class PointRepository implements PointInterface
         }
 
     } 
+
+    public function getTimeToRedeem($pointId)
+    {
+        $point = $this->getPointById($pointId);
+        
+        return (new TimeToRedeem())->setTimeToRedeem($point->type_of_period_to_redeem, $point->x_time_to_redeem);
+    }
 }

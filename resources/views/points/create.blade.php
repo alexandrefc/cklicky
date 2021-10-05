@@ -62,6 +62,20 @@
         <label for="valid_till">Valid till:</label>
             <input type="date" id="valid_till" name="valid_till" placeholder="yyyy-mm-dd hh-mm-ss">
 
+        <label for="xTimeToRedeem">Valid by for user:</label>
+            <input 
+                type="number"
+                name="xTimeToRedeem"
+                class="bg-transparent border-b-2 w-36 h-20 pt-10 text-xl outline-none inline-block mr-5">
+        
+            <select name="period" id="period">
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
+                <option value="months">Months</option>
+            </select>
+        
+
         <div class="bg-gray-lighter pt-15">
             <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg 
             tracking-wide uppercase border border-blue cursor-pointer">
@@ -76,16 +90,12 @@
         </div>
 
        
-        <label for="cars">Choose a venue:</label>
+        <label for="venueId">Choose a venue:</label>
 
             <select name="venueId" id="venueId">
                 @foreach ($venues as $venue)
                 <option value="{{ $venue->id }}">{{ $venue->title }}</option>
                 @endforeach
-                {{-- <option value="1">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option> --}}
             </select>
 
         <button 
