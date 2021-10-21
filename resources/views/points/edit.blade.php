@@ -79,11 +79,11 @@
             </label>
         </div>
 
-        <label for="cars">Choose a venue:</label>
+        <label for="venueId">Choose a venue:</label>
 
-            <select name="venueId" id="venueId">
+            <select name="venue_id" id="venue_id">
                 @foreach ($venues as $venue)
-                <option value="{{ $venue->id }}">{{ $venue->name }}</option>
+                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
                 @endforeach
                 {{-- <option value="1">Volvo</option>
                 <option value="saab">Saab</option>

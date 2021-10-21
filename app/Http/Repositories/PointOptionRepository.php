@@ -3,13 +3,14 @@
 namespace App\Http\Repositories;
 
 use App\Models\Point;
+use App\Models\PointOption;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
-use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\PointOptionInterface;
 
-class PointRepository implements PointInterface
+class PointOptionRepository implements PointOptionInterface
 {
 
     public function getAllPoints()
@@ -27,33 +28,23 @@ class PointRepository implements PointInterface
         return Point::where('slug', $slug)->first();
     }
 
-    public function createPoint($request)
+    public function createPointOption($request)
     {
-        $slug = (new CreateSlug())->createSlug($request->title);
-        $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
-        $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
+        // $slug = (new CreateSlug())->createSlug($request->title);
+        // $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
+        // $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
-        Point::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            // 'valid_till' => $request->valid_till,
-            'slug' => $slug,
-            'image_path' => $image_path,
-            'qrcode_path' => $qrcode_path,
-            'made_by_id' => auth()->user()->id,
-            'venue_id' => $request->venue_id,
-            'manager_email' => $request->managerEmail,
-            'category_id' => $request->category,
-            'available_through' => $request->availableThrough,
-            'add_x_points' => $request->xPoints,
+        PointOption::create([
             'total_points' => $request->totalPoints,
+            'add_x_points' => $request->xPoints,
             'start_date' => $request->startDate,
             'end_date' => $request->endDate,
-            'x_time_to_redeem' => $request->xTimeToRedeem,
-            'type_of_period_to_redeem' => $request->period,
             'reset_time' => $request->timeReset,
             'type_of_reset_time' => $request->period,
-            
+            'x_time_to_redeem' => $request->xTimeToRedeem,
+            'type_of_period_to_redeem' => $request->period,
+            'available_through' => $request->availableThrough,
+            'category' => $request->category
         ]); 
     }
 
@@ -121,22 +112,15 @@ class PointRepository implements PointInterface
         return (new TimeToRedeem())->setTimeToRedeem($point->type_of_period_to_redeem, $point->x_time_to_redeem);
     }
 
-    public function getUserResetTime($pointId)
-    {
-        $point = $this->getPointById($pointId);
-        
-        return (new TimeToRedeem())->setResetTime($point->type_of_reset_time, $point->reset_time);
-    }
-
     public function checkIfNowIsInValidTime($pointId)
     {
         $point = $this->getPointById($pointId);
+
         $now = now();
 
-        $startDate = $point->start_date; 
-        $endDate = $point->end_date; 
+        $validTime = $point->valid_till; 
         
-        if ($startDate <= $now && $now <= $endDate)
+        if ($now <= $validTime)
         {
             return TRUE;
         } else {

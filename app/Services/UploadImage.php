@@ -28,6 +28,7 @@ class UploadImage
         // }
         
         // return $newImageName;
+
         $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
         Image::make($image)->resize(350, 233)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);

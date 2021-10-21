@@ -12,19 +12,20 @@ use App\Http\Repositories\PointRepository;
 class MyPoint extends Model
 {
     use HasFactory;
-    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem'];
+    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
 
     public function addToMyPoints($pointId)
     {
         $userId = auth()->user()->id;
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
         $user_time_to_redeem = (new PointRepository())->getTimeToRedeem($pointId);
+       
 
         self::create([
             'point_id' => $pointId,
             'user_id' => $userId, 
             'add_points_qrcode_path' => $addPointsQrcodePath,
-            'user_time_to_redeem' => $user_time_to_redeem    
+            'user_time_to_redeem' => $user_time_to_redeem
         ]);
     } 
 
@@ -33,16 +34,38 @@ class MyPoint extends Model
         return self::where('user_id', auth()->user()->id)->get();
     }
 
+    public function getMyPointById($pointId, $userId)
+    {
+        return self::where('point_id', $pointId)->where('user_id', $userId)->first();
+    }
+
     public function checkIfMyPointExists($pointId, $userId)
     {
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();
     }
+
+    public function checkIfRewardIsAvailable($pointId, $userId)
+    {
+        $myPoint = self::where('point_id', $pointId)->where('user_id', $userId)->first();
+        $point =  (new PointRepository())->getPointById($pointId);
+        
+        if ($myPoint->points_amount >= $point->total_points)
+        {
+            self::where('point_id', $pointId)->where('user_id', $userId)->update([
+                'finished' => 1
+            ]);
+
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } 
     
     public function checkIfPointIsFinished($pointId, $userId)
     {
-        $mypoint = self::where('point_id', $pointId)->where('user_id', $userId)->first();
-        
-        return $mypoint->finished;
+        $myPoint = self::where('point_id', $pointId)->where('user_id', $userId)->first();
+
+        return $myPoint->finished;
     } 
 
     // public function checkIfUserIsManager($pointId)
@@ -79,11 +102,48 @@ class MyPoint extends Model
         
         $pointsAmount = $myPoint->points_amount;
         $pointsAmount = $pointsAmount + $addXPoints;
+
+        $user_reset_time = (new PointRepository())->getUserResetTime($pointId);
         
         self::where('point_id', $pointId)
             ->where('user_id', $userId)
             ->update([
-                'points_amount' => $pointsAmount
+                'points_amount' => $pointsAmount,
+                'user_reset_time' => $user_reset_time
         ]);
+        
+    }
+
+    public function checkIfNowIsInTimeToRedeem($pointId, $userId)
+    {
+        $point = $this->getMyPointById($pointId, $userId);
+        
+        $now = now();
+
+        $userTimeToRedeem = $point->user_time_to_redeem; 
+        
+        if ($now <= $userTimeToRedeem)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } 
+
+    public function checkIfIsAfterTimeReset($pointId, $userId)
+    {
+        $point = $this->getMyPointById($pointId, $userId);
+        
+        $now = now();
+
+        $userResetTime = $point->user_reset_time; 
+        
+        if ($now > $userResetTime)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
     }
 }

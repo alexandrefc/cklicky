@@ -2,7 +2,7 @@
 
 namespace App\Http\Interfaces;
 
-interface PointInterface
+interface PointOptionInterface
 {
     public function getAllPoints();
 
@@ -10,7 +10,7 @@ interface PointInterface
 
     public function getPointBySlug ($slug);
 
-    public function createPoint($request);
+    public function createPointOption($request);
 
     public function updatePoint($request, $slug);
 

@@ -43,7 +43,7 @@ Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 're
 
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
-Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
 
 // Venues
 

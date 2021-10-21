@@ -8,8 +8,15 @@
 
 
     <div class="overflow-x-auto">
+        
         <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
             <div class="w-full lg:w-5/6">
+                <a href="/venues/create" class=""
+              ><span
+                class="text-salmon font-medium text-lg ml-2 hover:underline"
+                >Create new venue
+              </span></a
+            >
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="min-w-max w-full table-auto">
                         <thead>

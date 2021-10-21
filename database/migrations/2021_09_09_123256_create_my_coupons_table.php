@@ -21,15 +21,18 @@ class CreateMyCouponsTable extends Migration
             $table->unsignedBigInteger('coupon_id');
             $table->foreign('coupon_id')
                 ->references('id')
-                ->on('coupons');
+                ->on('coupons')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('manage_by_venue')->nullable();
             $table->foreign('manage_by_venue')
                 ->references('id')
-                ->on('venues');
+                ->on('venues')
+                ->onDelete('cascade');
         });
     }
 

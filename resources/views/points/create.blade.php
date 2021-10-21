@@ -1,13 +1,26 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
             
         </h2>
-    </x-slot>
+    </x-slot> --}}
+
+    @if ($errors->any())
+      <div class="w-4/5 m-auto">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li class="w-1/5 mb-4 mr-6 text-gray-50 bg-red-700 rounded-2xl py-2 px-4 inline">
+                      {{ $error }}
+                  </li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
     
 
     <div class="flex h-full bg-gray-100 items-center justify-center  pt-16 pb-32">
+      
         <div class="grid bg-white rounded-lg shadow-xl w-11/12 md:w-9/12 lg:w-1/2">
           <div class="flex justify-center py-4">
             <div class="flex bg-purple-200 rounded-full md:p-4 p-2 border-2 border-purple-300">
@@ -26,60 +39,101 @@
             enctype="multipart/form-data">
             @csrf
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Title</label>
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Title</label>
             <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="title" 
                 type="text" 
-                placeholder="My First Point card" />
+                placeholder="eg. My First Point card"
+                required="" />
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Manager email</label>
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
+            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" name="description" id="description" cols="30" rows="10"></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload Photo</label>
+              <div class='flex items-center justify-center w-full'>
+                  <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
+                      <div class='flex flex-col items-center justify-center pt-1'>
+                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                        <input type='file' name="image" class="" />
+                      </div>
+                    
+                  </label>
+              </div>
+          </div>
+          
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Manager email</label>
             <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="managerEmail" 
                 type="email" 
-                placeholder="example@mail.com" />
+                placeholder="example@email.com" />
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Category</label>
+            <select 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                name="category">
+                  @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endforeach
+            </select>
           </div>
       
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
             <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Manager email</label>
-              <input class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="email" placeholder="Email" />
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Start date</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="startDate"
+                type="date" 
+                placeholder="1" />
             </div>
             <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Input 3</label>
-              <input class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" placeholder="Input 3" />
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">End date</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="endDate"
+                type="date" 
+                placeholder="1" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
             <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">How many points by scan</label>
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award points</label>
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="xPoints"
                 type="number" 
-                placeholder="1" />
+                placeholder="How many points should be awarded" />
             </div>
             <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Max number of points</label>
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Total points</label>
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                name="maxPoints" 
+                name="totalPoints" 
                 type="number" 
-                placeholder="1" />
+                placeholder="Amount of points user has to collect" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            
             <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Valid till</label>
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                type="date" 
-                placeholder="1" />
+                name="timeReset"
+                type="number" 
+                placeholder="Award Timeframe" />
             </div>
             <div class="grid grid-cols-1">
                 <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Valid by for user</label>
@@ -93,13 +147,13 @@
                     </div>
                     <div class="grid grid-cols-1">
                           <select 
-                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                            name="period">
-                                <option value="minutes">Minutes</option>
-                                <option value="hours">Hours</option>
-                                <option value="days">Days</option>
-                                <option value="months">Months</option>
-                      </select>
+                              class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                              name="period">
+                                  <option value="minutes">Minutes</option>
+                                  <option value="hours">Hours</option>
+                                  <option value="days">Days</option>
+                                  <option value="months">Months</option>
+                          </select>
                     </div>
                 </div>
                 
@@ -116,11 +170,12 @@
               <option value="web">Webpage</option>
               <option value="mail">Send by mail</option>
               <option value="all">All</option>
+              <option value="reward">As a Reward</option>
             </select>
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Choose a base venue</label>
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a base venue</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="venueId">
@@ -130,28 +185,17 @@
             </select>
           </div>
       
-          <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Description</label>
-            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" name="description" id="description" cols="30" rows="10"></textarea>
-            <input class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" type="text" placeholder="Description" />
-          </div>
+          
       
-          <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload Photo</label>
-              <div class='flex items-center justify-center w-full'>
-                  <label class='flex flex-col border-4 border-dashed w-full h-32 hover:bg-gray-100 hover:border-purple-300 group'>
-                      <div class='flex flex-col items-center justify-center pt-7'>
-                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p>
-                      </div>
-                    <input type='file' name="image" class="" />
-                  </label>
-              </div>
-          </div>
+          
       
           <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
-            <button class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Cancel</button>
-            <button class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'>Create</button>
+            <button 
+              class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
+              type="" >Cancel</button>
+            <button 
+              class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
+              type="submit">Create</button>
           </div>
       
         </div>

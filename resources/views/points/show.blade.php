@@ -50,7 +50,7 @@
 </div>
 <div class="block-inline w=4/5 m-auto pt-1 text-center">
     <form 
-        action="/points/confirmaddpoints/{{ $point->slug }}"
+        action="/points/confirmaddpoints/{{ $point->id }}"
         method="POST"
         enctype="multipart/form-data">
         @csrf

@@ -25,11 +25,13 @@ class CreateCouponsTable extends Migration
             $table->unsignedBigInteger('made_by_id');
             $table->foreign('made_by_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('venue_id')->nullable();
             $table->foreign('venue_id')
                 ->references('id')
-                ->on('venues');
+                ->on('venues')
+                ->onDelete('cascade');
         });
     }
 

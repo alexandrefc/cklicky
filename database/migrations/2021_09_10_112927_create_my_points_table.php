@@ -22,15 +22,18 @@ class CreateMyPointsTable extends Migration
             $table->unsignedBigInteger('point_id');
             $table->foreign('point_id')
                 ->references('id')
-                ->on('points');
+                ->on('points')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->unsignedBigInteger('manage_by_venue')->nullable();
             $table->foreign('manage_by_venue')
                 ->references('id')
-                ->on('venues');
+                ->on('venues')
+                ->onDelete('cascade');
         });
     }
 

@@ -26,7 +26,8 @@ class CreateVenuesTable extends Migration
             $table->unsignedBigInteger('manage_by_id');
             $table->foreign('manage_by_id')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

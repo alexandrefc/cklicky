@@ -47,10 +47,10 @@
         </button>
     </form>
 
-</div>
+</div> --}}
 <div class="block-inline w=4/5 m-auto pt-1 text-center">
     <form 
-        action="/points/redeem/{{ $point->id }}/{{ auth()->user()->id }}"
+        action="/points/addpoints/{{ $point->id }}/{{ auth()->user()->id }}"
         method="POST"
         enctype="multipart/form-data">
         @csrf
@@ -62,7 +62,7 @@
             Redeem
         </button>
     </form>
-</div> --}}
+</div>
 
 {{-- @if (Auth::check() && Gate::allows('admin_only', auth()->user()) ) --}}
     <div class="pt-10 w-4/5 m-auto text-center">

@@ -35,5 +35,25 @@ class TimeToRedeem
         
     }
 
+    public function setResetTime($period, $resetTime)
+    {
+        switch ($period) {
+            case "seconds":
+                return now()->addSeconds($resetTime);
+                break;
+            case "minutes":
+                return now()->addMinutes($resetTime);
+                break;
+            case "hours":
+                return now()->addHours($resetTime);
+                break;
+            case "days":
+                return now()->addDays($resetTime);
+                break;
+            case "months":
+                return now()->addMonths($resetTime);
+                break;
+        }
+    }
     
 }

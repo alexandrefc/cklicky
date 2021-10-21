@@ -59,7 +59,24 @@
                 </div>
                 <div class="text-lg">
                   <p class="">
-                    {{ $point->description }}                   </p>
+                    {{ $point->description }}                   
+                  </p>
+                  <p class="">
+                    {{ $point->category->name ?? "No Category" }}                   
+                  </p>
+                  <p class="">
+                    Venue: {{ $point->venue->title ?? "No Venue" }}                   
+                  </p>
+                  <p class="text-sm">
+                    Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
+                  </p>
+                  <p class="text-sm">
+                    Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
+                  </p>
+                  <p class="text-xs">
+                    Valid between: <br>
+                    {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
+                  </p>
                   <p class="font-medium text-sm text-indigo-600 mt-2">
                     Read more<span class="text-indigo-600">&hellip;</span>
                   </p>
