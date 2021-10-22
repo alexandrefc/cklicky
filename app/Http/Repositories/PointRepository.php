@@ -8,6 +8,7 @@ use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use App\Http\Interfaces\PointInterface;
+use App\Models\MyPoint;
 
 class PointRepository implements PointInterface
 {
@@ -52,7 +53,7 @@ class PointRepository implements PointInterface
             'x_time_to_redeem' => $request->xTimeToRedeem,
             'type_of_period_to_redeem' => $request->period,
             'reset_time' => $request->timeReset,
-            'type_of_reset_time' => $request->period,
+            'type_of_reset_time' => $request->timeResetPeriod,
             
         ]); 
     }
@@ -61,8 +62,9 @@ class PointRepository implements PointInterface
     {
         $point = Point::where('slug', $slug)->first();
         $existing_image_path = $point->image_path;
+        $updateImage = new UploadImage;
 
-        // Should be new qrcode and slug ?
+        // If there should be new qrcode and slug:
 
         // $existing_qrcode_path = $point->qrcode_path;
         // $existing_slug = $point->slug;
@@ -71,8 +73,8 @@ class PointRepository implements PointInterface
         
         if ($request->hasFile('image'))
         {
-            $updated_image_path = (new UploadImage())->updateImage($request->image, $request->title);
-            (new UploadImage())->deleteImage($existing_image_path);
+            $updated_image_path = $updateImage->updateImage($request->image, $request->title);
+            $updateImage->deleteImage($existing_image_path);
         } else {
             $updated_image_path = $existing_image_path;
         }
@@ -93,10 +95,18 @@ class PointRepository implements PointInterface
 
     public function deletePoint($slug)
     {
-        $point = Point::where('slug', $slug)->first();
+        // $point = Point::where('slug', $slug)->first();
+        $point = $this->getPointBySlug($slug);
+        $myPoints = (new MyPoint())->getAllMyPointById($point->id);
+        $deleteQrcode = new CreateQrcode;
+
+        foreach($myPoints as $myPoint)
+        {
+            $deleteQrcode->deleteQrcode($myPoint->add_points_qrcode_path);
+        }
 
         (new UploadImage())->deleteImage($point->image_path);
-        (new CreateQrcode())->deleteQrcode($point->qrcode_path);
+        $deleteQrcode->deleteQrcode($point->qrcode_path);
         
         $point->delete();
     }

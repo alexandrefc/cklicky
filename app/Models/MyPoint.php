@@ -39,6 +39,11 @@ class MyPoint extends Model
         return self::where('point_id', $pointId)->where('user_id', $userId)->first();
     }
 
+    public function getAllMyPointById($pointId)
+    {
+        return self::where('point_id', $pointId)->get();
+    }
+
     public function checkIfMyPointExists($pointId, $userId)
     {
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();

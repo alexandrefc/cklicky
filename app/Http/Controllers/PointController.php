@@ -115,10 +115,20 @@ class PointController extends Controller
      */
     public function edit($slug)
     {
-        $point = $this->pointInterface->getPointBySlug($slug);
         $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $point = $this->pointInterface->getPointBySlug($slug);
+        // Change to repo
+        $categories = Category::all();
 
-        return view('points.edit', compact('point', 'venues'));
+        if(Gate::allows('admin_only', auth()->user())){
+            return view('points.edit', compact('point','venues', 'categories'));
+        } else {
+            return redirect('/points')->dangerBanner('Only Admin is allowed !');
+        }
+        // $point = $this->pointInterface->getPointBySlug($slug);
+        // $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+
+        // return view('points.edit', compact('point', 'venues'));
     }
 
     /**

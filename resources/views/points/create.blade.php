@@ -50,7 +50,7 @@
 
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
-            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" name="description" id="description" cols="30" rows="10"></textarea>
+            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" name="description" id="description" cols="30" rows="3"></textarea>
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
@@ -127,28 +127,52 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
             
-            <div class="grid grid-cols-1">
+            {{-- <div class="grid grid-cols-1">
               <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="timeReset"
                 type="number" 
                 placeholder="Award Timeframe" />
-            </div>
+            </div> --}}
             <div class="grid grid-cols-1">
-                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Valid by for user</label>
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Valid by for user</label>
+              <div class="grid grid-cols-2 gap-5 md:gap-8">
+                  <div class="grid grid-cols-1">
+                      <input 
+                          class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                          name="xTimeToRedeem" 
+                          type="number" 
+                          placeholder="1" />
+                  </div>
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="period">
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="months">Months</option>
+                        </select>
+                  </div>
+              </div>
+              
+            </div>
+            
+            <div class="grid grid-cols-1">
+                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
                 <div class="grid grid-cols-2 gap-5 md:gap-8">
                     <div class="grid grid-cols-1">
                         <input 
                             class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="xTimeToRedeem" 
-                            type="text" 
-                            placeholder="1" />
+                            name="timeReset" 
+                            type="number" 
+                            placeholder="Award Timeframe" />
                     </div>
                     <div class="grid grid-cols-1">
                           <select 
                               class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                              name="period">
+                              name="timeResetPeriod">
                                   <option value="minutes">Minutes</option>
                                   <option value="hours">Hours</option>
                                   <option value="days">Days</option>
@@ -157,8 +181,7 @@
                     </div>
                 </div>
                 
-            </div>
-            
+              </div>
             
           </div>
       
@@ -178,7 +201,7 @@
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a base venue</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                name="venueId">
+                name="venue_id">
                 @foreach ($venues as $venue)
                 <option value="{{ $venue->id }}">{{ $venue->title }}</option>
                 @endforeach
@@ -202,7 +225,7 @@
       </div>
     </form>
 
-<div class="w-4/5 m-auto text-left">
+{{-- <div class="w-4/5 m-auto text-left">
     <div class="py-15">
         <h1 class="text-6xl">
             Point creator
@@ -254,14 +277,14 @@
             <input 
                 type="number"
                 name="xPoints"
-                {{-- placeholder="Number of points to add" --}}
+                placeholder="Number of points to add"
                 class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
         
         <label for="maxPoints">Max Number of points:</label>
             <input 
                 type="number"
                 name="maxPoints"
-                {{-- placeholder="Number of points to add" --}}
+                placeholder="Number of points to add"
                 class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
     
         <label for="valid_till">Valid till:</label>
@@ -318,7 +341,7 @@
             Create point
         </button>
 
-    </form>
+    </form> --}}
 
 </div>
 
