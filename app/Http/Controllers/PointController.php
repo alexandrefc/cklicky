@@ -33,7 +33,7 @@ class PointController extends Controller
     public function index()
     {
         $points = $this->pointInterface->getAllPoints();
-
+           
         return view('points.index', compact('points'));
     }
 
@@ -46,12 +46,13 @@ class PointController extends Controller
     {
 
         $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $points = $this->pointInterface->getAllPoints();
         
         // Change to repo
         $categories = Category::all();
 
         if(Gate::allows('admin_only', auth()->user())){
-            return view('points.create', compact('venues', 'categories'));
+            return view('points.create', compact('venues', 'categories', 'points'));
         } else {
             return redirect('/points')->dangerBanner('Only Admin is allowed !');
         }
@@ -86,6 +87,16 @@ class PointController extends Controller
     public function show($slug)
     {
         $point = $this->pointInterface->getPointBySlug($slug);
+        // $myPoint = new MyPoint;
+
+        // if(($myPoint->getMyPointById($pointId, $userId)))
+        // {
+        //     $my = 1;
+        // } else {
+        //     $my = 0;
+        // }
+
+
 
         return view('points.show', compact('point'));
     }
@@ -98,7 +109,7 @@ class PointController extends Controller
         
         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
         {
-            $myPoint->addToMyPoints($pointId);
+            $myPoint->addToMyPoints($pointId, $userId);
         }
 
         $point = $this->pointInterface->getPointById($id);
@@ -171,7 +182,7 @@ class PointController extends Controller
 
         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
         {
-            $myPoint->addToMyPoints($pointId);
+            $myPoint->addToMyPoints($pointId, $userId);
 
             return redirect('/points')->banner('Point has been added to favourites succesfully !');
         
@@ -185,62 +196,76 @@ class PointController extends Controller
     public function addPoints($pointId, $userId) 
     {
         $myPoint = new MyPoint;
-        // $point = new Point;
-        // $pointR = $point->getPointById($pointId);
-        // $addXPoints = $pointR->add_x_points;
-
-        // if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
-        // {
-        //     $myPoint->addToMyPoints($pointId);
-        // }
+        
         if($myPoint->checkIfIsAfterTimeReset($pointId, $userId))
         {
-        if($this->pointInterface->checkIfNowIsInValidTime($pointId))
-        {
-            if($myPoint->checkIfNowIsInTimeToRedeem($pointId, $userId))
-        {
-            if (($this->pointInterface->checkIfUserIsManager($pointId)))
-        {
-            if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
+            if($this->pointInterface->checkIfNowIsInValidTime($pointId))
             {
-                $myPoint->addToMyPoints($pointId, $userId);
-                $myPoint->addPoints($pointId, $userId);
-                    if ($myPoint->checkIfRewardIsAvailable($pointId, $userId)){
-                        return redirect('/points')->banner('Reward is available !');
-
-                    } else {
-                        return redirect('/points')->banner('Point has been added to favourites and added succesfully !');
-                    }
-                
-    
-                    
-            } else {
-                if (!($myPoint->checkIfPointIsFinished($pointId, $userId)))
+                if($myPoint->checkIfNowIsInTimeToRedeem($pointId, $userId))
                 {
-                    $myPoint->addPoints($pointId, $userId);
-                    if ($myPoint->checkIfRewardIsAvailable($pointId, $userId)){
-                        return redirect('/points')->banner('Reward is available !');
+                    if (($this->pointInterface->checkIfUserIsManager($pointId)))
+                    {
+                        if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
+                        {
+                            $myPoint->addToMyPoints($pointId, $userId);
+                            $myPoint->addPoints($pointId, $userId);
 
+                                if ($myPoint->checkIfRewardIsAvailable($pointId, $userId))
+                                {
+                                    $this->pointInterface->addPointRewardToMyPoints($pointId, $userId);
+
+                                    return redirect('/points')->banner('Reward is added !');
+                                } else {
+                                    return redirect('/points')->banner('Point has been added to favourites and added succesfully !');
+                                }  
+                        } else {
+                            if (!($myPoint->checkIfPointIsFinished($pointId, $userId)))
+                            {
+                                $myPoint->addPoints($pointId, $userId);
+                                if ($myPoint->checkIfRewardIsAvailable($pointId, $userId))
+                                {
+                                    $this->pointInterface->addPointRewardToMyPoints($pointId, $userId);
+
+                                    return redirect('/points')->banner('Reward is added !');
+                                } else {
+                                    return redirect('/points')->banner('Points has been added succesfully !');                    }
+                            } else {
+                                return redirect('/points')->dangerBanner('Points has been finished !');
+                            }
+                        }
                     } else {
-                        return redirect('/points')->banner('Points has been added succesfully !');                    }
-                    
+                        return redirect('/points')->dangerBanner('Only Manager is permitted to add points!');
+                    }
                 } else {
-                    return redirect('/points')->dangerBanner('Points has been finished !');
+                    return redirect('/points')->dangerBanner('Too late !');
                 }
+            } else {
+                return redirect('/points')->dangerBanner('Camapaign is not valid!');
             }
-        } else {
-            return redirect('/points')->dangerBanner('Only Manager is permitted to add points!');
-        }
-        } else {
-            return redirect('/points')->dangerBanner('Too late !');
-        }
-        } else {
-            return redirect('/points')->dangerBanner('Camapaign is not valid!');
-        }
         } else {
             return redirect('/points')->dangerBanner('Wait a minute!');
         }
-        
-        
     }
+
+
+    // public function addPointRewardToMyPoints($pointId, $userId)
+    // {
+    //     $myPoint = new MyPoint;
+    //     $point = $this->pointInterface->getPointById($pointId);
+    //     $rewardId = $point->reward_id;
+
+
+    //     if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
+    //     {
+    //         $myPoint->addToMyPoints($rewardId, $userId);
+
+    //         return redirect('/points')->banner('Point Reward has been added to favourites succesfully !');
+        
+    //     } else {
+            
+    //         return redirect('/points')->dangerBanner('This Point has been already added to favourites !');
+    //     }
+    // }
+
+    
 }

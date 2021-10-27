@@ -19,4 +19,6 @@ interface PointInterface
     public function checkIfUserIsManager($pointId);
 
     public function checkIfNowIsInValidTime($pointId);
+
+    public function addPointRewardToMyPoints($pointId, $userId);
 }

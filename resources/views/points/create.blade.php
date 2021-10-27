@@ -208,6 +208,16 @@
             </select>
           </div>
       
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a reward</label>
+            <select 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                name="reward_id">
+                @foreach ($points as $point)
+                <option value="{{ $point->id }}">{{ $point->title }}</option>
+                @endforeach
+            </select>
+          </div>
           
       
           

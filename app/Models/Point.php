@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MyPoint;
 use App\Models\Category;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
@@ -13,7 +14,12 @@ class Point extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id'];
+    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id'];
+
+    public function myPoints()
+    {
+        return $this->belongsTo(MyPoint::class);
+    }
 
     public function venue()
     {

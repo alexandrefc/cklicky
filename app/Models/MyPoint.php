@@ -14,9 +14,11 @@ class MyPoint extends Model
     use HasFactory;
     protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
 
-    public function addToMyPoints($pointId)
+
+    
+    public function addToMyPoints($pointId, $userId)
     {
-        $userId = auth()->user()->id;
+        // $userId = auth()->user()->id;
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
         $user_time_to_redeem = (new PointRepository())->getTimeToRedeem($pointId);
        
@@ -51,19 +53,27 @@ class MyPoint extends Model
 
     public function checkIfRewardIsAvailable($pointId, $userId)
     {
-        $myPoint = self::where('point_id', $pointId)->where('user_id', $userId)->first();
+        $myPoint = $this->getMyPointById($pointId, $userId);
         $point =  (new PointRepository())->getPointById($pointId);
         
         if ($myPoint->points_amount >= $point->total_points)
         {
-            self::where('point_id', $pointId)->where('user_id', $userId)->update([
-                'finished' => 1
-            ]);
+            $this->makeMyPointFinished($pointId, $userId);
 
             return TRUE;
         } else {
             return FALSE;
         }
+    } 
+
+    public function makeMyPointFinished($pointId, $userId)
+    {
+        // $myPoint = $this->getMyPointById($pointId, $userId);
+        // $point =  (new PointRepository())->getPointById($pointId);
+        
+            self::where('point_id', $pointId)->where('user_id', $userId)->update([
+                'finished' => 1
+            ]);
     } 
     
     public function checkIfPointIsFinished($pointId, $userId)
@@ -72,20 +82,6 @@ class MyPoint extends Model
 
         return $myPoint->finished;
     } 
-
-    // public function checkIfUserIsManager($pointId)
-    // {
-    //     $point = new point;
-    //     $managerEmail = $point->getpointById($pointId)->manager_email;
-        
-    //     if ($managerEmail == auth()->user()->email)
-    //     {
-    //         return TRUE;
-    //     } else {
-    //         return FALSE;
-    //     }
-
-    // } 
 
     public function getAddPointsQrcodePath($pointId)
     {

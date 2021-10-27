@@ -96,6 +96,41 @@
                     </a>
                 </span>
 
+                
+
+                {{-- @if($point->id == $myPoints->point_id)
+                  <span class="float-right">
+                    <form 
+                        action="/points/addtomy/{{ $point->id }}"
+                        method="POST">
+                        @csrf
+  
+                        <button 
+                            class="text-green-500 pr-3"
+                            type="submit">
+                            Add to favourites
+                        </button>
+  
+                    </form>
+                  </span>
+                @else
+                <span class="float-right">
+                  <form 
+                      action="/points/addtomy/{{ $point->id }}"
+                      method="POST">
+                      @csrf
+
+                      <button 
+                          class="text-green-500 pr-3"
+                          type="submit">
+                          Add to favourites
+                      </button>
+
+                  </form>
+                </span>
+                @endif --}}
+                
+
                 <span class="float-right">
                     <form 
                         action="/points/{{ $point->slug }}"

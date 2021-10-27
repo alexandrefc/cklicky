@@ -54,6 +54,7 @@ class PointRepository implements PointInterface
             'type_of_period_to_redeem' => $request->period,
             'reset_time' => $request->timeReset,
             'type_of_reset_time' => $request->timeResetPeriod,
+            'reward_id' => $request->reward_id
             
         ]); 
     }
@@ -154,4 +155,18 @@ class PointRepository implements PointInterface
         }
 
     } 
+
+    // todo: move to MyPoint repo
+    public function addPointRewardToMyPoints($pointId, $userId)
+    {
+        $myPoint = new MyPoint;
+        $point = $this->getPointById($pointId);
+        $rewardId = $point->reward_id;
+
+        if (!($myPoint->checkIfMyPointExists($rewardId, $userId)))
+        {
+            $myPoint->addToMyPoints($rewardId, $userId);
+        } 
+      
+    }
 }
