@@ -3,12 +3,13 @@
 namespace App\Http\Repositories;
 
 use App\Models\Point;
+use App\Models\MyPoint;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\PointInterface;
-use App\Models\MyPoint;
 
 class PointRepository implements PointInterface
 {
@@ -168,5 +169,12 @@ class PointRepository implements PointInterface
             $myPoint->addToMyPoints($rewardId, $userId);
         } 
       
+    }
+
+    public function getAllManagerPoints()
+    {
+        return Point::where('manager_email', Auth::user()->email)
+            ->orWhere('made_by_id', Auth::user()->id)
+            ->get();
     }
 }

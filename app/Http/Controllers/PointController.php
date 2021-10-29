@@ -32,7 +32,8 @@ class PointController extends Controller
      */
     public function index()
     {
-        $points = $this->pointInterface->getAllPoints();
+        // $points = $this->pointInterface->getAllPoints();
+        $points = $this->pointInterface->getAllManagerPoints();
            
         return view('points.index', compact('points'));
     }
@@ -113,9 +114,10 @@ class PointController extends Controller
         }
 
         $point = $this->pointInterface->getPointById($id);
-        $addPointsQrcodePath = (new MyPoint())->getAddPointsQrcodePath($id);
+        $addPointsQrcodePath = $myPoint->getAddPointsQrcodePath($id);
+        $myPoint = $myPoint->getMyPointById($pointId, $userId);
             
-        return view('points.addpoints', compact('point', 'addPointsQrcodePath'));
+        return view('points.addpoints', compact('point', 'addPointsQrcodePath', 'myPoint'));
     }
 
     /**
