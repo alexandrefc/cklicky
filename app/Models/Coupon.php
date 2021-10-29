@@ -2,21 +2,27 @@
 
 namespace App\Models;
 
+use App\Models\Category;
+use App\Services\CreateSlug;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
-use App\Services\CreateSlug;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Coupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email'];
+    protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id'];
 
     public function venue()
     {
         return $this->belongsTo(Venue::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
     
     public function getAllCoupons ()

@@ -26,6 +26,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\PointOptionInterface',
             'App\Http\Repositories\PointOptionRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\CouponInterface',
+            'App\Http\Repositories\CouponRepository'
+        );
     }
 
     /**

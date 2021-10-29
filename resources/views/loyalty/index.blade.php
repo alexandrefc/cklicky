@@ -219,7 +219,7 @@
       id="scrollContainer"
       class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
     >
-    @foreach ($points as $point)
+    @foreach ($coupons as $coupon)
     
     <div
         class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
@@ -228,7 +228,7 @@
           <div class="aspect-w-16 aspect-h-9">
             <img
               class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-              src="{{ asset('/images/loyalty/' . $point->image_path) }}"
+              src="{{ asset('/images/loyalty/' . $coupon->image_path) }}"
               alt=""
             />
           </div>
@@ -238,7 +238,7 @@
           <div class="px-4 py-2 mt-2">
             <div class="text-lg leading-6 font-medium space-y-1">
               <h3 class="font-bold text-gray-800 text-lg md:text-3xl mb-2">
-                {{ $point->title }}
+                {{ $coupon->title }}
               </h3>
             </div>
             
@@ -247,7 +247,7 @@
             <div class="text-md">
                 
                 <p class="text-sm md:text-lg mb-6 h-10">
-                    {{ $point->description }}                   
+                    {{ $coupon->description }}                   
                 </p>
                 
                 
@@ -261,12 +261,12 @@
                 Category: {{ $point->category->name ?? "No Category" }}                   
                 </p> --}}
                 <p class="text-xs mb-1">
-                Available in: {{ $point->venue->title ?? "No Venue" }}                   
+                Available in: {{ $coupon->venue->title ?? "No Venue" }}                   
                 </p>
                 <p class="text-xs mb-3 mt-2 md:mb-6">
                   Valid:
                   
-                  {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
+                  {{ date('j M, Y', strtotime($coupon->start_date)) }} - {{ date('j M, Y', strtotime($coupon->end_date)) }}                  
                 </p>
                 {{-- <p class="text-sm mb-1">
                 Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
@@ -349,7 +349,7 @@
             <div class="flex space-x-1 mb-1">
               <div class="flex-1 w=4/5 m-auto text-center">
                   <form 
-                      action="/points/addtomy/{{ $point->id }}"
+                      action="/coupons/addtomy/{{ $coupon->id }}"
                       method="POST"
                       enctype="multipart/form-data">
                       @csrf
@@ -364,7 +364,7 @@
   
               <div class="flex-1 w=4/5 m-auto text-center">
                   <form 
-                      action="/points/confirmaddpoints/{{ $point->id }}"
+                      action="/coupons/confirmredeem/{{ $coupon->id }}"
                       method="POST"
                       enctype="multipart/form-data">
                       @csrf
@@ -373,7 +373,7 @@
                       <button 
                           type="submit"
                           class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                          Add Points
+                          Redeem
                       </button>            
                   </form>
               </div>

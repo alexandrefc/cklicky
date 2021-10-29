@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\Category;
 use App\Models\MyCoupon;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Str;
@@ -12,14 +13,18 @@ use App\Services\UploadImage;
 use App\Events\UserRegistered;
 use App\Services\CreateQrcode;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Interfaces\CouponInterface;
+use App\Http\Repositories\VenueRepository;
 use App\Http\Requests\ValidateCreateCoupon;
 
 class CouponController extends Controller
 {
-    public function __construct()
+    private $couponInterface;
+    public function __construct(CouponInterface $couponInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->couponModel = new Coupon;
+        $this->couponInterface = $couponInterface;
     }
     /**
      * Display a listing of the resource.
@@ -41,7 +46,13 @@ class CouponController extends Controller
      */
     public function create()
     {
-        return view('coupons.create');
+        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $coupons = $this->couponInterface->getAllCoupons();
+        
+        // Change to repo
+        $categories = Category::all();
+        
+        return view('coupons.create', compact('venues', 'categories', 'coupons'));
     }
 
     /**
@@ -52,7 +63,7 @@ class CouponController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        $this->couponModel->createCoupon($request);
+        $this->couponInterface->createCoupon($request);
 
         $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -89,12 +100,21 @@ class CouponController extends Controller
         return view('coupons.show', compact('coupon', 'isMyCoupon', 'isCouponRedeemed')); 
     }
 
-    public function confirmRedeem($slug)
+    public function confirmRedeem($couponId)
     {
-        $coupon = $this->couponModel->getCouponBySlug($slug);
+        $myCoupon = new MyCoupon;
+        $userId = auth()->user()->id;
+        
+        if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
+        {
+            $myCoupon->addToMyCoupons($couponId, $userId);
+        }
+
+        $coupon = $this->couponModel->getCouponById($couponId);
         $redeemQrcodePath = (new MyCoupon())->getRedeemQrcodePath($coupon->id);
+        $myCoupon = $myCoupon->getMyCouponById($couponId, $userId);
             
-        return view('coupons.redeem', compact('coupon', 'redeemQrcodePath'));
+        return view('coupons.redeem', compact('coupon', 'redeemQrcodePath', 'myCoupon'));
     }
 
     /**
@@ -106,8 +126,10 @@ class CouponController extends Controller
     public function edit($slug)
     {
         $coupon = $this->couponModel->getCouponbySlug($slug);
+        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $categories = Category::all();
 
-        return view('coupons.edit', compact('coupon'));
+        return view('coupons.edit', compact('coupon', 'venues', 'categories'));
     }
 
     /**

@@ -29,19 +29,28 @@ class CouponRepository implements CouponInterface
     public function createCoupon($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
-        $logo_path = (new UploadImage())->uploadImage($request->logo, $request->title);
-        $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
+        $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
+        $qrcode_path = (new CreateQrcode())->createCouponQrcode($slug, $request->title);
         
         return Coupon::create([
             'title' => $request->title,
             'description' => $request->description,
-            'pin' => $request->pin,
+            // 'valid_till' => $request->valid_till,
             'slug' => $slug,
-            'logo_path' => $logo_path,
+            'image_path' => $image_path,
             'qrcode_path' => $qrcode_path,
-            'user_id' => auth()->user()->id,
-            'manage_by_id' => auth()->user()->id,
-            'location' => $request->location
+            'made_by_id' => auth()->user()->id,
+            'venue_id' => $request->venue_id,
+            'manager_email' => $request->managerEmail,
+            'category_id' => $request->category,
+            'available_through' => $request->availableThrough,
+            'start_date' => $request->startDate,
+            'end_date' => $request->endDate,
+            'x_time_to_redeem' => $request->xTimeToRedeem,
+            'type_of_period_to_redeem' => $request->period,
+            'reset_time' => $request->timeReset,
+            'type_of_reset_time' => $request->timeResetPeriod,
+            'reward_id' => $request->reward_id
         ]);
     }
 

@@ -1,10 +1,10 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
             
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
     <div class="sm:flex container my-8 mx-auto w-full sm:w-3/5">
         
