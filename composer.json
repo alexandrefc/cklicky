@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
         "simplesoftwareio/simple-qrcode": "~4",
-        "stripe/stripe-php": "^7.97"
+        "stripe/stripe-php": "^7.97",
+        "cornford/googlmapper": "3.*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

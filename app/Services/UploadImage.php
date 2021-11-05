@@ -35,6 +35,25 @@ class UploadImage
         
         return $newImageName;
     }
+
+    public function uploadLogo($image, $title)
+    {
+        // if ($request->hasFile('image'))
+        // {
+            // $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+            // $fitImage = $image->move(storage_path('app/public/images/loyalty'), $newImageName);
+            // Image::make($fitImage)->fit(700, 400)->save($fitImage);
+
+        // }
+        
+        // return $newImageName;
+
+        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        Image::make($image)->resize(350, 115)->save($image);
+        $image->storeAs('public/images/loyalty', $newImageName);
+        
+        return $newImageName;
+    }
       
     public function updateImage($image, $title)
     {

@@ -13,7 +13,7 @@ class VenueRepository implements VenueInterface
 
     public function getAllVenues()
     {
-        return Venue::all();
+        return Venue::latest()->get();
     }
 
     public function getVenueById($id)
@@ -24,7 +24,7 @@ class VenueRepository implements VenueInterface
     public function createVenue($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
-        $logo_path = (new UploadImage())->uploadImage($request->logo, $request->title);
+        $logo_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
         return Venue::create([

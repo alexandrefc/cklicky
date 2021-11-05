@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Venue;
 use Illuminate\Http\Request;
+
 use App\Http\Interfaces\VenueInterface;
-use App\Http\Repositories\VenueRepository;
+use Mapper;
 
 class VenueController extends Controller
 {
@@ -22,6 +23,15 @@ class VenueController extends Controller
     public function index()
     {
         $venues = $this->venueInterface->getAllVenues();
+
+        // foreach($venues as $venue) 
+        // {
+        //     $count = $venue->points->count();
+        // }
+
+        $map = Mapper::map(53.381128999999990000, -1.470085000000040000, ['markers' => ['icon' => ['symbol' => 'CIRCLE', 'scale' => 10], 'animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker']])->marker(53.381128999999990000, -1.470085000000040000);
+        // $map = Mapper::location('Polska Kraków');
+
         return view('venues.index', compact('venues'));
     }
 

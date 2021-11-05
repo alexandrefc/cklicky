@@ -13,6 +13,13 @@ use App\Http\Interfaces\PointInterface;
 
 class PointRepository implements PointInterface
 {
+    protected $model;
+    public function __construct(Point $model)
+    {
+        
+        $this->model = $model;
+        
+    }
 
     public function getAllPoints()
     {
@@ -21,12 +28,12 @@ class PointRepository implements PointInterface
 
     public function getPointById($id)
     {
-        return Point::where('id', $id)->first();
+        return $this->model->where('id', $id)->first();
     }
 
     public function getPointBySlug ($slug)
     {
-        return Point::where('slug', $slug)->first();
+        return $this->model->where('slug', $slug)->first();
     }
 
     public function createPoint($request)
@@ -35,7 +42,7 @@ class PointRepository implements PointInterface
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
-        Point::create([
+        $this->model->create([
             'title' => $request->title,
             'description' => $request->description,
             // 'valid_till' => $request->valid_till,
@@ -62,7 +69,7 @@ class PointRepository implements PointInterface
 
     public function updatePoint($request, $slug)
     {
-        $point = Point::where('slug', $slug)->first();
+        $point = $this->model->where('slug', $slug)->first();
         $existing_image_path = $point->image_path;
         $updateImage = new UploadImage;
 
@@ -81,13 +88,25 @@ class PointRepository implements PointInterface
             $updated_image_path = $existing_image_path;
         }
         
-        Point::where('slug', $slug)
+        $this->model->where('slug', $slug)
             ->update([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
             'image_path' => $updated_image_path,
-            'venue_id' => $request->venue_id
+            'venue_id' => $request->venue_id,
+            'manager_email' => $request->managerEmail,
+            'category_id' => $request->category,
+            'available_through' => $request->availableThrough,
+            'add_x_points' => $request->xPoints,
+            'total_points' => $request->totalPoints,
+            'start_date' => $request->startDate,
+            'end_date' => $request->endDate,
+            'x_time_to_redeem' => $request->xTimeToRedeem,
+            'type_of_period_to_redeem' => $request->period,
+            'reset_time' => $request->timeReset,
+            'type_of_reset_time' => $request->timeResetPeriod,
+            'reward_id' => $request->reward_id
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug
@@ -173,8 +192,11 @@ class PointRepository implements PointInterface
 
     public function getAllManagerPoints()
     {
-        return Point::where('manager_email', Auth::user()->email)
+    
+
+        return $this->model->where('manager_email', Auth::user()->email)
             ->orWhere('made_by_id', Auth::user()->id)
             ->get();
     }
+
 }

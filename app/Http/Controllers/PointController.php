@@ -17,12 +17,11 @@ use App\Http\Requests\ValidateCreateCoupon;
 class PointController extends Controller
 {
     private $pointInterface;
-    public function __construct(PointInterface $pointInterface, PointOptionInterface $pointOptionInterface)
+    public function __construct(PointInterface $pointInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->pointModel = new Point;
         $this->pointInterface = $pointInterface;
-        $this->pointOptionInterface = $pointOptionInterface;
         
     }
     /**
@@ -43,14 +42,14 @@ class PointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(VenueRepository $venueRepo, Category $categoryRepo)
     {
 
-        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $venues = $venueRepo->getAllManagerVenues(auth()->user()->id);
         $points = $this->pointInterface->getAllPoints();
         
         // Change to repo
-        $categories = Category::all();
+        $categories = $categoryRepo->all();
 
         if(Gate::allows('admin_only', auth()->user())){
             return view('points.create', compact('venues', 'categories', 'points'));
@@ -126,12 +125,12 @@ class PointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(VenueRepository $venueRepo, Category $categoryRepo, $slug)
     {
-        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $venues = $venueRepo->getAllManagerVenues(auth()->user()->id);
         $point = $this->pointInterface->getPointBySlug($slug);
         // Change to repo
-        $categories = Category::all();
+        $categories = $categoryRepo->all();
 
         if(Gate::allows('admin_only', auth()->user())){
             return view('points.edit', compact('point','venues', 'categories'));

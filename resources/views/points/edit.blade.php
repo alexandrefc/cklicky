@@ -94,8 +94,9 @@
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
                                 @if ($point->category_id == $category->id) 
-                                selected='selected'
-                                @endif >{{ $category->name }}</option>
+                                    selected='selected'
+                                @endif >{{ $category->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -107,7 +108,8 @@
                         class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                         name="startDate"
                         type="date" 
-                        placeholder="dd-mm-yy" />
+                        value="{{ $point->start_date }}"
+                        placeholder="{{ $point->start_date }}" />
                     </div>
                     <div class="grid grid-cols-1">
                         <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -220,9 +222,15 @@
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a base venue</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                name="venue_id">
+                name="venue_id"
+                value="{{ $point->venue_id }}">
                 @foreach ($venues as $venue)
-                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
+                    <option value="{{ $venue->id }}"
+                        @if ($point->venue_id == $venue->id) 
+                            selected='selected'
+                        @endif >
+                        {{ $venue->title }}
+                    </option>
                 @endforeach
             </select>
           </div>
