@@ -23,7 +23,7 @@ class PointRepository implements PointInterface
 
     public function getAllPoints()
     {
-        return Point::latest()->get();
+        return $this->model->latest()->get();
     }
 
     public function getPointById($id)
@@ -34,6 +34,14 @@ class PointRepository implements PointInterface
     public function getPointBySlug ($slug)
     {
         return $this->model->where('slug', $slug)->first();
+    }
+
+    public function getAllManagerPoints()
+    {
+        return $this->model->where('manager_email', Auth::user()->email)
+            ->orWhere('made_by_id', Auth::user()->id)
+            ->latest()
+            ->get();
     }
 
     public function createPoint($request)
@@ -69,7 +77,7 @@ class PointRepository implements PointInterface
 
     public function updatePoint($request, $slug)
     {
-        $point = $this->model->where('slug', $slug)->first();
+        $point = $this->getPointBySlug($slug);
         $existing_image_path = $point->image_path;
         $updateImage = new UploadImage;
 
@@ -88,8 +96,7 @@ class PointRepository implements PointInterface
             $updated_image_path = $existing_image_path;
         }
         
-        $this->model->where('slug', $slug)
-            ->update([
+        $point->update([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
@@ -167,7 +174,7 @@ class PointRepository implements PointInterface
         $startDate = $point->start_date; 
         $endDate = $point->end_date; 
         
-        if ($startDate <= $now && $now <= $endDate)
+        if ($point->start_date <= now() && now() <= $point->end_date)
         {
             return TRUE;
         } else {
@@ -182,21 +189,12 @@ class PointRepository implements PointInterface
         $myPoint = new MyPoint;
         $point = $this->getPointById($pointId);
         $rewardId = $point->reward_id;
+        $user_time_to_redeem = $this->getTimeToRedeem($pointId);
 
         if (!($myPoint->checkIfMyPointExists($rewardId, $userId)))
         {
-            $myPoint->addToMyPoints($rewardId, $userId);
+            $myPoint->addToMyPoints($rewardId, $userId, $user_time_to_redeem);
         } 
       
     }
-
-    public function getAllManagerPoints()
-    {
-    
-
-        return $this->model->where('manager_email', Auth::user()->email)
-            ->orWhere('made_by_id', Auth::user()->id)
-            ->get();
-    }
-
 }

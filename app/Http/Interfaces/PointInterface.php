@@ -23,5 +23,12 @@ interface PointInterface
     public function addPointRewardToMyPoints($pointId, $userId);
 
     public function getAllManagerPoints();
+
+    public function getTimeToRedeem($pointId);
+
+    public function getUserResetTime($pointId);
+
+    
+
  
 }

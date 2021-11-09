@@ -222,13 +222,33 @@
               class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
               name="venue_id">
               @foreach ($venues as $venue)
-              <option value="{{ $venue->id }}">{{ $venue->title }}</option>
+                <option 
+                    value="{{ $venue->id }}"
+                    @if ($coupon->venue_id == $venue->id) 
+                        selected='selected'
+                    @endif >
+                    {{ $venue->title }}
+                </option>
               @endforeach
           </select>
         </div>
-    
-        
-    
+
+        <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a reward</label>
+            <select 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                name="reward_id">
+                @foreach ($coupons as $coupon)
+                    <option 
+                        value="{{ $coupon->id }}"
+                        @if ($coupon->reward_id == $coupon->id) 
+                            selected='selected'
+                        @endif >
+                    {{ $coupon->title }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         
     
         <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>

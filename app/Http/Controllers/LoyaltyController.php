@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\CouponInterface;
+use App\Http\Interfaces\PointInterface;
 use App\Models\Point;
 use App\Models\Coupon;
 use Illuminate\Support\Str;
@@ -13,11 +15,16 @@ use App\Http\Requests\ValidateCreateCoupon;
 
 class LoyaltyController extends Controller
 {
-    public function __construct()
+    protected $couponModel;
+    protected $pointModel;
+
+    public function __construct(PointInterface $pointModel, CouponInterface $couponModel)
     {
         $this->middleware('auth', ['except' => ['show']]);
-        $this->couponModel = new Coupon;
-        $this->pointModel = new Point;
+        // $this->couponModel = new Coupon;
+        // $this->pointModel = new Point;
+        $this->couponModel = $couponModel;
+        $this->pointModel = $pointModel;
     }
     /**
      * Display a listing of the resource.
@@ -50,13 +57,13 @@ class LoyaltyController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        // (new Coupon())->addCoupon($request);
-        $this->couponModel->addCoupon($request);
+        // // (new Coupon())->addCoupon($request);
+        // $this->couponModel->addCoupon($request);
 
-        $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
-        $request->session()->flash('flash.bannerStyle', 'success');
+        // $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
+        // $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/loyalty');
+        // return redirect('/loyalty');
     }
 
     /**
@@ -78,9 +85,9 @@ class LoyaltyController extends Controller
      */
     public function edit($slug)
     {
-        $loyalty = $this->couponModel->getCoupon($slug);
+        // $loyalty = $this->couponModel->getCoupon($slug);
 
-        return view('loyalty.edit', compact('loyalty'));
+        // return view('loyalty.edit', compact('loyalty'));
     }
 
     /**
@@ -92,12 +99,12 @@ class LoyaltyController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $loyalty = $this->couponModel->updateCoupon($request, $slug);
+        // $loyalty = $this->couponModel->updateCoupon($request, $slug);
 
-        $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
-        $request->session()->flash('flash.bannerStyle', 'success');
+        // $request->session()->flash('flash.banner', 'Coupon has been adeed succesfully !');
+        // $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/loyalty');
+        // return redirect('/loyalty');
     }
 
     /**

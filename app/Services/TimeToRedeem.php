@@ -16,6 +16,25 @@ class TimeToRedeem
     {
         // 
     }
+    // public function setTimeToRedeem($period, $timeToRedeem)
+    // {
+    //     switch ($period) {
+    //         case "minutes":
+    //             return now()->addMinutes($timeToRedeem);
+    //             break;
+    //         case "hours":
+    //             return now()->addHours($timeToRedeem);
+    //             break;
+    //         case "days":
+    //             return now()->addDays($timeToRedeem);
+    //             break;
+    //         case "months":
+    //             return now()->addMonths($timeToRedeem);
+    //             break;
+    //     }
+        
+    // }
+
     public function setTimeToRedeem($period, $timeToRedeem)
     {
         switch ($period) {

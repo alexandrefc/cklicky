@@ -10,20 +10,32 @@ use App\Http\Interfaces\CouponInterface;
 
 class CouponRepository implements CouponInterface
 {
+    protected $model;
+    public function __construct(Coupon $model)
+    {
+        
+        $this->model = $model;
+        
+    }
 
     public function getAllCoupons()
     {
-        return Coupon::all();
+        return $this->model->all();
     }
 
     public function getCouponById($id)
     {
-        return Coupon::where('id', $id)->first();
+        return $this->model->where('id', $id)->first();
     }
 
     public function getCouponBySlug($slug)
     {
-        return Coupon::where('slug', $slug)->first();
+        return $this->model->where('slug', $slug)->first();
+    }
+
+    public function getAllManagerCoupons($id) 
+    {
+        return $this->model->where('user_id', $id)->get();
     }
 
     public function createCoupon($request)
@@ -32,7 +44,7 @@ class CouponRepository implements CouponInterface
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
         $qrcode_path = (new CreateQrcode())->createCouponQrcode($slug, $request->title);
         
-        return Coupon::create([
+        return $this->model->create([
             'title' => $request->title,
             'description' => $request->description,
             // 'valid_till' => $request->valid_till,
@@ -56,7 +68,7 @@ class CouponRepository implements CouponInterface
 
     public function deleteCoupon($slug)
     {
-        $coupon = Coupon::where('slug', $slug)->first();
+        $coupon = $this->getCouponBySlug($slug)->first();
 
         (new UploadImage())->deleteImage($coupon->image_path);
         (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
@@ -66,7 +78,7 @@ class CouponRepository implements CouponInterface
 
     public function updateCoupon($request, $slug)
     {
-        $coupon = Coupon::where('slug', $slug)->first();
+        $coupon = $this->getCouponBySlug($slug)->first();
         $existing_image_path = $coupon->image_path;
 
         // Should be new qrcode and slug ?
@@ -84,13 +96,23 @@ class CouponRepository implements CouponInterface
             $updated_image_path = $existing_image_path;
         }
         
-        Coupon::where('slug', $slug)
-            ->update([
+        $coupon->update([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
             'image_path' => $updated_image_path,
-            'venue_id' => $request->venue_id
+            'venue_id' => $request->venue_id,
+            'manager_email' => $request->managerEmail,
+            'category_id' => $request->category,
+            'available_through' => $request->availableThrough,
+            'start_date' => $request->startDate,
+            'end_date' => $request->endDate,
+            'x_time_to_redeem' => $request->xTimeToRedeem,
+            'type_of_period_to_redeem' => $request->period,
+            'reward_id' => $request->reward_id
+            // 'reset_time' => $request->timeReset,
+            // 'type_of_reset_time' => $request->timeResetPeriod,
+           
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug
@@ -98,10 +120,7 @@ class CouponRepository implements CouponInterface
         ]); 
     }
 
-    public function getAllManagerCoupons($id) 
-    {
-        return Coupon::where('user_id', $id)->get();
-    }
+    
 
     public function checkIfUserIsManager($couponId)
     {

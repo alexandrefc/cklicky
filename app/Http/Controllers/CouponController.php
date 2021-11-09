@@ -14,16 +14,17 @@ use App\Events\UserRegistered;
 use App\Services\CreateQrcode;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Interfaces\CouponInterface;
+use App\Http\Interfaces\VenueInterface;
 use App\Http\Repositories\VenueRepository;
 use App\Http\Requests\ValidateCreateCoupon;
 
 class CouponController extends Controller
 {
-    private $couponInterface;
+    protected $couponInterface;
     public function __construct(CouponInterface $couponInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
-        $this->couponModel = new Coupon;
+        // $this->couponModel = new Coupon;
         $this->couponInterface = $couponInterface;
     }
     /**
@@ -34,7 +35,7 @@ class CouponController extends Controller
     public function index()
     {
         
-        $coupons = $this->couponModel->getAllCoupons();        
+        $coupons = $this->couponInterface->getAllCoupons();        
     
         return view('coupons.index', compact('coupons'));
     }
@@ -44,9 +45,9 @@ class CouponController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(VenueInterface $venueInterface, Category $categoryRepo)
     {
-        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $coupons = $this->couponInterface->getAllCoupons();
         
         // Change to repo
@@ -79,7 +80,7 @@ class CouponController extends Controller
      */
     public function show($slug)
     {
-        $coupon = $this->couponModel->getCouponBySlug($slug);
+        $coupon = $this->couponInterface->getCouponBySlug($slug);
         $myCoupon = new MyCoupon;
         $userId = auth()->user()->id;
         
@@ -110,7 +111,7 @@ class CouponController extends Controller
             $myCoupon->addToMyCoupons($couponId, $userId);
         }
 
-        $coupon = $this->couponModel->getCouponById($couponId);
+        $coupon = $this->couponInterface->getCouponById($couponId);
         $redeemQrcodePath = (new MyCoupon())->getRedeemQrcodePath($coupon->id);
         $myCoupon = $myCoupon->getMyCouponById($couponId, $userId);
             
@@ -123,13 +124,14 @@ class CouponController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(VenueInterface $venueInterface, Category $categoryRepo, $slug)
     {
-        $coupon = $this->couponModel->getCouponbySlug($slug);
-        $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
+        $coupon = $this->couponInterface->getCouponbySlug($slug);
+        $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $categories = Category::all();
+        $coupons = $this->couponInterface->getAllCoupons();
 
-        return view('coupons.edit', compact('coupon', 'venues', 'categories'));
+        return view('coupons.edit', compact('coupon', 'venues', 'categories', 'coupons'));
     }
 
     /**
@@ -141,7 +143,7 @@ class CouponController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        $coupon = $this->couponModel->updateCoupon($request, $slug);
+        $this->couponInterface->updateCoupon($request, $slug);
 
         $request->session()->flash('flash.banner', 'Coupon has been updated succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -157,7 +159,7 @@ class CouponController extends Controller
      */
     public function destroy(Request $request, $slug)
     {
-        $this->couponModel->deleteCoupon($slug);
+        $this->couponInterface->deleteCoupon($slug);
 
         $request->session()->flash('flash.banner', 'Coupon has been deleted succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -187,9 +189,9 @@ class CouponController extends Controller
     public function redeem($couponId, $userId) 
     {
         $myCoupon = new MyCoupon;
-        $coupon = new Coupon;
+        // $coupon = new Coupon;
 
-        if (($coupon->checkIfUserIsManager($couponId)))
+        if (($this->couponInterface->checkIfUserIsManager($couponId)))
         {
             if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
             {

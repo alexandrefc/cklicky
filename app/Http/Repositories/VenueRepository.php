@@ -10,15 +10,22 @@ use App\Http\Interfaces\VenueInterface;
 
 class VenueRepository implements VenueInterface
 {
+    protected $model;
+    public function __construct(Venue $model)
+    {
+        
+        $this->model = $model;
+        
+    }
 
     public function getAllVenues()
     {
-        return Venue::latest()->get();
+        return $this->model->latest()->get();
     }
 
     public function getVenueById($id)
     {
-        return Venue::where('id', $id)->first();
+        return $this->model->where('id', $id)->first();
     }
 
     public function createVenue($request)
@@ -27,7 +34,7 @@ class VenueRepository implements VenueInterface
         $logo_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
-        return Venue::create([
+        return $this->model->create([
             'title' => $request->title,
             'description' => $request->description,
             'pin' => $request->pin,
@@ -43,7 +50,7 @@ class VenueRepository implements VenueInterface
     public function deleteVenue($slug)
     {
      
-        $venue = Venue::where('slug', $slug)->first();
+        $venue = $this->model->where('slug', $slug)->first();
 
         (new UploadImage())->deleteImage($venue->logo_path);
         (new CreateQrcode())->deleteQrcode($venue->qrcode_path);
@@ -54,7 +61,7 @@ class VenueRepository implements VenueInterface
 
     public function updateVenue($request, $slug)
     {
-        $venue = Venue::where('slug', $slug)->first();
+        $venue = $this->model->where('slug', $slug)->first();
         $existing_image_path = $venue->image_path;
 
         // Should be new qrcode and slug ?
@@ -72,7 +79,7 @@ class VenueRepository implements VenueInterface
             $updated_image_path = $existing_image_path;
         }
         
-        Venue::where('slug', $slug)
+        $this->model->where('slug', $slug)
             ->update([
                 'title' => $request->title,
                 'description' => $request->description,
@@ -90,6 +97,6 @@ class VenueRepository implements VenueInterface
 
     public function getAllManagerVenues($id) 
     {
-        return Venue::where('user_id', $id)->get();
+        return $this->model->where('user_id', $id)->get();
     }
 }

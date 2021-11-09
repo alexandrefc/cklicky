@@ -23,14 +23,21 @@ class VenueController extends Controller
     public function index()
     {
         $venues = $this->venueInterface->getAllVenues();
+        $location = "Kraków Polska";
+        
 
         // foreach($venues as $venue) 
         // {
         //     $count = $venue->points->count();
         // }
+        // $location = Mapper::location('Kraków');
+        // $map = Mapper::map($location, ['markers' => ['icon' => ['symbol' => 'CIRCLE', 'scale' => 10], 'animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker']])->marker(53.381128999999990000, -1.470085000000040000);
+        $map = Mapper::location($location)
+            ->map(['markers' => ['title' => 'Bleesk', 'animation' => 'DROP'], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]])
+            ->marker(52.2296756, 21.0122287);
 
-        $map = Mapper::map(53.381128999999990000, -1.470085000000040000, ['markers' => ['icon' => ['symbol' => 'CIRCLE', 'scale' => 10], 'animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker']])->marker(53.381128999999990000, -1.470085000000040000);
-        // $map = Mapper::location('Polska Kraków');
+
+        
 
         return view('venues.index', compact('venues'));
     }
@@ -70,6 +77,8 @@ class VenueController extends Controller
     public function show($id)
     {
         $venue = $this->venueInterface->getVenueById($id);
+        $map = Mapper::location($venue->location)
+            ->map(['markers' => ['title' => $venue->title, 'label' => ''], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]]);
 
         return view('venues.show', compact('venue'));
     }

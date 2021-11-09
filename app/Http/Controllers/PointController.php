@@ -42,10 +42,10 @@ class PointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(VenueRepository $venueRepo, Category $categoryRepo)
+    public function create(VenueInterface $venueInterface, Category $categoryRepo)
     {
 
-        $venues = $venueRepo->getAllManagerVenues(auth()->user()->id);
+        $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $points = $this->pointInterface->getAllPoints();
         
         // Change to repo
@@ -106,10 +106,11 @@ class PointController extends Controller
         $myPoint = new MyPoint;
         $userId = auth()->user()->id;
         $pointId = $id;
+        $user_time_to_redeem = $this->pointInterface->getTimeToRedeem($pointId);
         
         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
         {
-            $myPoint->addToMyPoints($pointId, $userId);
+            $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
         }
 
         $point = $this->pointInterface->getPointById($id);
@@ -125,9 +126,9 @@ class PointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(VenueRepository $venueRepo, Category $categoryRepo, $slug)
+    public function edit(VenueInterface $venueInterface, Category $categoryRepo, $slug)
     {
-        $venues = $venueRepo->getAllManagerVenues(auth()->user()->id);
+        $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $point = $this->pointInterface->getPointBySlug($slug);
         // Change to repo
         $categories = $categoryRepo->all();
@@ -180,10 +181,11 @@ class PointController extends Controller
     {
         $myPoint = new MyPoint;
         $userId = auth()->user()->id;
+        $user_time_to_redeem = $this->pointInterface->getTimeToRedeem($pointId);
 
         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
         {
-            $myPoint->addToMyPoints($pointId, $userId);
+            $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
 
             return redirect('/points')->banner('Point has been added to favourites succesfully !');
         
@@ -197,7 +199,12 @@ class PointController extends Controller
     public function addPoints($pointId, $userId) 
     {
         $myPoint = new MyPoint;
-        
+        $user_time_to_redeem = $this->pointInterface->getTimeToRedeem($pointId);
+
+        $addXPoints = $this->pointInterface->getPointById($pointId)->add_x_points;
+        $user_reset_time = $this->pointInterface->getUserResetTime($pointId);
+        $point = $this->pointInterface->getPointById($pointId);
+
         if($myPoint->checkIfIsAfterTimeReset($pointId, $userId))
         {
             if($this->pointInterface->checkIfNowIsInValidTime($pointId))
@@ -208,8 +215,9 @@ class PointController extends Controller
                     {
                         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
                         {
-                            $myPoint->addToMyPoints($pointId, $userId);
-                            $myPoint->addPoints($pointId, $userId);
+                            dd($pointId);
+                            $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
+                            $myPoint->addPoints($pointId, $userId, $addXPoints, $user_reset_time);
 
                                 if ($myPoint->checkIfRewardIsAvailable($pointId, $userId))
                                 {
@@ -222,8 +230,8 @@ class PointController extends Controller
                         } else {
                             if (!($myPoint->checkIfPointIsFinished($pointId, $userId)))
                             {
-                                $myPoint->addPoints($pointId, $userId);
-                                if ($myPoint->checkIfRewardIsAvailable($pointId, $userId))
+                                $myPoint->addPoints($pointId, $userId, $addXPoints, $user_reset_time);
+                                if ($myPoint->checkIfRewardIsAvailable($point, $userId))
                                 {
                                     $this->pointInterface->addPointRewardToMyPoints($pointId, $userId);
 

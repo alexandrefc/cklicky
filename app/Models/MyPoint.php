@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Interfaces\PointInterface;
 use App\Models\Point;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
@@ -11,17 +12,25 @@ use App\Http\Repositories\PointRepository;
 
 class MyPoint extends Model
 {
+    // public $myPointInterface;
+    // public function __construct(MyPointInterface $myPointInterface)
+    // {
+        
+    //     $this->myPointInterface = $myPointInterface;
+        
+    // }
+
     use HasFactory;
     protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
 
 
     
-    public function addToMyPoints($pointId, $userId)
+    public function addToMyPoints($pointId, $userId, $user_time_to_redeem)
     {
         // $userId = auth()->user()->id;
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
-        $user_time_to_redeem = (new PointRepository())->getTimeToRedeem($pointId);
-       
+        
+
 
         self::create([
             'point_id' => $pointId,
@@ -51,10 +60,11 @@ class MyPoint extends Model
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();
     }
 
-    public function checkIfRewardIsAvailable($pointId, $userId)
+    public function checkIfRewardIsAvailable($point, $userId)
     {
+        $pointId =  $point->id;
         $myPoint = $this->getMyPointById($pointId, $userId);
-        $point =  (new PointRepository())->getPointById($pointId);
+        
         
         if ($myPoint->points_amount >= $point->total_points)
         {
@@ -92,19 +102,24 @@ class MyPoint extends Model
         return $myPoint->add_points_qrcode_path;
     }
 
-    public function addPoints($pointId, $userId)
+    public function addPoints($pointId, $userId, $addXPoints, $user_reset_time)
     {
         $myPoint = self::where('point_id', $pointId)
             ->where('user_id', $userId)
             ->first();
+        
+        // call() method to resolve the class
 
-        $point = (new Point())->getPointById($pointId);
-        $addXPoints = $point->add_x_points;
+        // $point = app()->call('App\Http\Interfaces\PointInterface@getPointById', ['id' => $pointId]);
+        // $user_reset_time = app()->call('App\Http\Interfaces\PointInterface@getUserResetTime', ['pointId' => $pointId]);
+
+        // $addXPoints = $point->add_x_points;
+        
         
         $pointsAmount = $myPoint->points_amount;
         $pointsAmount = $pointsAmount + $addXPoints;
 
-        $user_reset_time = (new PointRepository())->getUserResetTime($pointId);
+        
         
         self::where('point_id', $pointId)
             ->where('user_id', $userId)
@@ -147,4 +162,5 @@ class MyPoint extends Model
         }
 
     }
+
 }
