@@ -33,8 +33,8 @@ class LoyaltyController extends Controller
      */
     public function index()
     {
-        $coupons = $this->couponModel->getAllCoupons();
-        $points = $this->pointModel->getAllPoints();
+        $coupons = $this->couponModel->getAllWebCoupons();
+        $points = $this->pointModel->getAllWebPoints();
         
         return view('loyalty.index', compact('coupons', 'points'));
     }

@@ -35,7 +35,7 @@ class CouponController extends Controller
     public function index()
     {
         
-        $coupons = $this->couponInterface->getAllCoupons();        
+        $coupons = $this->couponInterface->getAllManagerCoupons();        
     
         return view('coupons.index', compact('coupons'));
     }

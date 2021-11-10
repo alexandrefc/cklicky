@@ -16,6 +16,21 @@ class Point extends Model
 
     protected $fillable = ['title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id'];
 
+    public function scopeId($query, $id)
+    {
+        return $query->where('id', $id);
+    }
+
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
+    }
+    
+    public function scopeWeb($query)
+    {
+        return $query->where('available_through', 'web')->orWhere('available_through', 'all');
+    }
+
     public function myPoints()
     {
         return $this->belongsTo(MyPoint::class);

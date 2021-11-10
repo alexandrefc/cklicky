@@ -133,13 +133,15 @@
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
                             @auth
-                                <x-jet-dropdown-link href="{{ route('dashboard') }}">
-                                    {{ __('Dashboard') }}
-                                </x-jet-dropdown-link>
-                                
-                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                    {{ __('Subscription') }}
-                                </x-jet-dropdown-link>
+                                @if(Gate::allows('admin_only', auth()->user()))
+                                    <x-jet-dropdown-link href="{{ route('dashboard') }}">
+                                        {{ __('Dashboard') }}
+                                    </x-jet-dropdown-link>
+                                    
+                                    <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                        {{ __('Subscription') }}
+                                    </x-jet-dropdown-link>
+                                @endif
                             @endauth
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -163,9 +165,11 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                @if(Gate::allows('admin_only', auth()->user()))
                 <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
+                @endif
                 <div class="text-center items-center">
                     <a 
                     class="bg-green-500 text-white text-sm font-extrabold py-1 px-2 rounded-3xl ml-3"

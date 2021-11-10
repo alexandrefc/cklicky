@@ -32,13 +32,13 @@
             <div class="mt-10 sm:mt-0">
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
-
+            @if(Gate::allows('admin_only', auth()->user()))
             <x-jet-section-border />
 
             <div class="mt-10 sm:mt-0">
                 @livewire('manage-subscriptions-form')
             </div>
-
+            @endif
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
                 <x-jet-section-border />
 

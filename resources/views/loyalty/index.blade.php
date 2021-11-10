@@ -24,7 +24,8 @@
       
       <div
           class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
-        
+          <a href="/points/{{ $point->slug }}" class="">
+
           {{-- <a href="" class="space-y-2"> --}}
             <div class="aspect-w-16 aspect-h-9">
               <img
@@ -64,6 +65,9 @@
                   <p class="text-xs mb-1">
                   Available in: {{ $point->venue->title ?? "No Venue" }}                   
                   </p>
+                  <p class="text-xs mb-1">
+                    Available through: {{ $point->available_through ?? "No ava" }}                   
+                    </p>
                   <p class="text-xs mb-3 mt-2 md:mb-6">
                     Valid:
                     
@@ -199,7 +203,7 @@
           {{-- </a> --}}
       
         </div>
-
+      </a>
         @endforeach
         
       </div>
@@ -223,7 +227,7 @@
     
     <div
         class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
-      
+        <a href="/coupons/{{ $coupon->slug }}" class="">
         {{-- <a href="" class="space-y-2"> --}}
           <div class="aspect-w-16 aspect-h-9">
             <img
@@ -398,7 +402,7 @@
         {{-- </a> --}}
     
       </div>
-
+    </a>
       @endforeach
       
     </div>
@@ -607,188 +611,7 @@
     </div>
 </div>
     
-    <div class="container my-8 mx-8">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-3xl">
-            Another category
-            <a href="#" class=""
-              ><span
-                class="text-salmon font-medium text-lg ml-2 hover:underline"
-                >See all
-              </span></a
-            >
-          </h2>
-          <div>
-            <button
-              class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
-            >
-              <<
-            </button>
-            <button
-              class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
-            >
-              >>
-            </button>
-          </div>
-        </div>
-        
-        <div
-          id="scrollContainer"
-          class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
-        >
-        @foreach ($coupons as $coupon)
-          <div
-            class="flex-none w-2/3 md:w-1/3 h-2/3 mr-8 md:pb-4 border rounded-lg"
-          >
-            <a href="#" class="space-y-4">
-              <div class="aspect-w-16 aspect-h-9">
-                <img
-                  class="object-cover shadow-md hover:shadow-xl rounded-lg"
-                  src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixqx=3H1AJd0Pae&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
-                  alt=""
-                />
-              </div>
-
-              
-
-              <div class="px-4 py-2">
-                <div class="text-lg leading-6 font-medium space-y-1">
-                  <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                    {{ $coupon->title }}
-                  </h3>
-                </div>
-                <div class="text-lg">
-                  <p class="">
-                    {{ $coupon->description }}                   </p>
-                  <p class="font-medium text-sm text-indigo-600 mt-2">
-                    Read more<span class="text-indigo-600">&hellip;</span>
-                  </p>
-                  
-                <span class="float-right">
-                    <a 
-                        href="/coupon/{{ $coupon->slug }}/edit"
-                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                    Edit
-                    </a>
-                </span>
-
-                <span class="float-right">
-                    <form 
-                        action="/coupon/{{ $coupon->slug }}"
-                        method="POST">
-                        @csrf
-                        @method('delete')
-
-                        <button 
-                            class="text-red-500 pr-3"
-                            type="submit">
-                            Delete
-                        </button>
-
-                    </form>
-                </span>
-                
-          
-                </div>
-              </div>
-            </a>
-          </div>
-          
-          @endforeach
-          <div
-            class="flex-none w-2/3 md:w-1/3 mr-8 md:pb-4 border rounded-lg"
-          >
-            <a href="#" class="space-y-4">
-              <div class="aspect-w-16 aspect-h-9">
-                <img
-                  class="object-cover shadow-md hover:shadow-xl rounded-lg"
-                  src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixqx=3H1AJd0Pae&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="px-4 py-2">
-                <div class="text-lg leading-6 font-medium space-y-1">
-                  <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                    Some title goes here
-                  </h3>
-                </div>
-                <div class="text-lg">
-                  <p class="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ad recusandae, consequatur corrupti vel quisquam id itaque
-                    nam
-                  </p>
-                  <p class="font-medium text-sm text-indigo-600 mt-2">
-                    Read more<span class="text-indigo-600">&hellip;</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          
-          </div>
-          
-          <div
-            class="flex-none w-2/3 md:w-1/3 mr-8 md:pb-4 border rounded-lg"
-          >
-            <a href="#" class="space-y-4">
-              <div class="aspect-w-16 aspect-h-9">
-                <img
-                  class="object-cover shadow-md hover:shadow-xl rounded-lg"
-                  src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixqx=3H1AJd0Pae&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="px-4 py-2">
-                <div class="text-lg leading-6 font-medium space-y-1">
-                  <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                    Some title goes here
-                  </h3>
-                </div>
-                <div class="text-lg">
-                  <p class="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ad recusandae, consequatur corrupti vel quisquam id itaque
-                    nam
-                  </p>
-                  <p class="font-medium text-sm text-indigo-600 mt-2">
-                    Read more<span class="text-indigo-600">&hellip;</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div
-            class="flex-none w-2/3 md:w-1/3 mr-8 md:pb-4 border rounded-lg"
-          >
-            <a href="#" class="space-y-4">
-              <div class="aspect-w-16 aspect-h-9">
-                <img
-                  class="object-cover shadow-md hover:shadow-xl rounded-lg"
-                  src="https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixqx=3H1AJd0Pae&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="px-4 py-2">
-                <div class="text-lg leading-6 font-medium space-y-1">
-                  <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                    Some title goes here
-                  </h3>
-                </div>
-                <div class="text-lg">
-                  <p class="">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Ad recusandae, consequatur corrupti vel quisquam id itaque
-                    nam
-                  </p>
-                  <p class="font-medium text-sm text-indigo-600 mt-2">
-                    Read more<span class="text-indigo-600">&hellip;</span>
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-    </div>
+    
 
 
 

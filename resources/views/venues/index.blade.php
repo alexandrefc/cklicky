@@ -18,6 +18,12 @@
         <div class="flex justify-between mb-4">
             <h2 class="font-semibold text-xl  leading-tight">
                 Recommended Venues
+                <a href="/venues/create" class=""
+              ><span
+                class="text-salmon font-medium text-lg ml-2 hover:underline"
+                >Create new venue
+              </span></a
+            >
             </h2>
         </div>
         
@@ -28,7 +34,6 @@
         >
           @foreach ($venues as $venue)
                 
-                {{-- @if ((isset(Auth::user()->id) && Auth::user()->email == $point->manager_email) || (Auth::user()->id == $point->made_by_id)) --}}
                     
         
         <div
@@ -83,117 +88,10 @@
                         </p>
                     </a>
                     
-                    {{-- <p class="text-xs md:text-sm mb-1">
-                    Venue: {{ $venue->venue->title ?? "No Venue" }}                   
-                    </p>
-                    <p class="text-xs md:text-sm mb-1">
-                    Reward: {{ $venue->reward_id ?? "No rewards" }}                   
-                      </p>
-                    <p class="text-xs md:text-sm mb-1">
-                      Points to collect per purchase: {{ $venue->add_x_points ?? "" }}                   
-                    </p>
-                    <p class="text-xs md:text-sm mb-3 md:mb-6">
-                      Time to redeem:
-                      
-                      {{ $venue->reset_time }} {{ $venue->type_of_reset_time }}                
-                    </p> --}}
-                    {{-- <p class="font-bold text-xs md:text-sm mb-1">
-                        Offers:                   
-                    </p>
-                    <p class="text-xs md:text-sm mb-3 md:mb-6 h-8">
-                        
-                        @foreach ($venue->points as $points)
-                           
-                            <a href="/points/{{ $points->slug }}">
-                                <img 
-                                    class="inline w-6 h-6 rounded-full border-gray-200 border my-1 transform hover:scale-125" 
-                                    src="{{ asset('/images/loyalty/' . $points->image_path) }}"/>
-                            </a>
-                        @endforeach                
-                    </p> --}}
-        
-                    {{-- <p class="text-xs mb-3 mt-2 md:mb-6">
-                      Active since:
-                      
-                      {{ date('j M, Y', strtotime($venue->created_at)) }}                  
-                    </p> --}}
                     
-                    
-                    {{-- <p class="text-sm mb-1">
-                    Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
-                    </p> --}}
-                    
-                    
-                    {{-- <span class="">
-                    <a 
-                        href="/points/{{ $point->slug }}"
-                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                    Read more
-                    </a>
-                    </span>
-                    
-                    <span class="float-right">
-                        <a 
-                            href="/points/{{ $point->slug }}/edit"
-                            class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                        Edit
-                        </a>
-                    </span> --}}
-                    
-  
                 
   
-                {{-- @if($point->id == $myPoints->point_id)
-                  <span class="float-right">
-                    <form 
-                        action="/points/addtomy/{{ $point->id }}"
-                        method="POST">
-                        @csrf
-  
-                        <button 
-                            class="text-green-500 pr-3"
-                            type="submit">
-                            Add to favourites
-                        </button>
-  
-                    </form>
-                  </span>
-                @else
-                <span class="float-right">
-                  <form 
-                      action="/points/addtomy/{{ $point->id }}"
-                      method="POST">
-                      @csrf
-  
-                      <button 
-                          class="text-green-500 pr-3"
-                          type="submit">
-                          Add to favourites
-                      </button>
-  
-                  </form>
-                </span>
-                @endif --}}
-                
-  
-                {{-- <span class="float-right">
-                    <form 
-                        action="/points/{{ $point->slug }}"
-                        method="POST">
-                        @csrf
-                        @method('delete')
-  
-                        <button 
-                            class="text-red-500 pr-3"
-                            type="submit">
-                            Delete
-                        </button>
-  
-                    </form>
-                </span> --}}
-                {{-- <div class="w-4/5 mb-5 mx-auto border-b-2 border-gray-200">
-                    <br>
-                </div> --}}
+               
                 <div class="flex space-x-1 mb-1">
                   <div class="flex-1 w=4/5 m-auto text-center">
                       <form 
@@ -211,19 +109,7 @@
                   </div>
       
                   <div class="flex-1 w=4/5 m-auto text-right">
-                      {{-- <form 
-                          action="/points/confirmaddpoints/{{ $point->id }}"
-                          method="POST"
-                          enctype="multipart/form-data">
-                          @csrf
-                          @method('PUT')
-                  
-                          <button 
-                              type="submit"
-                              class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                              Edit
-                          </button>            
-                      </form> --}}
+                      
                         <a 
                             href="/venues/{{ $venue->slug }}/edit"
                             class="bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
@@ -236,13 +122,7 @@
           
                 </div>
   
-                    {{-- <div class="aspect-w-16 aspect-h-9">
-                        <img
-                        class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
-                        src="{{ asset('images/qrcodes/' . $point->qrcode_path) }}"
-                        alt=""
-                        />
-                    </div> --}}
+                    
               </div>
   
             
@@ -252,14 +132,14 @@
         
           </div>
   
-                {{-- @endif --}}
+                
               @endforeach
                 
           
         </div>
     </div>
 
-    <div class="overflow-x-auto">
+    {{-- <div class="overflow-x-auto">
 
         
         <div class=" bg-gray-100 flex items-center justify-center  font-sans overflow-hidden">
@@ -301,11 +181,11 @@
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
+                                    <div class="flex items-center"> --}}
                                         {{-- <div class="mr-2">
                                             <img class="w-6 h-6 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg"/>
                                         </div> --}}
-                                        <span>{{ $venue->description }}</span>
+                                        {{-- <span>{{ $venue->description }}</span>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
@@ -318,9 +198,9 @@
                                 </td>
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
-                                        @foreach ($venue->points as $points)
+                                        @foreach ($venue->points as $points) --}}
                                         {{-- {{ $points->title }} --}}
-                                        <a href="/points/{{ $points->slug }}">
+                                        {{-- <a href="/points/{{ $points->slug }}">
                                             <img 
                                                 class="w-6 h-6 rounded-full border-gray-200 border -m-1 transform hover:scale-125" 
                                                 src="{{ asset('/images/loyalty/' . $points->image_path) }}"/>
@@ -366,7 +246,7 @@
            
                             </tr>
                       
-                            @endforeach
+                            @endforeach --}}
 
                             {{-- <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
                                 <td class="py-3 px-6 text-left">
@@ -704,12 +584,12 @@
                                     </div>
                                 </td>
                             </tr> --}}
-                        </tbody>
+                        {{-- </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 {{-- 
     <div class="container my-8 mx-8">
         <div class="flex justify-between items-center mb-4">

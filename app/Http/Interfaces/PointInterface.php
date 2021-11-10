@@ -6,6 +6,8 @@ interface PointInterface
 {
     public function getAllPoints();
 
+    public function getAllWebPoints();
+
     public function getPointById($id);
 
     public function getPointBySlug ($slug);

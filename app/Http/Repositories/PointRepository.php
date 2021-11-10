@@ -26,22 +26,27 @@ class PointRepository implements PointInterface
         return $this->model->latest()->get();
     }
 
-    public function getPointById($id)
-    {
-        return $this->model->where('id', $id)->first();
-    }
-
-    public function getPointBySlug ($slug)
-    {
-        return $this->model->where('slug', $slug)->first();
-    }
-
     public function getAllManagerPoints()
     {
         return $this->model->where('manager_email', Auth::user()->email)
             ->orWhere('made_by_id', Auth::user()->id)
             ->latest()
             ->get();
+    }
+
+    public function getAllWebPoints()
+    {
+        return $this->model->web()->latest()->get();
+    }
+
+    public function getPointById($id)
+    {
+        return $this->model->id($id)->first();
+    }
+
+    public function getPointBySlug ($slug)
+    {
+        return $this->model->slug($slug)->first();
     }
 
     public function createPoint($request)

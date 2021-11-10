@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Point;
-use App\Models\Coupon;
-use App\Models\MyCoupon;
-use App\Models\MyPoint;
 use App\Models\Venue;
+use App\Models\Coupon;
+use App\Models\MyPoint;
+use App\Models\MyCoupon;
 use Illuminate\Http\Request;
+use App\Http\Interfaces\VenueInterface;
+
 
 class MyLoyaltyController extends Controller
 {
-    public function __construct()
+    protected $venueInterface;
+    public function __construct(VenueInterface $venueInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->couponModel = new Coupon;
         $this->pointModel = new Point;
-        $this->venueModel = new Venue();
+        $this->venueInterface = $venueInterface;
         $this->myCouponModel = new MyCoupon;
         $this->myPointModel = new MyPoint;
     }
@@ -31,8 +34,9 @@ class MyLoyaltyController extends Controller
         $myPoints = $this->myPointModel->getMyPointsByUserId();
         $points = $this->pointModel->getAllPoints();
         $coupons = $this->couponModel->getAllCoupons();
+        $venues = $this->venueInterface->getAllVenues();
 
-        return view('myloyalties.index', compact('points', 'coupons', 'myCoupons', 'myPoints'));
+        return view('myloyalties.index', compact('points', 'coupons', 'myCoupons', 'myPoints', 'venues'));
     }
 
     /**

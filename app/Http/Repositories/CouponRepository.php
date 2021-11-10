@@ -6,6 +6,7 @@ use App\Models\Coupon;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\CouponInterface;
 
 class CouponRepository implements CouponInterface
@@ -23,6 +24,19 @@ class CouponRepository implements CouponInterface
         return $this->model->all();
     }
 
+    public function getAllManagerCoupons() 
+    {
+        return $this->model->where('manager_email', Auth::user()->email)
+        ->orWhere('made_by_id', Auth::user()->id)
+        ->latest()
+        ->get();
+    }
+
+    public function getAllWebCoupons()
+    {
+        return $this->model->web()->latest()->get();
+    }
+
     public function getCouponById($id)
     {
         return $this->model->where('id', $id)->first();
@@ -33,10 +47,7 @@ class CouponRepository implements CouponInterface
         return $this->model->where('slug', $slug)->first();
     }
 
-    public function getAllManagerCoupons($id) 
-    {
-        return $this->model->where('user_id', $id)->get();
-    }
+    
 
     public function createCoupon($request)
     {

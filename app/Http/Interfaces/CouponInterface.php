@@ -6,6 +6,8 @@ interface CouponInterface
 {
     public function getAllCoupons();
 
+    public function getAllWebCoupons();
+
     public function getCouponById($id);
 
     public function getCouponBySlug($slug);
@@ -16,7 +18,7 @@ interface CouponInterface
 
     public function updateCoupon($request, $slug);
 
-    public function getAllManagerCoupons($id);
+    public function getAllManagerCoupons();
 
     public function checkIfUserIsManager($couponId);
     

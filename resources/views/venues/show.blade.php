@@ -1,10 +1,10 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
             
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
     <div class="sm:flex container my-8 mx-auto w-full sm:w-4/5">
         
@@ -34,7 +34,7 @@
             </div> --}}
 
             
-
+            
             <div class="px-4 pt-2 mt-2">
               <div class="text-lg leading-6 font-medium space-y-1">
                 <h3 class=" font-bold text-gray-800 text-3xl mb-2">
@@ -104,7 +104,7 @@
                   <div class="flex space-x-4">
                     <div class="flex-1 w=4/5 m-auto text-center">
                       <p class=" text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
-                        Total offers: {{ $venue->points->count() ?? "0" }}   
+                        Total offers: {{ $venue->points->count() + $venue->coupons->count() ?? "0" }}   
                                       
                       </p>
                     </div>
@@ -413,7 +413,8 @@
       
       <div
           class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
-        
+          
+          <a href="/points/{{ $point->slug }}" class="">
           {{-- <a href="" class="space-y-2"> --}}
             <div class="aspect-w-16 aspect-h-9">
               <img
@@ -588,7 +589,7 @@
           {{-- </a> --}}
       
         </div>
-
+      </a>
         @endforeach
         
       </div>
@@ -612,7 +613,7 @@
     
     <div
         class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
-      
+        <a href="/coupons/{{ $coupon->slug }}" class="">
         {{-- <a href="" class="space-y-2"> --}}
           <div class="aspect-w-16 aspect-h-9">
             <img
@@ -787,7 +788,7 @@
         {{-- </a> --}}
     
       </div>
-
+    </a>
       @endforeach
       
     </div>

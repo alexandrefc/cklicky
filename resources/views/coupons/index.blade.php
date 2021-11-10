@@ -11,7 +11,12 @@
       <div class="flex justify-between mb-4">
           <h2 class="text-3xl">
               Your Coupon Campaigns
-              
+              <a href="/coupons/create" class=""
+              ><span
+                class="text-salmon font-medium text-lg ml-2 hover:underline"
+                >Create new coupon
+              </span></a
+            >
           </h2>
       </div>
       
@@ -225,7 +230,7 @@
       </div>
   </div>
 
-    <div class="container my-8 mx-8">
+    {{-- <div class="container my-8 mx-8">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-3xl">
             Your coupons
@@ -412,7 +417,7 @@
               </div>
             </a>
           </div>
-        </div>
+        </div> --}}
     </div>
 
 
