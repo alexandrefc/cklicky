@@ -350,10 +350,10 @@
               {{-- </div> --}}
   
                   <div class="h-14 my-auto">
-                      <a href="{{ asset('images/qrcodes/' . $venue->qrcode_path) }}">
+                      <a href="{{ asset('storage/images/qrcodes/' . $venue->qrcode_path) }}">
                           <img
                           class="w-1/4 mx-auto my-auto shadow-md hover:shadow-xl rounded-lg"
-                          src="{{ asset('images/qrcodes/' . $venue->qrcode_path) }}"
+                          src="{{ asset('storage/images/qrcodes/' . $venue->qrcode_path) }}"
                           alt=""
                           />
                       </a>
@@ -419,7 +419,7 @@
             <div class="aspect-w-16 aspect-h-9">
               <img
                 class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-                src="{{ asset('/images/loyalty/' . $point->image_path) }}"
+                src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
                 alt=""
               />
             </div>
@@ -618,7 +618,7 @@
           <div class="aspect-w-16 aspect-h-9">
             <img
               class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-              src="{{ asset('/images/loyalty/' . $coupon->image_path) }}"
+              src="{{ asset('storage/images/loyalty/' . $coupon->image_path) }}"
               alt=""
             />
           </div>

@@ -22,7 +22,7 @@ use App\Http\Controllers\MyLoyaltyController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('about.index');
 })->name('welcome');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

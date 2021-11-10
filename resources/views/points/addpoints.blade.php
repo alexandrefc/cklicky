@@ -28,7 +28,7 @@
               <div class="aspect-w-16 aspect-h-9">
                 <img
                   class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-                  src="{{ asset('/images/loyalty/' . $point->image_path) }}"
+                  src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
                   alt=""
                 />
               </div>
@@ -360,10 +360,10 @@
             </div>
 
                 <div class="aspect-w-16 aspect-h-9 my-5">
-                    <a href="{{ asset('images/qrcodes/' . $addPointsQrcodePath) }}">
+                    <a href="{{ asset('storage/images/qrcodes/' . $addPointsQrcodePath) }}">
                         <img
                         class="w-3/4 mx-auto mt-5 shadow-md hover:shadow-xl rounded-lg"
-                        src="{{ asset('images/qrcodes/' . $addPointsQrcodePath) }}"
+                        src="{{ asset('storage/images/qrcodes/' . $addPointsQrcodePath) }}"
                         alt=""
                         />
                     </a>
@@ -404,7 +404,7 @@
               <div class="aspect-w-16 aspect-h-9">
                 <img
                   class="object-cover shadow-md hover:shadow-xl rounded-lg"
-                  src="{{ asset('/images/loyalty/' . $point->image_path) }}"
+                  src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
                   alt=""
                 />
               </div>
@@ -555,7 +555,7 @@
                     <div class="aspect-w-16 aspect-h-9">
                         <img
                         class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
-                        src="{{ asset('images/qrcodes/' . $addPointsQrcodePath) }}"
+                        src="{{ asset('storage/images/qrcodes/' . $addPointsQrcodePath) }}"
                         alt=""
                         />
                     </div>

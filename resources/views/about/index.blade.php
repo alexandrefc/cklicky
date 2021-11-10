@@ -59,7 +59,7 @@
             </div>
             <div>
                 <img 
-                    src="{{ asset('/layout/redeem-coupon-without-app.jpg') }}" 
+                    src="{{ asset('storage/layout/redeem-coupon-without-app.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl mb-10 mt-12"
@@ -114,7 +114,7 @@
             </div>
             <div class="">
                 <img 
-                    src="{{ asset('/layout/white-label-solution.jpg') }}" 
+                    src="{{ asset('storage/layout/white-label-solution.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl"
@@ -145,7 +145,7 @@
         <div class="sm:grid grid-cols-2 gap-20 w-4/5 mb-10 mx-auto py-1">
             <div>
                 <img 
-                    src="{{ asset('/layout/without-app-coupons.jpg') }}" 
+                    src="{{ asset('storage/layout/without-app-coupons.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl mb-4 mt-12"
@@ -221,7 +221,7 @@
             </div>
             <div>
                 <img 
-                    src="{{ asset('/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
+                    src="{{ asset('storage/layout/rebranding-loyalty-coupons-lp.jpg') }}" 
                     width="700" 
                     alt=""
                     class="rounded-xl"

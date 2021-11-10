@@ -38,7 +38,7 @@
             <div class="aspect-w-16 aspect-h-9">
               <img
                 class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-                src="{{ asset('/images/loyalty/' . $point->image_path) }}"
+                src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
                 alt=""
               />
             </div>

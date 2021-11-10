@@ -43,7 +43,7 @@
               <div class="">
                 <img
                   class="w-full mx-auto shadow-md hover:shadow-xl rounded-lg"
-                  src="{{ asset('/images/loyalty/' . $venue->logo_path) }}"
+                  src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}"
                   alt=""
                 />
               </div>

@@ -41,17 +41,17 @@
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/venues">
+                        Venues
+                    </a>
+                </li>
+                <li class="pb-1">
+                    <a href="/loyalties">
                         Coupons
                     </a>
                 </li>
-                {{-- <li class="pb-1">
-                    <a href="/">
-                        Stamps
-                    </a>
-                </li> --}}
                 <li class="pb-1">
-                    <a href="/">
+                    <a href="/loyalties">
                         Points
                     </a>
                 </li>
@@ -74,11 +74,13 @@
                         Promotions
                     </a>
                 </li>
+                @auth
                 <li class="pb-1">
-                    <a href="/myloyalties">
+                    <a href="/myloyalties/{{auth()->user()->id}} ">
                         My offers
                     </a>
                 </li>
+                @endauth
                 <li class="pb-1">
                     <a href="/login">
                         Login
