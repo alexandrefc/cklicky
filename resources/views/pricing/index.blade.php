@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
 
-<!doctype html>
+{{-- <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,21 +18,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<body class="font-sans bg-gray-100 mt-16">
-    <div class="min-h-screen flex justify-center items-center">
+<body class="font-sans bg-gray-100 mt-16"> --}}
+    
+    <div class="min-h-screen flex justify-center items-center pt-16">
         <div class="">
             <div class="text-center font-semibold">
                 <h1 class="text-5xl">
-                    <span class="text-blue-700 tracking-wide">Flexible </span>
-                    <span>Plans</span>
+                    <span class="text-blue-700 tracking-wide">All-In </span>
+                    <span>Plan</span>
                 </h1>
                 <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
-                    Choose a plan that works best for you and<br/> your team.
+                    Choose a one simple All-In Subscription.
                 </p>
             </div>
             <div class="pt-24 flex flex-row">
                 <!-- Basic Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-3xl pr-16 shadow-xl">
+                {{-- <div class="w-96 p-8 bg-white text-center rounded-3xl pr-16 shadow-xl">
                     <h1 class="text-black font-semibold text-2xl">Basic</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
@@ -75,47 +76,63 @@
                                 id="checkout-and-portal-button" 
                                 type="submit">Choose Plan</button>
                             <span class="pl-2 material-icons align-middle text-sm">
-                                east
+                            -->
                             </span>
                           </form>
                     </div>
-                </div>
+                </div> --}}
                 <!-- StartUp Card -->
-                <div class="w-80 p-8 bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
+                <div class="w-80 p-8 m-auto bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
                     <h1 class="text-white font-semibold text-2xl">White label solution</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
-                        <span class="text-3xl font-semibold">99</span>
+                        <span class="text-3xl font-semibold">199</span>
                         <span class="text-gray-400 font-medium">/ month</span>
                     </p>
                     <hr class="mt-4 border-1 border-gray-600">
                     <div class="pt-8">
                         <p class="font-semibold text-gray-400 text-left">
                             <span class="material-icons align-middle">
-                                done
+                                +
                             </span>
                             <span class="pl-2">
-                                All features in <span class="text-white">Basic</span>
+                                All loyalty <span class="text-white">Campaigns</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
                             <span class="material-icons align-middle">
-                                done
+                                +
                             </span>
                             <span class="pl-2">
-                                Flexible <span class="text-white">call scheduling</span>
+                                7-14 Day <span class="text-white">delivery</span>
                             </span>
                         </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
                             <span class="material-icons align-middle">
-                                done
+                                +
                             </span>
                             <span class="pl-2">
-                                <span class="text-white">15 TB</span> cloud storage
+                                <span class="text-white">Rebranding</span> included
+                            </span>
+                        </p>
+                        <p class="font-semibold text-gray-400 text-left pt-5">
+                            <span class="material-icons align-middle">
+                                +
+                            </span>
+                            <span class="pl-2">
+                                <span class="text-white">Technical </span> Support
+                            </span>
+                        </p>
+                        <p class="font-semibold text-gray-400 text-left pt-5">
+                            <span class="material-icons align-middle">
+                                +
+                            </span>
+                            <span class="pl-2">
+                                <span class="text-white">14 days </span> Free Trail
                             </span>
                         </p>
 
-                        <form  
+                        {{-- <form  
                             class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
                             action="/create-checkout-session.php" method="POST">
                             @csrf
@@ -126,14 +143,26 @@
                             <span class="pl-2 material-icons align-middle text-sm">
                                 east
                             </span>
+                        </form> --}}
+                        <form  
+                            class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
+                            action="/create-checkout-session.php" method="POST">
+                            @csrf
+                            <input type="hidden" name="lookup_key" value="PP" />
+                            <button class="pl-2 font-medium"
+                                id="checkout-and-portal-button" 
+                                type="submit">Subscribe</button>
+                            <span class="pl-2 material-icons align-middle text-sm">
+                                
+                            </span>
                           </form>
                     </div>
-                    <div class="absolute top-4 right-4">
+                    <div class="absolute top-2 right-4">
                         <p class="bg-blue-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">Popular</p>
                     </div>
                 </div>
                 <!-- Enterprise Card -->
-                <div class="w-96 p-8 bg-white text-center rounded-3xl pl-16 shadow-xl">
+                {{-- <div class="w-96 p-8 bg-white text-center rounded-3xl pl-16 shadow-xl">
                     <h1 class="text-black font-semibold text-2xl">Enterprise</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
@@ -190,14 +219,14 @@
                             </span>
                           </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 
     
+{{-- </body>
 </body>
-</body>
-</html>
+</html> --}}
 
 </x-app-layout>

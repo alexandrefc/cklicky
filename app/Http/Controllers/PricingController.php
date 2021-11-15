@@ -100,11 +100,12 @@ class PricingController extends Controller
 
     public function createCheckoutSession()
     {
-        \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        
 
             header('Content-Type: application/json');
 
-            $YOUR_DOMAIN = 'http://cklicky.test';
+            $YOUR_DOMAIN = 'https://cklicky.com';
 
             try {
             $prices = \Stripe\Price::all([
@@ -138,11 +139,11 @@ class PricingController extends Controller
     {
     
         // This is your real test secret API key.
-        \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         header('Content-Type: application/json');
 
-        $YOUR_DOMAIN = 'http://clicky.test/success.html';
+        $YOUR_DOMAIN = 'https://clicky.com/success.html';
 
         try {
         // retrieve JSON from POST body
@@ -167,56 +168,67 @@ class PricingController extends Controller
 
     public function webhook()
     {
+
+       
+        // This is your real test secret API key.
+        // \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        // Replace this endpoint secret with your endpoint's unique secret
+        // If you are testing with the CLI, find the secret by running 'stripe listen'
+        // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
+        // at https://dashboard.stripe.com/webhooks
+        // $endpoint_secret = 'whsec_qC5UYBo9CGpT9gF18YM1MItu1lH3TgaH';
+        $endpoint_secret = env('STRIPE_ENDPOINT_SECRET');
         
-        // webhook.php
-        //
-        // Use this sample code to handle webhook events in your integration.
-        //
-        // 1) Paste this code into a new file (webhook.php)
-        //
-        // 2) Install dependencies
-        //   composer require stripe/stripe-php
-        //
-        // 3) Run the server on http://localhost:4242
-        //   php -S localhost:4242
-
-
-        // This is your Stripe CLI webhook secret for testing your endpoint locally.
-        $endpoint_secret = 'whsec_qC5UYBo9CGpT9gF18YM1MItu1lH3TgaH';
-
-
-
+        
         $payload = @file_get_contents('php://input');
-        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $event = null;
-
+        
         try {
-        $event = \Stripe\Webhook::constructEvent(
-            $payload, $sig_header, $endpoint_secret
-        );
+          $event = \Stripe\Event::constructFrom(
+            json_decode($payload, true)
+          );
         } catch(\UnexpectedValueException $e) {
-        // Invalid payload
-        http_response_code(400);
-        exit();
-        } catch(\Stripe\Exception\SignatureVerificationException $e) {
-        // Invalid signature
-        http_response_code(400);
-        exit();
+          // Invalid payload
+          echo '⚠️  Webhook error while parsing basic request.';
+          http_response_code(400);
+          exit();
         }
-
+        if ($endpoint_secret) {
+          // Only verify the event if there is an endpoint secret defined
+          // Otherwise use the basic decoded event
+          $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+          try {
+            $event = \Stripe\Webhook::constructEvent(
+              $payload, $sig_header, $endpoint_secret
+            );
+          } catch(\Stripe\Exception\SignatureVerificationException $e) {
+            // Invalid signature
+            echo '⚠️  Webhook error while validating signature.';
+            http_response_code(400);
+            exit();
+          }
+        }
+        
         // Handle the event
         switch ($event->type) {
-        case 'invoice.payment_succeeded':
-            $invoice = $event->data->object;
-        case 'payment_intent.succeeded':
-            $paymentIntent = $event->data->object;
-        case 'subscription_schedule.expiring':
-            $subscriptionSchedule = $event->data->object;
-        // ... handle other event types
-        default:
-            echo 'Received unknown event type ' . $event->type;
+          case 'payment_intent.succeeded':
+            $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
+            // Then define and call a method to handle the successful payment intent.
+            // handlePaymentIntentSucceeded($paymentIntent);
+            break;
+          case 'payment_method.attached':
+            $paymentMethod = $event->data->object; // contains a \Stripe\PaymentMethod
+            // Then define and call a method to handle the successful attachment of a PaymentMethod.
+            // handlePaymentMethodAttached($paymentMethod);
+            break;
+          default:
+            // Unexpected event type
+            error_log('Received unknown event type');
         }
-
+        
         http_response_code(200);
+        
+       
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 // This is a sample test API key. Sign in to see examples pre-filled with your key.
-\Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
+// \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
+\Stripe\Stripe::setApiKey(env('STRIPE_KEY'));
 
 header('Content-Type: application/json');
 
-$YOUR_DOMAIN = 'http://cklicky.test';
+$YOUR_DOMAIN = 'https://cklicky.com';
 
 try {
   $prices = \Stripe\Price::all([

@@ -9,6 +9,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\MyLoyaltyController;
+use App\Http\Middleware\EnsureTokenIsValid;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::resource('/cms', CMSController::class);
 Route::resource('/coupons', CouponController::class);
-Route::resource('/points', PointController::class);
+Route::resource('points', PointController::class);
+
 
 // My loyalty redeem & add points logic
 
@@ -74,7 +76,9 @@ Route::post('/create-portal-session.php', [PricingController::class, 'createPort
 //     return view('pricing/create-checkout-session');
 // });
 
-Route::get('/subscriptions/webhook.php', [[PricingController::class, 'webhook']]);
+Route::post('/subscriptions/webhook.php', [PricingController::class, 'webhook']);
+
+
 
 
 
