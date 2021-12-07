@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Mapper;
+use Carbon\Carbon;
+
 use App\Models\Venue;
 use Illuminate\Http\Request;
-
 use App\Http\Interfaces\VenueInterface;
-use Mapper;
 
 class VenueController extends Controller
 {
@@ -91,7 +92,27 @@ class VenueController extends Controller
      */
     public function edit($id)
     {
-        //
+        $monday = 1;
+        $tuesday = 2;
+        $wednsday = 3;
+        $thursday = 4;
+        $friday = 5;
+        $saturday = 6;
+        $sunday = 7;
+        
+        $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
+        $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');
+
+        $scheduledDays = collect($monday, $tuesday, $wednsday, $thursday, $friday, $saturday, $sunday);
+
+        if ($scheduledDays->contains(now()->weekday()) && now()->between($startTime, $endTime))
+        {
+            $day = 'friday';
+        } else {
+            $day = 'other day';
+        }
+
+        return view('venues.edit', compact('day'));
     }
 
     /**

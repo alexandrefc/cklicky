@@ -54,7 +54,7 @@ class PointController extends Controller
         if(Gate::allows('admin_only', auth()->user())){
             return view('points.create', compact('venues', 'categories', 'points'));
         } else {
-            return redirect('/points')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
         }
         
     }
@@ -67,7 +67,7 @@ class PointController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-
+        // dd($request->scheduled_days);
         $this->pointInterface->createPoint($request);
        
         // $this->pointOptionInterface->createPointOption($request);
@@ -191,7 +191,8 @@ class PointController extends Controller
         
         } else {
             
-            return redirect('/points')->dangerBanner('Point has been already added to favourites !');
+            // return redirect('/points')->dangerBanner('Point has been already added to favourites !');
+            return back()->dangerBanner('Point has been already added to favourites !');
         }
 
     }
@@ -237,7 +238,7 @@ class PointController extends Controller
 
                                     return redirect('/points')->banner('Reward is added !');
                                 } else {
-                                    return redirect('/points')->banner('Points has been added succesfully !');                    }
+                                    return redirect('/points/' . $point->slug)->banner('Points has been added succesfully !');                    }
                             } else {
                                 return redirect('/points')->dangerBanner('Points has been finished !');
                             }

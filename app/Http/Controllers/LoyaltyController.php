@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Interfaces\CouponInterface;
-use App\Http\Interfaces\PointInterface;
+use Carbon\Carbon;
 use App\Models\Point;
 use App\Models\Coupon;
 use Illuminate\Support\Str;
@@ -11,7 +10,10 @@ use App\Services\CreateSlug;
 use Illuminate\Http\Request;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\CouponInterface;
 use App\Http\Requests\ValidateCreateCoupon;
+
 
 class LoyaltyController extends Controller
 {
@@ -34,9 +36,14 @@ class LoyaltyController extends Controller
     public function index()
     {
         $coupons = $this->couponModel->getAllWebCoupons();
-        $points = $this->pointModel->getAllWebPoints();
+        // $points = $this->pointModel->getAllWebPoints();
+        $points = $this->pointModel->getAllWebScheduledPoints();
+        
+        // $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
+        // $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');
         
         return view('loyalty.index', compact('coupons', 'points'));
+              
     }
 
     /**

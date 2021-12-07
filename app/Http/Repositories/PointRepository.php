@@ -39,6 +39,18 @@ class PointRepository implements PointInterface
         return $this->model->web()->latest()->get();
     }
 
+    public function getAllWebScheduledPoints()
+    {
+        // $scheduledDays = now()->weekday();
+
+        // return $this->model
+        //     ->web()
+        //     ->whereJsonContains('scheduled_days', (string)$scheduledDays)
+        //     ->latest()->get();
+
+        return $this->model->scheduledWeb()->latest()->get();
+    }
+
     public function getPointById($id)
     {
         return $this->model->id($id)->first();
@@ -53,6 +65,7 @@ class PointRepository implements PointInterface
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
+        $imageFS = (new UploadImage())->uploadImageFS($request->imageFS, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         
         $this->model->create([
@@ -75,7 +88,10 @@ class PointRepository implements PointInterface
             'type_of_period_to_redeem' => $request->period,
             'reset_time' => $request->timeReset,
             'type_of_reset_time' => $request->timeResetPeriod,
-            'reward_id' => $request->reward_id
+            'reward_id' => $request->reward_id,
+            'image_fs_path' => $imageFS,
+            'video_yt_id' => $request->videoYtId,
+            'scheduled_days' => ($request->scheduled_days)
             
         ]); 
     }

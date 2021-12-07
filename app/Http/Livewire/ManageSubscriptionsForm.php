@@ -13,6 +13,8 @@ class ManageSubscriptionsForm extends Component
 
     public function redirectToStripe()
     {
-        return redirect('/create-portal-session.php');
+        
+
+        return redirect()->away('https://dashboard.stripe.com/login');
     }
 }

@@ -7,7 +7,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('about') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -29,10 +29,10 @@
                             {{ __('My Loyalties') }}
                         </x-jet-nav-link>
                     @endauth
-                    <x-jet-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
+                    <x-jet-nav-link href="/loyalties" :active="request()->routeIs('loyalty')">
                         {{ __('Promotions') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="/venues" :active="request()->routeIs('venues')">
+                    <x-jet-nav-link href="/venues" :active="request()->is('venues')">
                         {{ __('Venues') }}
                     </x-jet-nav-link>
                     

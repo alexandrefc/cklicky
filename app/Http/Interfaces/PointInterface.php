@@ -8,6 +8,8 @@ interface PointInterface
 
     public function getAllWebPoints();
 
+    public function getAllWebScheduledPoints();
+
     public function getPointById($id);
 
     public function getPointBySlug ($slug);

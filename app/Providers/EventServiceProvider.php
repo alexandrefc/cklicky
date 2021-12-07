@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\PasswordChanged;
+use App\Events\PaymentCompleted;
 use App\Events\UserRegistered;
 use App\Listeners\SendPasswordChangedEmail;
+use App\Listeners\SendPaymentCompletedNotification;
 use App\Listeners\SendWelcomeMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PasswordChanged::class => [
             SendPasswordChangedEmail::class
+        ],
+        PaymentCompleted::class => [
+            SendPaymentCompletedNotification::class
         ]
     ];
 

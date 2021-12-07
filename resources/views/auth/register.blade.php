@@ -15,6 +15,18 @@
             </div>
 
             <div class="mt-4">
+                <x-jet-label for="company_name" value="{{ __('Company Name') }}" />
+                <x-jet-input id="company_name" class="block mt-1 w-full" type="text" name="company_name" :value="old('company_name')" required autofocus autocomplete="company_name" />
+            </div>
+
+            {{-- <div class="mt-4">
+                <x-jet-label for="gender" value="{{ __('Gender') }}" />
+                <x-jet-input id="gender" class="block mt-1 w-full" type="text" name="gender" :value="old('gender')" required autofocus autocomplete="gender" />
+            </div> --}}
+
+            
+
+            <div class="mt-4">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
@@ -28,6 +40,35 @@
                 <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
+
+            <div class="mt-4">
+                <x-jet-label for="gender" value="{{ __('Gender ') }} (Optional)" />
+                <select 
+                    name="gender"
+                    id="gender"
+                    class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    wire:model.defer="gender"
+                    >
+                    <optgroup label="Gender">
+                        <option value="men">Men</option>
+                        <option value="female">Female</option>
+                        <option 
+                            selected
+                            value="all">Not specified</option>
+                    </optgroup>
+                    {{-- <optgroup label="Gender">
+                    <option value="montreal">Montreal</option>
+                    <option value="qc">Quebec City</option>
+                    </optgroup> --}}
+                </select>            
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="age" value="{{ __('Age') }} (Optional)" />
+                <x-jet-input id="age" class="block mt-1 w-full" type="number" name="age" :value="old('age')" required autofocus autocomplete="age" />
+            </div>
+
+            
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

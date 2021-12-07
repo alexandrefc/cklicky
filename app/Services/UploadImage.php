@@ -17,6 +17,7 @@ class UploadImage
     {
         // 
     }
+
     public function uploadImage($image, $title)
     {
         // if ($request->hasFile('image'))
@@ -29,12 +30,32 @@ class UploadImage
         
         // return $newImageName;
 
-        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
         Image::make($image)->resize(350, 233)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);
         
         return $newImageName;
+    }  
+
+    public function uploadImageFS($image, $title)
+    {
+        // if ($request->hasFile('image'))
+        // {
+            // $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+            // $fitImage = $image->move(storage_path('app/public/images/loyalty'), $newImageName);
+            // Image::make($fitImage)->fit(700, 400)->save($fitImage);
+
+        // }
+        
+        // return $newImageName;
+
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '-FS.' . $image->extension();
+        Image::make($image)->resize(350, 533)->save($image);
+        $image->storeAs('public/images/loyalty', $newImageName);
+        
+        return $newImageName;
     }
+
 
     public function uploadLogo($image, $title)
     {
@@ -48,7 +69,7 @@ class UploadImage
         
         // return $newImageName;
 
-        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
         Image::make($image)->resize(350, 115)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);
         
@@ -58,7 +79,7 @@ class UploadImage
     public function updateImage($image, $title)
     {
         
-        $newImageName = uniqid() . '-' . $title . '.' . $image->extension();
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
         Image::make($image)->resize(350, 233)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);
         

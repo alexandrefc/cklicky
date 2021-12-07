@@ -54,7 +54,7 @@
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload Photo</label>
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload image</label>
               <div class='flex items-center justify-center w-full'>
                   <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
                       <div class='flex flex-col items-center justify-center pt-1'>
@@ -62,9 +62,31 @@
                         {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
                         <input type='file' name="image" class="" />
                       </div>
-                    
                   </label>
               </div>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload full screen image</label>
+              <div class='flex items-center justify-center w-full'>
+                  <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
+                      <div class='flex flex-col items-center justify-center pt-1'>
+                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                        <input type='file' name="imageFS" class="" />
+                      </div>
+                  </label>
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">YouTube video embed id</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="videoYtId" 
+                type="text" 
+                placeholder="eg. Ptld98KjPuM"
+                 />
           </div>
           
           <div class="grid grid-cols-1 mt-5 mx-7">
@@ -158,6 +180,30 @@
               </div>
               
             </div>
+
+            {{-- <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Gender rules</label>
+              <div class="grid grid-cols-2 gap-5 md:gap-8">
+                  <div class="grid grid-cols-1">
+                      <input 
+                          class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                          name="gender" 
+                          type="text" 
+                          placeholder="1" />
+                  </div>
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="period">
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="months">Months</option>
+                        </select>
+                  </div>
+              </div>
+              
+            </div> --}}
             
             <div class="grid grid-cols-1">
                 <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
@@ -183,6 +229,31 @@
                 
               </div>
             
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
+            
+              <div class="text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
+                <label for="schedule1">Monday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule2" value="2"></option>
+                <label for="schedule2">Tuesday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule3" value="3"></option>
+                <label for="schedule3">Wednsday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule4" value="4"></option>
+                <label for="schedule4">Thursday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule5" value="5"></option>
+                <label for="schedule5">Friday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule6" value="6"></option>
+                <label for="schedule6">Saturday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule7" value="7"></option>
+                <label for="schedule7">Sunday</label>
+                
+              </div>
+              
+            
+           
           </div>
       
           <div class="grid grid-cols-1 mt-5 mx-7">

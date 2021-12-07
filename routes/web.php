@@ -52,6 +52,7 @@ Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'ad
 Route::resource('/venues', VenueController::class);
 
 
+
 // Info pages controllers
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');

@@ -6,7 +6,9 @@
         </h2>
     </x-slot>
 
-    <div class="sm:flex container my-8 mx-auto w-full sm:w-3/5">
+    <div 
+        id="main"
+        class="sm:flex container my-8 mx-auto w-full sm:w-3/5">
         
         <div class="flex justify-between items-center mb-4">
             <h2 class="mx-auto text-3xl">
@@ -22,8 +24,9 @@
         > --}}
         
         <div
+            
             class="flex-none sm:flex-1 w-screen md:w-2/5 w-max-350px h-250 h-max-350px mx-auto md:pb-4 border rounded-lg">
-          
+            
             {{-- <a href="" class="space-y-2 mx-auto"> --}}
               <div class="aspect-w-16 aspect-h-9">
                 <img

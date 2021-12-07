@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Events\PaymentCompleted;
 
 class PricingController extends Controller
 {
@@ -88,6 +89,9 @@ class PricingController extends Controller
         $sessionId = $_GET["session_id"];
         $userId = auth()->user()->id;
         $addAdmin = (new User())->addAdmin($userId);
+
+        // event(new PaymentCompleted($userId));
+       
 
         return view('pricing.success', compact('sessionId'));
     }
@@ -213,9 +217,12 @@ class PricingController extends Controller
         // Handle the event
         switch ($event->type) {
           case 'payment_intent.succeeded':
-            $paymentIntent = $event->data->object; // contains a \Stripe\PaymentIntent
+            $paymentIntent = $event->data->object->charges->data[0]->billing_details; // contains a \Stripe\PaymentIntent
             // Then define and call a method to handle the successful payment intent.
             // handlePaymentIntentSucceeded($paymentIntent);
+
+            event(new PaymentCompleted($paymentIntent));
+            
             break;
           case 'payment_method.attached':
             $paymentMethod = $event->data->object; // contains a \Stripe\PaymentMethod

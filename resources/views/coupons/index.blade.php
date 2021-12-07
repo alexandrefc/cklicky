@@ -33,7 +33,7 @@
       <div
           class="flex-none w-3/4 sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
         
-          <a href="/coupons/{{ $coupon->slug }}" class="">
+          <a href="/coupons/{{ $coupon->slug }}#main" class="">
             <div class="aspect-w-16 aspect-h-9">
               <img
                 class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
