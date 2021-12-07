@@ -36,8 +36,11 @@ class LoyaltyController extends Controller
     public function index()
     {
         $coupons = $this->couponModel->getAllWebCoupons();
-        // $points = $this->pointModel->getAllWebPoints();
-        $points = $this->pointModel->getAllWebScheduledPoints();
+        $points = $this->pointModel->getAllWebPoints();
+        // $points = $this->pointModel->getAllWebScheduledPoints();
+        // $points = $this->pointModel->getAllGenderPoints();
+        // $points = $this->pointModel->getAllAgePoints();
+        
         
         // $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
         // $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');

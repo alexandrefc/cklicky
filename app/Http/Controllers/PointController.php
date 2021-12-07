@@ -67,8 +67,10 @@ class PointController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        // dd($request->scheduled_days);
+        // dd($request->age);
         $this->pointInterface->createPoint($request);
+
+        
        
         // $this->pointOptionInterface->createPointOption($request);
 

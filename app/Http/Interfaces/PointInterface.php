@@ -10,6 +10,10 @@ interface PointInterface
 
     public function getAllWebScheduledPoints();
 
+    public function getAllGenderPoints();
+
+    public function getAllAgePoints();
+
     public function getPointById($id);
 
     public function getPointBySlug ($slug);

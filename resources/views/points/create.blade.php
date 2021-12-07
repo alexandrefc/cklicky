@@ -231,10 +231,77 @@
             
           </div>
 
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            
+            
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Age rules</label>
+              
+                  
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="age[]">
+                                <option value="all">All ages</option>
+                                <option value="children">Children ( - 18 y.o.)</option>
+                                <option value="youngs">Young adults (19 - 29 y.o.)</option>
+                                <option value="adults">Adults (30 - 65 y.o.)</option>
+                                <option value="seniors">Seniors (65 - y.o.)</option>
+                        </select>
+                  </div>
+              
+              
+            </div>
+
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Gender rules</label>
+              
+                  
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="gender">
+                                <option value="all">Men & Women</option>
+                                <option value="men">Men</option>
+                                <option value="women">Women</option>
+                        </select>
+                  </div>
+              
+              
+            </div>
+            
+            {{-- <div class="grid grid-cols-1">
+                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
+                <div class="grid grid-cols-2 gap-5 md:gap-8">
+                    <div class="grid grid-cols-1">
+                        <input 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                            name="timeReset" 
+                            type="number" 
+                            placeholder="Award Timeframe" />
+                    </div>
+                    <div class="grid grid-cols-1">
+                          <select 
+                              class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                              name="timeResetPeriod">
+                                  <option value="minutes">Minutes</option>
+                                  <option value="hours">Hours</option>
+                                  <option value="days">Days</option>
+                                  <option value="months">Months</option>
+                          </select>
+                    </div>
+                </div>
+                
+              </div> --}}
+            
+          </div>
+
+
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
             
               <div class="text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
                 <label for="schedule1">Monday</label>
                 <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule2" value="2"></option>

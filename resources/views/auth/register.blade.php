@@ -64,6 +64,29 @@
             </div>
 
             <div class="mt-4">
+                <x-jet-label for="age" value="{{ __('Age ') }} (Optional)" />
+                <select 
+                    name="age"
+                    id="age"
+                    class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    wire:model.defer="age"
+                    >
+                    <optgroup label="Age">
+                        <option selected value="all">All ages</option>
+                        <option value="children">Children ( - 18 y.o.)</option>
+                        <option value="youngs">Young adults (19 - 29 y.o.)</option>
+                        <option value="adults">Adults (30 - 65 y.o.)</option>
+                        <option value="seniors">Seniors (65 - y.o.)</option>
+                        
+                    </optgroup>
+                    {{-- <optgroup label="Gender">
+                    <option value="montreal">Montreal</option>
+                    <option value="qc">Quebec City</option>
+                    </optgroup> --}}
+                </select>            
+            </div>
+
+            <div class="mt-4">
                 <x-jet-label for="age" value="{{ __('Age') }} (Optional)" />
                 <x-jet-input id="age" class="block mt-1 w-full" type="number" name="age" :value="old('age')" required autofocus autocomplete="age" />
             </div>

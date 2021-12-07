@@ -51,6 +51,30 @@ class PointRepository implements PointInterface
         return $this->model->scheduledWeb()->latest()->get();
     }
 
+    public function getAllGenderPoints()
+    {
+        // $scheduledDays = now()->weekday();
+
+        // return $this->model
+        //     ->web()
+        //     ->whereJsonContains('scheduled_days', (string)$scheduledDays)
+        //     ->latest()->get();
+
+        return $this->model->scheduledWeb()->gender()->latest()->get();
+    }
+
+    public function getAllAgePoints()
+    {
+        // $scheduledDays = now()->weekday();
+
+        // return $this->model
+        //     ->web()
+        //     ->whereJsonContains('scheduled_days', (string)$scheduledDays)
+        //     ->latest()->get();
+
+        return $this->model->scheduledWeb()->age()->latest()->get();
+    }
+
     public function getPointById($id)
     {
         return $this->model->id($id)->first();
@@ -91,7 +115,9 @@ class PointRepository implements PointInterface
             'reward_id' => $request->reward_id,
             'image_fs_path' => $imageFS,
             'video_yt_id' => $request->videoYtId,
-            'scheduled_days' => ($request->scheduled_days)
+            'scheduled_days' => $request->scheduled_days,
+            'gender' => $request->gender,
+            'age' => json_encode($request->age) 
             
         ]); 
     }

@@ -16,7 +16,7 @@ class Point extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 'scheduled_days'];
+        'title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 'scheduled_days', 'gender', 'age'];
     
     protected $casts = [
         'scheduled_days' => AsCollection::class,
@@ -39,8 +39,18 @@ class Point extends Model
 
     public function scopeScheduledWeb($query)
     {
-        $scheduledDays = now()->weekday();
-        return $query->web()->whereJsonContains('scheduled_days', (string)$scheduledDays);
+        $today = now()->weekday();
+        return $query->web()->whereJsonContains('scheduled_days', (string)$today);
+    }
+
+    public function scopeGender($query)
+    {
+        return $query->where('gender', auth()->user()->gender)->orWhere('gender', 'all');
+    }
+
+    public function scopeAge($query)
+    {
+        return $query->whereJsonContains('age', auth()->user()->age)->orWhereJsonContains('age', 'all');
     }
 
     public function myPoints()
