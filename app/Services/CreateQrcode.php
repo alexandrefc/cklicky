@@ -55,6 +55,19 @@ class CreateQrcode
             return $qrcodeName;
     }
 
+    public function createStampQrcode($slug, $title)
+    {
+        
+        $qrcodeEndPoint = env('APP_URL', 'https://cklicky.com') . '/stamps/' . $slug;
+
+        $qrcodeName = uniqid() . '-' . $title . '.' . 'svg';
+        QrCode::size(500)
+            ->errorCorrection('H')
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $qrcodeName));
+
+            return $qrcodeName;
+    }
+
     public function createRedeemQrcode($couponId, $userId)
     {
         $qrcodeEndPoint = env('APP_URL', 'https://cklicky.com') . '/coupons/redeem/' . $couponId . '/' . $userId;
@@ -77,6 +90,18 @@ class CreateQrcode
             ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $addPointsQrcodeName));
 
             return $addPointsQrcodeName;
+    }
+
+    public function createAddStampsQrcode($stampId, $userId)
+    {
+        $qrcodeEndPoint = env('APP_URL', 'https://cklicky.com') . '/stamps/addstamps/' . $stampId . '/' . $userId;
+
+        $addStampsQrcodeName = uniqid() . '-addstamps.' . 'svg';
+        QrCode::size(500)
+            ->errorCorrection('H')
+            ->generate($qrcodeEndPoint, storage_path('app/public/images/qrcodes/' . $addStampsQrcodeName));
+
+            return $addStampsQrcodeName;
     }
 
     // public function createAddPointsQrcode($slug, $title)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\CouponInterface;
 use App\Models\Point;
 use App\Models\MyPoint;
 use App\Models\Category;
@@ -20,7 +21,6 @@ class PointController extends Controller
     public function __construct(PointInterface $pointInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
-        $this->pointModel = new Point;
         $this->pointInterface = $pointInterface;
         
     }
@@ -42,17 +42,18 @@ class PointController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(VenueInterface $venueInterface, Category $categoryRepo)
+    public function create(VenueInterface $venueInterface, Category $categoryRepo, CouponInterface $couponInterface)
     {
-
+        
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $points = $this->pointInterface->getAllPoints();
+        $coupons = $couponInterface->getAllCoupons();
         
         // Change to repo
         $categories = $categoryRepo->all();
 
         if(Gate::allows('admin_only', auth()->user())){
-            return view('points.create', compact('venues', 'categories', 'points'));
+            return view('points.create', compact('venues', 'categories', 'points', 'coupons'));
         } else {
             return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
         }
@@ -67,12 +68,9 @@ class PointController extends Controller
      */
     public function store(ValidateCreateCoupon $request)
     {
-        // dd($request->age);
+
         $this->pointInterface->createPoint($request);
 
-        
-       
-        // $this->pointOptionInterface->createPointOption($request);
 
         $request->session()->flash('flash.banner', 'point has been adeed succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
@@ -89,38 +87,12 @@ class PointController extends Controller
     public function show($slug)
     {
         $point = $this->pointInterface->getPointBySlug($slug);
-        // $myPoint = new MyPoint;
-
-        // if(($myPoint->getMyPointById($pointId, $userId)))
-        // {
-        //     $my = 1;
-        // } else {
-        //     $my = 0;
-        // }
-
-
+        
 
         return view('points.show', compact('point'));
     }
 
-    public function confirmAddPoints($id)
-    {
-        $myPoint = new MyPoint;
-        $userId = auth()->user()->id;
-        $pointId = $id;
-        $user_time_to_redeem = $this->pointInterface->getTimeToRedeem($pointId);
-        
-        if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
-        {
-            $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
-        }
-
-        $point = $this->pointInterface->getPointById($id);
-        $addPointsQrcodePath = $myPoint->getAddPointsQrcodePath($id);
-        $myPoint = $myPoint->getMyPointById($pointId, $userId);
-            
-        return view('points.addpoints', compact('point', 'addPointsQrcodePath', 'myPoint'));
-    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -128,15 +100,17 @@ class PointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(VenueInterface $venueInterface, Category $categoryRepo, $slug)
+    public function edit(VenueInterface $venueInterface, Category $categoryRepo, CouponInterface $couponInterface, $slug)
     {
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $point = $this->pointInterface->getPointBySlug($slug);
+        $points = $this->pointInterface->getAllPoints();
+        $coupons = $couponInterface->getAllCoupons();
         // Change to repo
         $categories = $categoryRepo->all();
 
         if(Gate::allows('admin_only', auth()->user())){
-            return view('points.edit', compact('point','venues', 'categories'));
+            return view('points.edit', compact('point','venues', 'categories', 'points', 'coupons'));
         } else {
             return redirect('/points')->dangerBanner('Only Admin is allowed !');
         }
@@ -179,6 +153,8 @@ class PointController extends Controller
         return redirect('/points');
     }
 
+    // Add to favourites
+
     public function addToMyPoints($pointId)
     {
         $myPoint = new MyPoint;
@@ -199,6 +175,49 @@ class PointController extends Controller
 
     }
 
+    
+
+    // public function addPointRewardToMyPoints($pointId, $userId)
+    // {
+    //     $myPoint = new MyPoint;
+    //     $point = $this->pointInterface->getPointById($pointId);
+    //     $rewardId = $point->reward_id;
+
+
+    //     if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
+    //     {
+    //         $myPoint->addToMyPoints($rewardId, $userId);
+
+    //         return redirect('/points')->banner('Point Reward has been added to favourites succesfully !');
+        
+    //     } else {
+            
+    //         return redirect('/points')->dangerBanner('This Point has been already added to favourites !');
+    //     }
+    // }
+
+
+    // Adding points logic
+
+    public function confirmAddPoints($id)
+    {
+        $myPoint = new MyPoint;
+        $userId = auth()->user()->id;
+        $pointId = $id;
+        $user_time_to_redeem = $this->pointInterface->getTimeToRedeem($pointId);
+        
+        if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
+        {
+            $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
+        }
+
+        $point = $this->pointInterface->getPointById($id);
+        $addPointsQrcodePath = $myPoint->getAddPointsQrcodePath($id);
+        $myPoint = $myPoint->getMyPointById($pointId, $userId);
+            
+        return view('points.addpoints', compact('point', 'addPointsQrcodePath', 'myPoint'));
+    }
+
     public function addPoints($pointId, $userId) 
     {
         $myPoint = new MyPoint;
@@ -216,15 +235,18 @@ class PointController extends Controller
                 {
                     if (($this->pointInterface->checkIfUserIsManager($pointId)))
                     {
+                        
                         if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
                         {
-                            dd($pointId);
+                            
                             $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
                             $myPoint->addPoints($pointId, $userId, $addXPoints, $user_reset_time);
 
                                 if ($myPoint->checkIfRewardIsAvailable($pointId, $userId))
                                 {
+                                    
                                     $this->pointInterface->addPointRewardToMyPoints($pointId, $userId);
+                                    // $this->couponInterface->addCouponRewardToMyPoints($pointId, $userId);
 
                                     return redirect('/points')->banner('Reward is added !');
                                 } else {
@@ -259,25 +281,6 @@ class PointController extends Controller
         }
     }
 
-
-    // public function addPointRewardToMyPoints($pointId, $userId)
-    // {
-    //     $myPoint = new MyPoint;
-    //     $point = $this->pointInterface->getPointById($pointId);
-    //     $rewardId = $point->reward_id;
-
-
-    //     if (!($myPoint->checkIfMyPointExists($pointId, $userId)))
-    //     {
-    //         $myPoint->addToMyPoints($rewardId, $userId);
-
-    //         return redirect('/points')->banner('Point Reward has been added to favourites succesfully !');
-        
-    //     } else {
-            
-    //         return redirect('/points')->dangerBanner('This Point has been already added to favourites !');
-    //     }
-    // }
 
     
 }

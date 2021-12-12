@@ -2,31 +2,31 @@
 
 namespace App\Http\Repositories;
 
-use App\Models\Point;
-use App\Models\MyPoint;
+use App\Models\Stamp;
+use App\Models\MyStamp;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\StampInterface;
 
-class PointRepository implements PointInterface
+class StampRepository implements StampInterface
 {
     protected $model;
-    public function __construct(Point $model)
+    public function __construct(Stamp $model)
     {
         
         $this->model = $model;
         
     }
 
-    public function getAllPoints()
+    public function getAllStamps()
     {
         return $this->model->latest()->get();
     }
 
-    public function getAllManagerPoints()
+    public function getAllManagerStamps()
     {
         return $this->model->where('manager_email', Auth::user()->email)
             ->orWhere('made_by_id', Auth::user()->id)
@@ -34,42 +34,42 @@ class PointRepository implements PointInterface
             ->get();
     }
 
-    public function getAllWebPoints()
+    public function getAllWebStamps()
     {
         return $this->model->web()->latest()->get();
     }
 
-    public function getAllWebScheduledPoints()
+    public function getAllWebScheduledStamps()
     {
         return $this->model->scheduledWeb()->latest()->get();
     }
 
-    public function getAllGenderPoints()
+    public function getAllGenderStamps()
     {
         return $this->model->scheduledWeb()->gender()->latest()->get();
     }
 
-    public function getAllAgePoints()
+    public function getAllAgeStamps()
     {
         return $this->model->scheduledWeb()->age()->latest()->get();
     }
 
-    public function getPointById($id)
+    public function getStampById($id)
     {
         return $this->model->id($id)->first();
     }
 
-    public function getPointBySlug ($slug)
+    public function getStampBySlug ($slug)
     {
         return $this->model->slug($slug)->first();
     }
 
-    public function createPoint($request)
+    public function createStamp($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
         $image_fs_path = (new UploadImage())->uploadImageFS($request->imageFS, $request->title);
-        $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
+        $qrcode_path = (new CreateQrcode())->createStampQrcode($slug, $request->title);
         
         $this->model->create([
             'title' => $request->title,
@@ -83,8 +83,8 @@ class PointRepository implements PointInterface
             'manager_email' => $request->managerEmail,
             'category_id' => $request->category,
             'available_through' => $request->availableThrough,
-            'add_x_points' => $request->xPoints,
-            'total_points' => $request->totalPoints,
+            'add_x_stamps' => $request->xStamps,
+            'total_stamps' => $request->total_stamps,
             'start_date' => $request->startDate,
             'end_date' => $request->endDate,
             'x_time_to_redeem' => $request->xTimeToRedeem,
@@ -101,17 +101,17 @@ class PointRepository implements PointInterface
         ]); 
     }
 
-    public function updatePoint($request, $slug)
+    public function updateStamp($request, $slug)
     {
-        $point = $this->getPointBySlug($slug);
-        $existing_image_path = $point->image_path;
-        $existing_image_fs_path = $point->image_fs_path;
+        $stamp = $this->getStampBySlug($slug);
+        $existing_image_path = $stamp->image_path;
+        $existing_image_fs_path = $stamp->image_fs_path;
         $updateImage = new UploadImage;
 
         // If there should be new qrcode and slug:
 
-        // $existing_qrcode_path = $point->qrcode_path;
-        // $existing_slug = $point->slug;
+        // $existing_qrcode_path = $Stamp->qrcode_path;
+        // $existing_slug = $Stamp->slug;
         // $updated_slug = (new CreateSlug())->createSlug($request->title);
         // $updated_qrcode_path = (new CreateQrcode())->createQrcode($slug, $request->title);
         
@@ -133,7 +133,7 @@ class PointRepository implements PointInterface
 
         
         
-        $point->update([
+        $stamp->update([
             'title' => $request->title,
             'description' => $request->description,
             'valid_till' => $request->valid_till,
@@ -142,8 +142,8 @@ class PointRepository implements PointInterface
             'manager_email' => $request->managerEmail,
             'category_id' => $request->category,
             'available_through' => $request->availableThrough,
-            'add_x_points' => $request->xPoints,
-            'total_points' => $request->totalPoints,
+            'add_x_stamps' => $request->xStamps,
+            'total_stamps' => $request->total_stamps,
             'start_date' => $request->startDate,
             'end_date' => $request->endDate,
             'x_time_to_redeem' => $request->xTimeToRedeem,
@@ -163,31 +163,31 @@ class PointRepository implements PointInterface
         ]); 
     }
 
-    public function deletePoint($slug)
+    public function deleteStamp($slug)
     {
         
-        $point = $this->getPointBySlug($slug);
-        $myPoints = (new MyPoint())->getAllMyPointById($point->id);
+        $stamp = $this->getStampBySlug($slug);
+        $myStamps = (new MyStamp())->getAllMyStampById($stamp->id);
         $deleteQrcode = new CreateQrcode;
         $deleteImage = new UploadImage;
 
-        foreach($myPoints as $myPoint)
+        foreach($myStamps as $myStamp)
         {
-            $deleteQrcode->deleteQrcode($myPoint->add_points_qrcode_path);
+            $deleteQrcode->deleteQrcode($myStamp->add_Stamps_qrcode_path);
         }
         
-        $deleteImage->deleteImageFS($point->image_fs_path);
+        $deleteImage->deleteImageFS($stamp->image_fs_path);
 
-        $deleteImage->deleteImage($point->image_path);
+        $deleteImage->deleteImage($stamp->image_path);
         
-        $deleteQrcode->deleteQrcode($point->qrcode_path);
+        $deleteQrcode->deleteQrcode($stamp->qrcode_path);
         
-        $point->delete();
+        $stamp->delete();
     }
 
-    public function checkIfUserIsManager($pointId)
+    public function checkIfUserIsManager($stampId)
     {
-        $managerEmail = $this->getpointById($pointId)->manager_email;
+        $managerEmail = $this->getStampById($stampId)->manager_email;
         
         if ($managerEmail == auth()->user()->email)
         {
@@ -197,29 +197,29 @@ class PointRepository implements PointInterface
         }
     } 
 
-    public function getTimeToRedeem($pointId)
+    public function getTimeToRedeem($stampId)
     {
-        $point = $this->getPointById($pointId);
+        $stamp = $this->getStampById($stampId);
         
-        return (new TimeToRedeem())->setTimeToRedeem($point->type_of_period_to_redeem, $point->x_time_to_redeem);
+        return (new TimeToRedeem())->setTimeToRedeem($stamp->type_of_period_to_redeem, $stamp->x_time_to_redeem);
     }
 
-    public function getUserResetTime($pointId)
+    public function getUserResetTime($stampId)
     {
-        $point = $this->getPointById($pointId);
+        $stamp = $this->getStampById($stampId);
         
-        return (new TimeToRedeem())->setResetTime($point->type_of_reset_time, $point->reset_time);
+        return (new TimeToRedeem())->setResetTime($stamp->type_of_reset_time, $stamp->reset_time);
     }
 
-    public function checkIfNowIsInValidTime($pointId)
+    public function checkIfNowIsInValidTime($stampId)
     {
-        $point = $this->getPointById($pointId);
+        $stamp = $this->getStampById($stampId);
         // $now = now();
 
-        // $startDate = $point->start_date; 
-        // $endDate = $point->end_date; 
+        // $startDate = $Stamp->start_date; 
+        // $endDate = $Stamp->end_date; 
         
-        if ($point->start_date <= now() && now() <= $point->end_date)
+        if ($stamp->start_date <= now() && now() <= $stamp->end_date)
         {
             return TRUE;
         } else {
@@ -228,17 +228,17 @@ class PointRepository implements PointInterface
 
     } 
 
-    // todo: move to MyPoint repo
-    public function addPointRewardToMyPoints($pointId, $userId)
+    // todo: move to MyStamp repo
+    public function addStampRewardToMyStamps($stampId, $userId)
     {
-        $myPoint = new MyPoint;
-        $point = $this->getPointById($pointId);
-        $rewardId = $point->reward_id;
-        $user_time_to_redeem = $this->getTimeToRedeem($pointId);
+        $myStamp = new MyStamp;
+        $stamp = $this->getStampById($stampId);
+        $rewardId = $stamp->reward_id;
+        $user_time_to_redeem = $this->getTimeToRedeem($stampId);
 
-        if (!($myPoint->checkIfMyPointExists($rewardId, $userId)))
+        if (!($myStamp->checkIfMyStampExists($rewardId, $userId)))
         {
-            $myPoint->addToMyPoints($rewardId, $userId, $user_time_to_redeem);
+            $myStamp->addToMyStamps($rewardId, $userId, $user_time_to_redeem);
         } 
       
     }

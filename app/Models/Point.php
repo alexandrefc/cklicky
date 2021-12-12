@@ -40,7 +40,7 @@ class Point extends Model
     public function scopeScheduledWeb($query)
     {
         $today = now()->weekday();
-        return $query->web()->whereJsonContains('scheduled_days', (string)$today);
+        return $query->web()->whereJsonContains('scheduled_days', (string)$today)->orWhereJsonContains('scheduled_days', '8');
     }
 
     public function scopeGender($query)

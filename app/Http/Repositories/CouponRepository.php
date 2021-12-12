@@ -92,7 +92,7 @@ class CouponRepository implements CouponInterface
         $coupon = $this->getCouponBySlug($slug)->first();
         $existing_image_path = $coupon->image_path;
 
-        // Should be new qrcode and slug ?
+        // Should be updated qrcode and slug ?
 
         // $existing_qrcode_path = $coupon->qrcode_path;
         // $existing_slug = $coupon->slug;
@@ -130,8 +130,6 @@ class CouponRepository implements CouponInterface
             
         ]); 
     }
-
-    
 
     public function checkIfUserIsManager($couponId)
     {

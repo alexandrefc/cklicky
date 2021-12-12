@@ -1,5 +1,18 @@
 <x-app-layout>
 
+  <div class="w-3/4 text-black">
+    @livewire('select-input')
+  </div>
+  
+
+  {{-- <x-select
+label="Select Statuses"
+placeholder="Select many statuses"
+multiselect
+:options="['Active', 'Pending', 'Stuck', 'Done']"
+wire:model.defer="disabled"
+/>  --}}
+
 <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
 <label for="vehicle1"> I have a bike</label><br>
 <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
@@ -158,7 +171,6 @@ input:checked ~ .toggle-path {
 
 
     {{-- <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/profile-photos/IuV3zRKNQVl0dKj5dnlV2QtANBND42oL0GeJEICa.jpg') }}" alt="{{ Auth::user()->name }}" /> --}}
-    <img class="h-8 w-8 rounded-full object-cover" src="{{ auth()->user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
 
 
 <div class="flex flex-col bg-gray-500 mx-auto mt-5 w-4/5 h-96">

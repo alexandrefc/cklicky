@@ -300,8 +300,10 @@
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
             
-              <div class="text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
-                
+              <div 
+                class=" text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="scheduleAll" value="8"></option>
+                <label for="schedule1">All</label>
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
                 <label for="schedule1">Monday</label>
                 <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule2" value="2"></option>
@@ -316,9 +318,8 @@
                 <label for="schedule6">Saturday</label>
                 <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule7" value="7"></option>
                 <label for="schedule7">Sunday</label>
-                
               </div>
-              
+            
             
            
           </div>
@@ -351,9 +352,15 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="reward_id">
-                @foreach ($points as $point)
-                <option value="{{ $point->id }}">{{ $point->title }}</option>
-                @endforeach
+                <optgroup label="Point campaigns">
+                  @foreach ($points as $point)
+                    <option value="{{ $point->id }}">{{ $point->title }}</option>
+                  @endforeach
+                <optgroup label="Coupon campaigns">
+                  @foreach ($coupons as $coupon)
+                    <option value="{{ $coupon->id }}">{{ $coupon->title }}</option>
+                  @endforeach
+              </optgroup>
             </select>
           </div>
           
@@ -373,124 +380,41 @@
       </div>
     </form>
 
-{{-- <div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-6xl">
-            Point creator
-        </h1>
-    </div>
+
+
 </div>
 
-@if ($errors->any())
-    <div class="w-4/5 m-auto">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="w-1/5 mb-4 text-gray-50 bg-red-700 rounded-2xl py-4">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-    </div>
+<script>
+    // var $select = document.getElementById("gender").multiple = false;
+    // var $textAreaDescription = document.getElementById("description").value = "{{ $point->description }}";
+
+    function check(checked = true) {
+    const cbs = document.querySelectorAll('input[name="scheduled_days[]"]');
+    cbs.forEach((cb) => {
+        cb.checked = checked;
+    });
+    }
+
+    const btn = document.querySelector('#scheduleAll');
+    btn.onclick = checkAll; 
+
+    function checkAll() {
+        check();
+        // reassign click event handler
+        this.onclick = uncheckAll;
+    }
+
+    function uncheckAll() {
+        check(false);
+        // reassign click event handler
+        this.onclick = checkAll;
+    }
+
     
-@endif
-
-
-
-<div class="w=4/5 m-auto pt-20">
-    <form 
-        action="/points"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-
-        <input 
-            type="text"
-            name="title"
-            placeholder="Title..."
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <input 
-            type="text"
-            name="managerEmail"
-            placeholder="Manager Email"
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <textarea 
-            name="description"
-            placeholder="Description...."
-            class="py-20 bg-transparent block border-b-2 w-full h-60 text-xl outline-none"
-        ></textarea>
-
-        <label for="xPoints">Number of points to add:</label>
-            <input 
-                type="number"
-                name="xPoints"
-                placeholder="Number of points to add"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-        
-        <label for="maxPoints">Max Number of points:</label>
-            <input 
-                type="number"
-                name="maxPoints"
-                placeholder="Number of points to add"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-    
-        <label for="valid_till">Valid till:</label>
-            <input type="date" id="valid_till" name="valid_till" placeholder="yyyy-mm-dd hh-mm-ss">
-
-        <label for="xTimeToRedeem">Valid by for user:</label>
-            <input 
-                type="number"
-                name="xTimeToRedeem"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-        
-            <select name="period" id="period">
-                <option value="minutes">Minutes</option>
-                <option value="hours">Hours</option>
-                <option value="days">Days</option>
-                <option value="months">Months</option>
-            </select>
-        
-        <label for="availibility">Availibility:</label>
-            <select name="availibility" id="availibility">
-                <option value="onlyMail">Mail</option>
-                <option value="onlyWeb">Website</option>
-                <option value="all">All</option>
-            </select>
-
-        <div class="bg-gray-lighter pt-15">
-            
-            <label class="flex flex-col-2 px-2 py-3 bg-white-rounded-lg shadow-lg 
-            tracking-wide border border-blue cursor-pointer">
-                <span class="mt-2 text-center items bg-center leading-normal">
-                Select Image:
-                </span>
-                <input 
-                    type="file"
-                    name="image"
-                    class="ml-5">
-            </label>
-        </div>
-
-       
-        <label for="venueId">Choose a venue:</label>
-
-            <select name="venueId" id="venueId">
-                @foreach ($venues as $venue)
-                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
-                @endforeach
-            </select>
 
         
+</script>
 
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Create point
-        </button>
 
-    </form> --}}
-
-</div>
 
 </x-app-layout>

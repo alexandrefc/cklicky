@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CMSController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\StampController;
 use App\Http\Controllers\VenueController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\LoyaltyController;
 use App\Http\Controllers\PricingController;
-use App\Http\Controllers\MyLoyaltyController;
 use App\Http\Middleware\EnsureTokenIsValid;
+use App\Http\Controllers\MyLoyaltyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::resource('/cms', CMSController::class);
 Route::resource('/coupons', CouponController::class);
 Route::resource('points', PointController::class);
+Route::resource('stamps', StampController::class);
 
 
 // My loyalty redeem & add points logic
@@ -46,6 +48,10 @@ Route::put('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 're
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
 Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+
+Route::post('stamps/addtomy/{stamp_id}', [StampController::class, 'addToMyStamps'])->name('addToMyStamps');
+Route::put('stamps/confirmaddstamps/{slug}', [StampController::class, 'confirmAddStamps']);
+Route::put('stamps/addstamps/{point_id}/{user_id}', [StampController::class, 'addStamps'])->name('addStamps');
 
 // Venues
 

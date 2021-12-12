@@ -30,11 +30,11 @@
       
           <div class="flex justify-center">
             <div class="flex">
-              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Update point card</h1>
+              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Update stamp card</h1>
             </div>
           </div>
           <form 
-            action="/points/{{ $point->slug }}"
+            action="/stamps/{{ $stamp->slug }}"
             method="POST"
             enctype="multipart/form-data">
             @csrf
@@ -46,8 +46,8 @@
                         class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                         name="title" 
                         type="text" 
-                        {{-- placeholder="{{ $point->title }}" --}}
-                        value="{{ $point->title }}"
+                        {{-- placeholder="{{ $stamp->title }}" --}}
+                        value="{{ $stamp->title }}"
                         required="" />
                 </div>
                 <div class="grid grid-cols-1 mt-5 mx-7">
@@ -105,7 +105,7 @@
                         class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                         name="managerEmail" 
                         type="email" 
-                        value="{{ $point->manager_email }}" />
+                        value="{{ $stamp->manager_email }}" />
                 </div>
 
                 <div class="grid grid-cols-1 mt-5 mx-7">
@@ -113,10 +113,10 @@
                     <select 
                         class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                         name="category"
-                        value="{{ $point->category_id }}">
+                        value="{{ $stamp->category_id }}">
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
-                                @if ($point->category_id == $category->id) 
+                                @if ($stamp->category_id == $category->id) 
                                     selected='selected'
                                 @endif >{{ $category->name }}
                             </option>
@@ -131,8 +131,8 @@
                         class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                         name="startDate"
                         type="date" 
-                        value="{{ $point->start_date }}"
-                        placeholder="{{ $point->start_date }}" />
+                        value="{{ $stamp->start_date }}"
+                        placeholder="{{ $stamp->start_date }}" />
                     </div>
                     <div class="grid grid-cols-1">
                         <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
@@ -149,23 +149,23 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
                     <div class="grid grid-cols-1">
                         <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Award points
+                            Award stamps
                         </label>
                         <input 
                             class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="xPoints"
+                            name="xstamps"
                             type="number" 
-                            placeholder="How many points should be awarded" />
+                            placeholder="How many stamps should be awarded" />
                     </div>
                     <div class="grid grid-cols-1">
                         <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Total points
+                            Total stamps
                         </label>
                         <input 
                             class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="totalPoints" 
+                            name="total_stamps" 
                             type="number" 
-                            placeholder="Amount of points user has to collect" />
+                            placeholder="Amount of stamps user has to collect" />
                     </div>
                 </div>
 
@@ -341,10 +341,10 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="venue_id"
-                value="{{ $point->venue_id }}">
+                value="{{ $stamp->venue_id }}">
                 @foreach ($venues as $venue)
                     <option value="{{ $venue->id }}"
-                        @if ($point->venue_id == $venue->id) 
+                        @if ($stamp->venue_id == $venue->id) 
                             selected='selected'
                         @endif >
                         {{ $venue->title }}
@@ -358,9 +358,9 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="reward_id">
-                <optgroup label="Point campaigns">
-                  @foreach ($points as $point)
-                    <option value="{{ $point->id }}">{{ $point->title }}</option>
+                <optgroup label="stamp campaigns">
+                  @foreach ($stamps as $stamp)
+                    <option value="{{ $stamp->id }}">{{ $stamp->title }}</option>
                   @endforeach
                 <optgroup label="Coupon campaigns">
                   @foreach ($coupons as $coupon)
@@ -392,7 +392,7 @@
 
 <script>
     var $select = document.getElementById("gender").multiple = false;
-    var $textAreaDescription = document.getElementById("description").value = "{{ $point->description }}";
+    var $textAreaDescription = document.getElementById("description").value = "{{ $stamp->description }}";
 
     function check(checked = true) {
     const cbs = document.querySelectorAll('input[name="scheduled_days[]"]');

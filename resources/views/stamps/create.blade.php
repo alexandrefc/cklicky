@@ -30,144 +30,123 @@
       
           <div class="flex justify-center">
             <div class="flex">
-              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Update point card</h1>
+              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Create stamp card</h1>
             </div>
           </div>
           <form 
-            action="/points/{{ $point->slug }}"
+            action="/stamps"
             method="POST"
             enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Title</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="title" 
+                type="text" 
+                placeholder="eg. My First stamp card"
+                required="" />
+          </div>
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Title</label>
-                    <input 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                        name="title" 
-                        type="text" 
-                        {{-- placeholder="{{ $point->title }}" --}}
-                        value="{{ $point->title }}"
-                        required="" />
-                </div>
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
-                    <textarea 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                        
-                        name="description" 
-                        id="description" 
-                        cols="30" rows="3">
-                    </textarea>
-                </div>
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
+            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+            name="description" id="description" cols="30" rows="3"></textarea>
+          </div>
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
-                        Upload Photo
-                    </label>
-                    <div class='flex items-center justify-center w-full'>
-                        <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
-                            <div class='flex flex-col items-center justify-center pt-1'>
-                                <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
-                                <input type='file' name="image" class="" />
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload full screen image</label>
-                      <div class='flex items-center justify-center w-full'>
-                          <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
-                              <div class='flex flex-col items-center justify-center pt-1'>
-                                <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
-                                <input type='file' name="imageFS" class="" />
-                              </div>
-                          </label>
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload image</label>
+              <div class='flex items-center justify-center w-full'>
+                  <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
+                      <div class='flex flex-col items-center justify-center pt-1'>
+                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                        <input type='file' name="image" class="" />
                       </div>
-                </div>
+                  </label>
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload full screen image</label>
+              <div class='flex items-center justify-center w-full'>
+                  <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
+                      <div class='flex flex-col items-center justify-center pt-1'>
+                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                        <input type='file' name="imageFS" class="" />
+                      </div>
+                  </label>
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">YouTube video embed id</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="videoYtId" 
+                type="text" 
+                placeholder="eg. Ptld98KjPuM"
+                 />
+          </div>
           
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">YouTube video embed id</label>
-                    <input 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                        name="videoYtId" 
-                        type="text" 
-                        placeholder="eg. Ptld98KjPuM"
-                         />
-                </div>
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Manager email</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="managerEmail" 
+                type="email" 
+                placeholder="example@email.com" />
+          </div>
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Manager email</label>
-                    <input 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                        name="managerEmail" 
-                        type="email" 
-                        value="{{ $point->manager_email }}" />
-                </div>
-
-                <div class="grid grid-cols-1 mt-5 mx-7">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Category</label>
-                    <select 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                        name="category"
-                        value="{{ $point->category_id }}">
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                @if ($point->category_id == $category->id) 
-                                    selected='selected'
-                                @endif >{{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Category</label>
+            <select 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                name="category">
+                  @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                  @endforeach
+            </select>
+          </div>
       
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                    <div class="grid grid-cols-1">
-                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Start date</label>
-                    <input 
-                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                        name="startDate"
-                        type="date" 
-                        value="{{ $point->start_date }}"
-                        placeholder="{{ $point->start_date }}" />
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            End date
-                        </label>
-                        <input 
-                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="endDate"
-                            type="date" 
-                            placeholder="dd-mm-yy" />
-                    </div>
-                </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Start date</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="startDate"
+                type="date" 
+                placeholder="1" />
+            </div>
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">End date</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="endDate"
+                type="date" 
+                placeholder="1" />
+            </div>
+          </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Award points
-                        </label>
-                        <input 
-                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="xPoints"
-                            type="number" 
-                            placeholder="How many points should be awarded" />
-                    </div>
-                    <div class="grid grid-cols-1">
-                        <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                            Total points
-                        </label>
-                        <input 
-                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                            name="totalPoints" 
-                            type="number" 
-                            placeholder="Amount of points user has to collect" />
-                    </div>
-                </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award stamps</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="xstamps"
+                type="number" 
+                placeholder="How many stamps should be awarded" />
+            </div>
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Total stamps</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="total_stamps" 
+                type="number" 
+                placeholder="Amount of stamps user has to collect" />
+            </div>
+          </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
             
@@ -202,6 +181,30 @@
               </div>
               
             </div>
+
+            {{-- <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Gender rules</label>
+              <div class="grid grid-cols-2 gap-5 md:gap-8">
+                  <div class="grid grid-cols-1">
+                      <input 
+                          class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                          name="gender" 
+                          type="text" 
+                          placeholder="1" />
+                  </div>
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="period">
+                                <option value="minutes">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                                <option value="months">Months</option>
+                        </select>
+                  </div>
+              </div>
+              
+            </div> --}}
             
             <div class="grid grid-cols-1">
                 <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
@@ -258,8 +261,7 @@
                   <div class="grid grid-cols-1">
                         <select 
                             class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                            name="gender"
-                            id="gender">
+                            name="gender">
                                 <option value="all">Men & Women</option>
                                 <option value="men">Men</option>
                                 <option value="women">Women</option>
@@ -295,12 +297,12 @@
             
           </div>
 
-          
 
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
             
-              <div class="text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+              <div 
+                class=" text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="scheduleAll" value="8"></option>
                 <label for="schedule1">All</label>
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
@@ -317,9 +319,8 @@
                 <label for="schedule6">Saturday</label>
                 <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule7" value="7"></option>
                 <label for="schedule7">Sunday</label>
-                
               </div>
-              
+            
             
            
           </div>
@@ -340,27 +341,21 @@
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a base venue</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                name="venue_id"
-                value="{{ $point->venue_id }}">
+                name="venue_id">
                 @foreach ($venues as $venue)
-                    <option value="{{ $venue->id }}"
-                        @if ($point->venue_id == $venue->id) 
-                            selected='selected'
-                        @endif >
-                        {{ $venue->title }}
-                    </option>
+                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
                 @endforeach
             </select>
           </div>
-
+      
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a reward</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="reward_id">
-                <optgroup label="Point campaigns">
-                  @foreach ($points as $point)
-                    <option value="{{ $point->id }}">{{ $point->title }}</option>
+                <optgroup label="stamp campaigns">
+                  @foreach ($stamps as $stamp)
+                    <option value="{{ $stamp->id }}">{{ $stamp->title }}</option>
                   @endforeach
                 <optgroup label="Coupon campaigns">
                   @foreach ($coupons as $coupon)
@@ -369,7 +364,6 @@
               </optgroup>
             </select>
           </div>
-      
           
       
           
@@ -377,7 +371,7 @@
           <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
             <button 
               class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
-              type="" >Cancel</button>
+              type="reset" >Cancel</button>
             <button 
               class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
               type="submit">Create</button>
@@ -388,11 +382,10 @@
     </form>
 
 
+
 </div>
 
 <script>
-    var $select = document.getElementById("gender").multiple = false;
-    var $textAreaDescription = document.getElementById("description").value = "{{ $point->description }}";
 
     function check(checked = true) {
     const cbs = document.querySelectorAll('input[name="scheduled_days[]"]');
@@ -415,8 +408,12 @@
         // reassign click event handler
         this.onclick = checkAll;
     }
+
+    
+
         
 </script>
 
-</x-app-layout>
 
+
+</x-app-layout>

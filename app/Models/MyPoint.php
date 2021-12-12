@@ -42,7 +42,7 @@ class MyPoint extends Model
 
     public function getMyPointsByUserId()
     {
-        return self::where('user_id', auth()->user()->id)->get();
+        return self::where('user_id', auth()->user()->id)->latest()->get();
     }
 
     public function getMyPointById($pointId, $userId)

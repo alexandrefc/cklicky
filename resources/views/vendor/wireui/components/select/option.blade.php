@@ -1,8 +1,8 @@
 <li {{ $attributes->class([
         'py-2 px-3 focus:outline-none transition-colors ease-in-out duration-50 relative group',
-        'text-secondary-600 dark:text-secondary-400',
-        'cursor-pointer focus:bg-primary-100 focus:text-primary-800 hover:text-white' => !($readonly || $disabled),
-        'dark:focus:bg-secondary-700' => !($readonly || $disabled),
+        'text-gray-600 dark:text-gray-400',
+        'cursor-pointer focus:bg-indigo-100 focus:text-indigo-800 hover:text-gray-700' => !($readonly || $disabled),
+        'dark:focus:bg-gray-700' => !($readonly || $disabled),
         'opacity-60 cursor-not-allowed' => $disabled
     ])->merge([
         'data-label' => $label,
@@ -16,8 +16,8 @@
     :class="{
         'font-semibold': isSelected('{{ $value }}'),
         @if (!($readonly || $disabled))
-            'hover:bg-negative-500 dark:hover:text-secondary-100': isSelected('{{ $value }}'),
-            'hover:bg-primary-500 dark:hover:bg-secondary-700': !isSelected('{{ $value }}'),
+            'hover:bg-red-300 dark:hover:text-gray-100': isSelected('{{ $value }}'),
+            'hover:bg-indigo-200 dark:hover:bg-gray-700': !isSelected('{{ $value }}'),
         @endif
     }">
     {!! $label ?? $slot !!}
@@ -27,7 +27,7 @@
         <x-dynamic-component
             :component="WireUiComponent::resolve('icon')"
             name="check"
-            class="w-5 h-5 text-primary-600 dark:text-secondary-500 group-hover:text-white"
+            class="w-5 h-5 text-indigo-600 dark:text-gray-500 group-hover:text-white"
         />
     </div>
 </li>

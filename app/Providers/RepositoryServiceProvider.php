@@ -30,6 +30,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\CouponInterface',
             'App\Http\Repositories\CouponRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\StampInterface',
+            'App\Http\Repositories\StampRepository'
+        );
     }
 
     /**

@@ -30,11 +30,14 @@ class UploadImage
         
         // return $newImageName;
 
+        if($image)
+        {
         $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
         Image::make($image)->resize(350, 233)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);
         
         return $newImageName;
+        }
     }  
 
     public function uploadImageFS($image, $title)
@@ -49,11 +52,15 @@ class UploadImage
         
         // return $newImageName;
 
+        if($image)
+        {
+
         $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '-FS.' . $image->extension();
         Image::make($image)->resize(350, 533)->save($image);
         $image->storeAs('public/images/loyalty', $newImageName);
         
         return $newImageName;
+        }
     }
 
 
@@ -86,11 +93,36 @@ class UploadImage
         return $newImageName;
     }
 
+    public function updateImageFS($image, $title)
+    {
+        
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '-FS.' . $image->extension();
+        Image::make($image)->resize(350, 533)->save($image);
+        $image->storeAs('public/images/loyalty', $newImageName);
+        
+        return $newImageName;
+    }
+
     public function deleteImage($image_path) 
     {
-        if(file_exists(storage_path('app/public/images/loyalty/' . $image_path)))
+        if($image_path)
         {
-            unlink(storage_path('app/public/images/loyalty/' . $image_path));
+            if(file_exists(storage_path('app/public/images/loyalty/' . $image_path)))
+            {
+                unlink(storage_path('app/public/images/loyalty/' . $image_path));
+            }
+            
+        } 
+    }
+
+    public function deleteImageFS($image_fs_path) 
+    {
+        if($image_fs_path)
+        {
+            if(file_exists(storage_path('app/public/images/loyalty/' . $image_fs_path)))
+            {
+            unlink(storage_path('app/public/images/loyalty/' . $image_fs_path));
+            }
         } 
     }
 
