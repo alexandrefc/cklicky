@@ -46,6 +46,21 @@ class MyCoupon extends Model
 
     
 
+    public function getAllMyCouponsById($couponId)
+    {
+        return self::where('coupon_id', $couponId)->get();
+    }
+
+    public function removeFromMy($couponId) 
+    {
+        $coupon = $this->getMyCouponById($couponId, auth()->user()->id);
+        (new CreateQrcode())->deleteQrcode($coupon->redeem_qrcode_path);
+        
+        $coupon->delete();
+    }
+
+    
+
     public function checkIfMyCouponExists($couponId, $userId)
     {
         return self::where('coupon_id', $couponId)->where('user_id', $userId)->exists();

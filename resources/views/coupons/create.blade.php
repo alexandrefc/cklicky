@@ -66,6 +66,29 @@
                   </label>
               </div>
           </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload full screen image</label>
+              <div class='flex items-center justify-center w-full'>
+                  <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
+                      <div class='flex flex-col items-center justify-center pt-1'>
+                        <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                        <input type='file' name="imageFS" class="" />
+                      </div>
+                  </label>
+              </div>
+          </div>
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">YouTube video embed id</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="videoYtId" 
+                type="text" 
+                placeholder="eg. Ptld98KjPuM"
+                 />
+          </div>
           
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Manager email</label>
@@ -125,16 +148,11 @@
             </div>
           </div> --}}
 
+          
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
             
-            {{-- <div class="grid grid-cols-1">
-              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
-              <input 
-                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                name="timeReset"
-                type="number" 
-                placeholder="Award Timeframe" />
-            </div> --}}
+            
             <div class="grid grid-cols-1">
               <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Valid by for user</label>
               <div class="grid grid-cols-2 gap-5 md:gap-8">
@@ -156,6 +174,72 @@
                         </select>
                   </div>
               </div>
+              
+            </div>
+
+            
+            <div class="grid grid-cols-1">
+                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Award Reset Time</label>
+                <div class="grid grid-cols-2 gap-5 md:gap-8">
+                    <div class="grid grid-cols-1">
+                        <input 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                            name="timeReset" 
+                            type="number" 
+                            placeholder="Award Timeframe" />
+                    </div>
+                    <div class="grid grid-cols-1">
+                          <select 
+                              class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                              name="timeResetPeriod">
+                                  <option value="minutes">Minutes</option>
+                                  <option value="hours">Hours</option>
+                                  <option value="days">Days</option>
+                                  <option value="months">Months</option>
+                          </select>
+                    </div>
+                </div>
+                
+              </div>
+            
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            
+            
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Age rules</label>
+              
+                  
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="age[]">
+                                <option value="all">All ages</option>
+                                <option value="children">Children ( - 18 y.o.)</option>
+                                <option value="youngs">Young adults (19 - 29 y.o.)</option>
+                                <option value="adults">Adults (30 - 65 y.o.)</option>
+                                <option value="seniors">Seniors (65 - y.o.)</option>
+                        </select>
+                  </div>
+              
+              
+            </div>
+
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Gender rules</label>
+              
+                  
+                  <div class="grid grid-cols-1">
+                        <select 
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                            name="gender">
+                                <option value="all">Men & Women</option>
+                                <option value="men">Men</option>
+                                <option value="women">Women</option>
+                        </select>
+                  </div>
+              
               
             </div>
             
@@ -181,8 +265,53 @@
                     </div>
                 </div>
                 
-            </div> --}}
+              </div> --}}
             
+          </div>
+
+
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: week days</label>
+            
+              <div 
+                class=" text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="scheduleAll" value="8"></option>
+                <label for="schedule1">All</label>
+                <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
+                <label for="schedule1">Monday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule2" value="2"></option>
+                <label for="schedule2">Tuesday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule3" value="3"></option>
+                <label for="schedule3">Wednsday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule4" value="4"></option>
+                <label for="schedule4">Thursday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule5" value="5"></option>
+                <label for="schedule5">Friday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule6" value="6"></option>
+                <label for="schedule6">Saturday</label>
+                <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule7" value="7"></option>
+                <label for="schedule7">Sunday</label>
+              </div>
+            
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: show from time</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="start_time"
+                type="time" 
+                placeholder="" />
+            </div>
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: show to time</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="end_time"
+                type="time" 
+                placeholder="" />
+            </div>
           </div>
       
           <div class="grid grid-cols-1 mt-5 mx-7">
@@ -219,7 +348,6 @@
             </select>
           </div>
           
-      
           
       
           <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
@@ -235,202 +363,41 @@
       </div>
     </form>
 
-{{-- <div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-6xl">
-            Point creator
-        </h1>
-    </div>
+
+
 </div>
 
-@if ($errors->any())
-    <div class="w-4/5 m-auto">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="w-1/5 mb-4 text-gray-50 bg-red-700 rounded-2xl py-4">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-    </div>
+
+
+{{-- @livewire('upload-image') --}}
+
+<script>
+
+    function check(checked = true) {
+    const cbs = document.querySelectorAll('input[name="scheduled_days[]"]');
+    cbs.forEach((cb) => {
+        cb.checked = checked;
+    });
+    }
+
+    const btn = document.querySelector('#scheduleAll');
+    btn.onclick = checkAll; 
+
+    function checkAll() {
+        check();
+        // reassign click event handler
+        this.onclick = uncheckAll;
+    }
+
+    function uncheckAll() {
+        check(false);
+        // reassign click event handler
+        this.onclick = checkAll;
+    }
+
     
-@endif
-
-
-
-<div class="w=4/5 m-auto pt-20">
-    <form 
-        action="/points"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-
-        <input 
-            type="text"
-            name="title"
-            placeholder="Title..."
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <input 
-            type="text"
-            name="managerEmail"
-            placeholder="Manager Email"
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <textarea 
-            name="description"
-            placeholder="Description...."
-            class="py-20 bg-transparent block border-b-2 w-full h-60 text-xl outline-none"
-        ></textarea>
-
-        <label for="xPoints">Number of points to add:</label>
-            <input 
-                type="number"
-                name="xPoints"
-                placeholder="Number of points to add"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-        
-        <label for="maxPoints">Max Number of points:</label>
-            <input 
-                type="number"
-                name="maxPoints"
-                placeholder="Number of points to add"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-    
-        <label for="valid_till">Valid till:</label>
-            <input type="date" id="valid_till" name="valid_till" placeholder="yyyy-mm-dd hh-mm-ss">
-
-        <label for="xTimeToRedeem">Valid by for user:</label>
-            <input 
-                type="number"
-                name="xTimeToRedeem"
-                class="bg-transparent border-b-2 w-16 h-10 pt-10 text-xl outline-none inline-block mr-5">
-        
-            <select name="period" id="period">
-                <option value="minutes">Minutes</option>
-                <option value="hours">Hours</option>
-                <option value="days">Days</option>
-                <option value="months">Months</option>
-            </select>
-        
-        <label for="availibility">Availibility:</label>
-            <select name="availibility" id="availibility">
-                <option value="onlyMail">Mail</option>
-                <option value="onlyWeb">Website</option>
-                <option value="all">All</option>
-            </select>
-
-        <div class="bg-gray-lighter pt-15">
-            
-            <label class="flex flex-col-2 px-2 py-3 bg-white-rounded-lg shadow-lg 
-            tracking-wide border border-blue cursor-pointer">
-                <span class="mt-2 text-center items bg-center leading-normal">
-                Select Image:
-                </span>
-                <input 
-                    type="file"
-                    name="image"
-                    class="ml-5">
-            </label>
-        </div>
-
-       
-        <label for="venueId">Choose a venue:</label>
-
-            <select name="venueId" id="venueId">
-                @foreach ($venues as $venue)
-                <option value="{{ $venue->id }}">{{ $venue->title }}</option>
-                @endforeach
-            </select>
 
         
-
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Create point
-        </button>
-
-    </form> --}}
-
-</div>
-
-<div class="w-4/5 m-auto text-left">
-    <div class="py-15">
-        <h1 class="text-6xl">
-            Coupon creator
-        </h1>
-    </div>
-</div>
-
-@if ($errors->any())
-    <div class="w-4/5 m-auto">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="w-1/5 mb-4 text-gray-50 bg-red-700 rounded-2xl py-4">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-    </div>
-    
-@endif
-
-<div class="w=4/5 m-auto pt-20">
-    <form 
-        action="/coupons"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-
-        <input 
-            type="text"
-            name="title"
-            placeholder="Title..."
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <input 
-            type="text"
-            name="managerEmail"
-            placeholder="Manager Email"
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none">
-
-        <textarea 
-            name="description"
-            placeholder="Description...."
-            class="py-20 bg-transparent block border-b-2 w-full h-60 text-xl outline-none"
-            ></textarea>
-        
-        <label for="valid_till">Valid till:</label>
-            <input 
-                type="date" 
-                id="valid_till" 
-                name="valid_till" 
-                placeholder="yyyy-mm-dd hh-mm-ss">
-
-        <div class="bg-gray-lighter pt-15">
-            <label class="w-44 flex flex-col items-center px-2 py-3 bg-white-rounded-lg shadow-lg 
-            tracking-wide uppercase border border-blue cursor-pointer">
-                <span class="mt-2 text-base leading-normal">
-                    Select a file
-                </span>
-                <input 
-                    type="file"
-                    name="image"
-                    class="hidden">
-            </label>
-        </div>
-
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Create coupon
-        </button>
-
-    </form>
-
-</div>
-
-@livewire('upload-image')
+</script>
 
 </x-app-layout>

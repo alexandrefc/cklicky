@@ -80,7 +80,8 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
+    /* background-color: #ebca3750; */
+    background: linear-gradient(to bottom right, yellow, red);
     margin: 0;
     padding: 0;
     width: 100%;
@@ -103,7 +104,7 @@ img {
 }
 
 .header a {
-    color: #3d4852;
+    color: #0a0a0a;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -123,7 +124,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
+    background-color: #ffffff;
     border-bottom: 1px solid #edf2f7;
     border-top: 1px solid #edf2f7;
     margin: 0;
@@ -170,7 +171,8 @@ img {
 }
 
 .footer p {
-    color: #b0adc5;
+    /* color: #b0adc5; */
+    color: #646170;
     font-size: 12px;
     text-align: center;
 }
@@ -228,6 +230,7 @@ img {
     display: inline-block;
     overflow: hidden;
     text-decoration: none;
+    
 }
 
 .button-blue,
@@ -255,6 +258,15 @@ img {
     border-left: 18px solid #e53e3e;
     border-right: 18px solid #e53e3e;
     border-top: 8px solid #e53e3e;
+}
+
+.button-orange,
+.button-go {
+    background-color: #48bb78;
+    border-bottom: 8px solid #48bb78;
+    border-left: 36px solid #48bb78;
+    border-right: 36px solid #48bb78;
+    border-top: 8px solid #48bb78;
 }
 
 /* Panels */

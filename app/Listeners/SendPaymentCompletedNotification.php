@@ -28,8 +28,10 @@ class SendPaymentCompletedNotification
      */
     public function handle(PaymentCompleted $event)
     {
-        // Mail::to($event->email)->send(new PaymentCompletedMail());
-        Mail::to($event->paymentIntent->email)->send(new PaymentCompletedMail($event->paymentIntent));
+        // Mail::to($event->paymentIntent->email)->send(new PaymentCompletedMail($event->paymentIntent));
+
+        Mail::to('t.sz@aol.com')->send(new PaymentCompletedMail($event->paymentIntent));
+
 
     }
 }

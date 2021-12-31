@@ -41,7 +41,14 @@ class StampRepository implements StampInterface
 
     public function getAllWebScheduledStamps()
     {
-        return $this->model->scheduledWeb()->latest()->get();
+        return $this->model->scheduledWeb()->scheduledTime()->latest()->get();
+    }
+
+    public function getAllWebScheduledProfiledStamps()
+    {
+        return $this->model->gender()->age()->scheduledWeb()->scheduledTime()
+            ->latest()
+            ->get();
     }
 
     public function getAllGenderStamps()
@@ -96,7 +103,9 @@ class StampRepository implements StampInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age) 
+            'age' => json_encode($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time 
             
         ]); 
     }
@@ -155,7 +164,9 @@ class StampRepository implements StampInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age) 
+            'age' => json_encode($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time 
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

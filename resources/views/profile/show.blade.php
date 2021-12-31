@@ -13,6 +13,22 @@
                 <x-jet-section-border />
             @endif
 
+            
+            <div id="billing" class="mt-10 sm:mt-0">
+                @livewire('billing-information')
+            </div>
+            
+            <x-jet-section-border />
+           
+
+            @if(Gate::allows('admin_only', auth()->user()))
+                <div class="mt-10 sm:mt-0">
+                    @livewire('manage-subscriptions-form')
+                </div>
+                
+                <x-jet-section-border />
+            @endif
+
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">
                     @livewire('profile.update-password-form')
@@ -32,13 +48,13 @@
             <div class="mt-10 sm:mt-0">
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
-            @if(Gate::allows('admin_only', auth()->user()))
+            {{-- @if(Gate::allows('admin_only', auth()->user()))
             <x-jet-section-border />
 
             <div class="mt-10 sm:mt-0">
                 @livewire('manage-subscriptions-form')
             </div>
-            @endif
+            @endif --}}
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
                 <x-jet-section-border />
 

@@ -6,6 +6,7 @@ use Mapper;
 use Carbon\Carbon;
 
 use App\Models\Venue;
+use App\Models\MyVenue;
 use Illuminate\Http\Request;
 use App\Http\Interfaces\VenueInterface;
 
@@ -14,6 +15,7 @@ class VenueController extends Controller
     private $venueInterface;
     public function __construct(VenueInterface $venueInterface)
     {
+        $this->middleware('auth', ['except' => ['show']]);
         $this->venueInterface = $venueInterface;
     }
     /**
@@ -63,7 +65,7 @@ class VenueController extends Controller
     {
         $this->venueInterface->createVenue($request);
 
-        $request->session()->flash('flash.banner', 'Venue has been created succesfully !');
+        $request->session()->flash('flash.banner', 'Venue has been created successfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/venues');
@@ -90,29 +92,11 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $monday = 1;
-        $tuesday = 2;
-        $wednsday = 3;
-        $thursday = 4;
-        $friday = 5;
-        $saturday = 6;
-        $sunday = 7;
-        
-        $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
-        $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');
+        $venue = $this->venueInterface->getVenueBySlug($slug);
 
-        $scheduledDays = collect($monday, $tuesday, $wednsday, $thursday, $friday, $saturday, $sunday);
-
-        if ($scheduledDays->contains(now()->weekday()) && now()->between($startTime, $endTime))
-        {
-            $day = 'friday';
-        } else {
-            $day = 'other day';
-        }
-
-        return view('venues.edit', compact('day'));
+        return view('venues.edit', compact('venue'));
     }
 
     /**
@@ -124,7 +108,9 @@ class VenueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->venueInterface->updateVenue($request, $id);
+
+        return redirect('/venues')->banner('Venue has been updated successfully !');
     }
 
     /**
@@ -133,8 +119,41 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $this->venueInterface->deleteVenue($slug);
+
+        return redirect('/venues')->banner('Venue has been deleted successfully !');
+    }
+
+    // Add to favourites
+
+    public function addToMyVenues($venueId)
+    {
+        $myVenue = new MyVenue;
+        $userId = auth()->user()->id;
+       
+
+        if (!($myVenue->checkIfMyVenueExists($venueId, $userId)))
+        {
+            $myVenue->addToMyVenues($venueId, $userId);
+
+            return redirect('/venues')->banner('Venue has been added to favourites succesfully !');
+        
+        } else {
+            
+            // return redirect('/stamps')->dangerBanner('stamp has been already added to favourites !');
+            return back()->dangerBanner('This Venue has been already added to favourites !');
+        }
+
+    }
+
+    public function removeFromMy($venueId)
+    {
+        $myVenue = new MyVenue;
+
+        $myVenue->removeFromMy($venueId);
+
+        return redirect('/myloyalties/' . auth()->user()->id)->banner('Venue has been removed from favourites !');
     }
 }

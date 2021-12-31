@@ -9,8 +9,8 @@
     <div class="container my-8 mx-8">
         
       <div class="flex justify-between mb-4">
-          <h2 class="text-3xl">
-              Your Point Campaigns
+          <h2 class="font-semibold text-xl leading-tight">
+              My Points
               
           </h2>
       </div>
@@ -160,10 +160,11 @@
               <div class="flex space-x-1 mb-1">
                 <div class="flex-1 w=4/5 m-auto text-center">
                     <form 
-                        action="/points/addtomy/{{ $point->id }}"
+                        action="/points/removefrommy/{{ $point->id }}"
                         method="POST"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('delete')
                 
                         <button 
                             type="submit"
@@ -221,8 +222,8 @@
   <div class="container my-8 mx-8">
         
     <div class="flex justify-between mb-4">
-        <h2 class="text-3xl">
-            Your Coupon Campaigns
+        <h2 class="font-semibold text-xl leading-tight">
+            My Coupons 
             
         </h2>
     </div>
@@ -372,10 +373,11 @@
             <div class="flex space-x-1 mb-1">
               <div class="flex-1 w=4/5 m-auto text-center">
                   <form 
-                      action="/coupons/addtomy/{{ $coupon->id }}"
+                      action="/coupons/removefrommy/{{ $coupon->id }}"
                       method="POST"
                       enctype="multipart/form-data">
                       @csrf
+                      @method('delete')
               
                       <button 
                           type="submit"
@@ -433,8 +435,8 @@
 <div class="container my-8 mx-8">
         
   <div class="flex justify-between mb-4">
-      <h2 class="text-3xl">
-          Your Stamp Campaigns
+      <h2 class="font-semibold text-xl leading-tight">
+          My Stamps 
           
       </h2>
   </div>
@@ -444,19 +446,19 @@
     id="scrollContainer"
     class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
   >
-  @foreach ($myPoints as $myPoint)
-          @if (isset(Auth::user()->id) && Auth::user()->id == $myPoint->user_id)
-              @foreach ($points as $point)
-                  @if ($myPoint->point_id == $point->id)
+  @foreach ($myStamps as $myStamp)
+          @if (isset(Auth::user()->id) && Auth::user()->id == $myStamp->user_id)
+              @foreach ($stamps as $stamp)
+                  @if ($myStamp->stamp_id == $stamp->id)
   
   <div
       class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
     
-      <a href="/points/{{ $point->slug }}" class="">
+      <a href="/stamps/{{ $stamp->slug }}" class="">
         <div class="aspect-w-16 aspect-h-9">
           <img
             class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
-            src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
+            src="{{ asset('storage/images/loyalty/' . $stamp->image_path) }}"
             alt=""
           />
         </div>
@@ -466,11 +468,11 @@
         <div class="px-4 py-2 mt-2">
           <div class="text-lg leading-6 font-medium space-y-1">
             <h3 class="font-bold text-gray-800 text-lg md:text-3xl mb-2">
-              {{ $point->title }}
+              {{ $stamp->title }}
             </h3>
           </div>
 
-          @for ($i = 0; $i < $myPoint->points_amount; $i++)
+          @for ($i = 0; $i < $myStamp->stamps_amount; $i++)
                 <div class="inline-flex border-2 border-pink-500 rounded-full h-10 w-10 items-center justify-center text-pink-500 m-1">
                   <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
@@ -478,7 +480,7 @@
                 </div>
           @endfor
 
-          @for ($i = 0; $i < ($point->total_points - $myPoint->points_amount); $i++)
+          @for ($i = 0; $i < ($stamp->total_stamps - $myStamp->stamps_amount); $i++)
                 <div class="inline-flex border-2 border-gray-300 rounded-full h-10 w-10 items-center justify-center text-transparent m-1">
                   <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
@@ -491,12 +493,12 @@
           <div class="text-md">
               
               <p class="text-sm md:text-lg mb-8 h-10">
-                  {{ $point->description }}                   
+                  {{ $stamp->description }}                   
               </p>
               
               
               <p class="text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
-                Points collected: {{ $myPoint->points_amount ?? "0" }}/{{ $point->total_points ?? "" }}                   
+                Points collected: {{ $myStamp->stamps_amount ?? "0" }}/{{ $stamp->total_stamps ?? "" }}                   
               </p>
               {{-- <p class="font-bold text-base mb-1">
                   Campaign details:                   
@@ -505,7 +507,7 @@
               Category: {{ $point->category->name ?? "No Category" }}                   
               </p> --}}
               <p class="text-xs md:text-sm mb-1">
-              Available in: {{ $point->venue->title ?? "No Venue" }}                   
+              Available in: {{ $stamp->venue->title ?? "No Venue" }}                   
               </p>
               {{-- <p class="text-xs md:text-sm mb-1">
                 Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
@@ -513,12 +515,12 @@
               <p class="text-xs md:text-sm mb-3 md:mb-6">
                 Your time to redeem:
                 
-                {{ date('j M, Y', strtotime($myPoint->user_time_to_redeem)) }}                
+                {{ date('j M, Y', strtotime($myStamp->user_time_to_redeem)) }}                
               </p>
               <p class="text-xs mb-3 mt-2 md:mb-6">
                 Valid:
                 
-                {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
+                {{ date('j M, Y', strtotime($stamp->start_date)) }} - {{ date('j M, Y', strtotime($stamp->end_date)) }}                  
               </p>
               
               
@@ -600,10 +602,11 @@
           <div class="flex space-x-1 mb-1">
             <div class="flex-1 w=4/5 m-auto text-center">
                 <form 
-                    action="/points/addtomy/{{ $point->id }}"
+                    action="/stamps/removefrommy/{{ $stamp->id }}"
                     method="POST"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('delete')
             
                     <button 
                         type="submit"
@@ -615,7 +618,7 @@
 
             <div class="flex-1 w=4/5 m-auto text-center">
                 <form 
-                    action="/points/confirmaddpoints/{{ $point->id }}"
+                    action="/stamps/confirmaddstamps/{{ $stamp->id }}"
                     method="POST"
                     enctype="multipart/form-data">
                     @csrf
@@ -624,7 +627,7 @@
                     <button 
                         type="submit"
                         class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                        Add Points
+                        Add Stamps
                     </button>            
                 </form>
             </div>
@@ -658,19 +661,18 @@
   </div>
 </div>
 
-  
 
 <div class="container my-8 mx-8">
         
   <div class="flex justify-between mb-4">
-      <h2 class="font-semibold text-xl  leading-tight">
-          Recommended Venues
-          <a href="/venues/create" class=""
-        ><span
-          class="text-salmon font-medium text-lg ml-2 hover:underline"
-          >Create new venue
-        </span></a
-      >
+      <h2 class="font-semibold text-xl leading-tight">
+          My Venues
+          {{-- <a href="/venues/create" class="">
+            <span
+              class="text-salmon font-medium text-lg ml-2 hover:underline"
+              >Create new venue
+            </span>
+          </a> --}}
       </h2>
   </div>
   
@@ -679,17 +681,18 @@
     id="scrollContainer"
     class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
   >
-    @foreach ($venues as $venue)
-          
-              
-  
+  @foreach ($myVenues as $myVenue)
+  @if (isset(Auth::user()->id) && Auth::user()->id == $myVenue->user_id)
+      @foreach ($venues as $venue)
+          @if ($myVenue->venue_id == $venue->id)
+    
   <div
       class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
     
-      <a href="/venues/{{ $venue->id }}" class="">
+      <a href="/venues/{{ $venue->id }}" class="w-full">
         <div class="">
           <img
-            class="w-full mx-auto shadow-md hover:shadow-xl rounded-lg"
+            class="w-4/5 p-2 mx-auto hover:shadow-xl rounded-lg"
             src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}"
             alt=""
           />
@@ -737,33 +740,28 @@
               
               
           
-
-         
-          <div class="flex space-x-1 mb-1">
-            <div class="flex-1 w=4/5 m-auto text-center">
-                <form 
-                action="/venues/{{ $venue->slug }}"
-                method="POST">
-                @csrf
-                @method('delete')
-            
-                    <button 
-                        type="submit"
-                        class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                        Delete
-                    </button>
-                </form>
-            </div>
-
-            <div class="flex-1 w=4/5 m-auto text-right">
+              <div class="flex space-x-1 mb-1">
+                <div class="flex-1 w=4/5 m-auto text-center">
+                    <form 
+                        action="/venues/removefrommy/{{ $venue->id }}"
+                        method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('delete')
                 
-                  <a 
-                      href="/venues/{{ $venue->slug }}/edit"
-                      class="bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                  Edit
-                  </a>
-            </div>
-          </div>
+                        <button 
+                            type="submit"
+                            class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                            Remove from my list
+                        </button>
+                    </form>
+                </div>
+    
+                
+              </div>
+              
+         
+          
           
           </div>
  
@@ -774,6 +772,10 @@
     </div>
 
           
+    @endif
+    
+    @endforeach
+      @endif
         @endforeach
           
     

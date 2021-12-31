@@ -86,10 +86,10 @@
                 </select>            
             </div>
 
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-jet-label for="age" value="{{ __('Age') }} (Optional)" />
                 <x-jet-input id="age" class="block mt-1 w-full" type="number" name="age" :value="old('age')" required autofocus autocomplete="age" />
-            </div>
+            </div> --}}
 
             
 

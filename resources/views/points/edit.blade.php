@@ -298,9 +298,10 @@
           
 
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: week days</label>
             
-              <div class="text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+              <div 
+                class=" text-xs py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="scheduleAll" value="8"></option>
                 <label for="schedule1">All</label>
                 <input class="rounded mr-1" type="checkbox" name="scheduled_days[]" id="schedule1" value="1"></option>
@@ -317,14 +318,50 @@
                 <label for="schedule6">Saturday</label>
                 <input class="rounded mr-1 ml-2" type="checkbox" name="scheduled_days[]" id="schedule7" value="7"></option>
                 <label for="schedule7">Sunday</label>
-                
               </div>
-              
             
-           
           </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: show from time</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="start_time"
+                type="time" 
+                placeholder="" />
+            </div>
+            <div class="grid grid-cols-1">
+              <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules: show to time</label>
+              <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="end_time"
+                type="time" 
+                placeholder="" />
+            </div>
+          </div>
+
+        {{-- <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Schedule rules</label>
+            
+            <div
+                x-data
+                x-init="flatpickr($refs.datetimewidget, {wrap: true, enableTime: true, dateFormat: 'M j, Y h:i K'});"
+                x-ref="datetimewidget"
+                class="flatpickr container mx-auto col-span-6 sm:col-span-6 mt-1">
+                    <div class="flex align-middle align-content-center">
+                        <input
+                            x-ref="datetime"
+                            type="text"
+                            id="datetime"
+                            data-input
+                            placeholder="dd.mm.yyyy"
+                            class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                    </div>
+            </div>
+        </div> --}}
       
-          <div class="grid grid-cols-1 mt-5 mx-7">
+        <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Make it available through</label>
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
@@ -334,7 +371,7 @@
               <option value="all">All</option>
               <option value="reward">As a Reward</option>
             </select>
-          </div>
+        </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
             <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Please select a base venue</label>
@@ -390,8 +427,11 @@
 
 </div>
 
+
+
 <script>
     var $select = document.getElementById("gender").multiple = false;
+    
     var $textAreaDescription = document.getElementById("description").value = "{{ $point->description }}";
 
     function check(checked = true) {
@@ -417,6 +457,10 @@
     }
         
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css">
+    
 
 </x-app-layout>
 

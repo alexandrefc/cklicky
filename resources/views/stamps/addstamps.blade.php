@@ -50,7 +50,7 @@
                         {{ $stamp->description }}                   
                     </p>
                     <p class="text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
-                        stamps collected: {{ $mystamp->stamps_amount ?? "0" }}/{{ $stamp->total_stamps ?? "" }}                   
+                        Stamps collected: {{ $myStamp->stamps_amount ?? "0" }}/{{ $stamp->total_stamps ?? "" }}                   
                     </p>
                     
                     <p class="font-bold text-base mb-1">
@@ -63,10 +63,10 @@
                     Venue: {{ $stamp->venue->title ?? "No Venue" }}                   
                     </p>
                     <p class="text-sm mb-1">
-                    stamps to collect per purchase: {{ $stamp->add_x_stamps ?? "" }}                   
+                    Stamps to collect per purchase: {{ $stamp->add_x_stamps ?? "" }}                   
                     </p>
                     <p class="text-sm mb-1">
-                    stamps collected: {{ "0" }}/{{ $stamp->total_stamps ?? "" }}                   
+                    Stamps collected: {{ "0" }}/{{ $stamp->total_stamps ?? "" }}                   
                     </p>
                     <p class="text-sm mb-6">
                     Valid between:

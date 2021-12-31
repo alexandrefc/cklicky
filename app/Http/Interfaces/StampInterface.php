@@ -10,6 +10,8 @@ interface StampInterface
 
     public function getAllWebScheduledStamps();
 
+    public function getAllWebScheduledProfiledStamps();
+
     public function getAllGenderStamps();
 
     public function getAllAgeStamps();

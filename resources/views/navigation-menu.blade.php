@@ -21,8 +21,8 @@
                     <x-jet-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')">
                         {{ __('About') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
-                        {{ __('Pricing') }}
+                    <x-jet-nav-link href="{{ route('whiteLabelSolution') }}" :active="request()->routeIs('whiteLabelSolution')">
+                        {{ __('White label solution') }}
                     </x-jet-nav-link>
                     @auth
                         <x-jet-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
@@ -30,11 +30,20 @@
                         </x-jet-nav-link>
                     @endauth
                     <x-jet-nav-link href="/loyalties" :active="request()->routeIs('loyalty')">
-                        {{ __('Promotions') }}
+                        {{ __('Loyalty Templates') }}
                     </x-jet-nav-link>
+                    {{-- @auth
                     <x-jet-nav-link href="/venues" :active="request()->is('venues')">
                         {{ __('Venues') }}
                     </x-jet-nav-link>
+                    @endauth --}}
+                    <x-jet-nav-link href="{{ route('pricing') }}" :active="request()->routeIs('pricing')">
+                        {{ __('Pricing') }}
+                    </x-jet-nav-link>
+                    
+                    
+                    
+                    
                     
                 </div>
                 @guest
@@ -46,6 +55,7 @@
                             {{ __('Register') }}
                         </x-jet-nav-link>
                     </div>
+                    
                 @endguest
             </div>
 
@@ -138,7 +148,7 @@
                                         {{ __('Dashboard') }}
                                     </x-jet-dropdown-link>
                                     
-                                    <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                    <x-jet-dropdown-link href="{{ route('profile.show')  }}#billing">
                                         {{ __('Subscription') }}
                                     </x-jet-dropdown-link>
                                 @endif
@@ -170,15 +180,31 @@
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
                 @endif
-                <div class="text-center items-center">
+                {{-- <div class="text-center items-center">
                     <a 
                     class="bg-green-500 text-white text-sm font-extrabold py-1 px-2 rounded-3xl ml-3"
                     href="/login">
-                    Try cKlicky.com for free !
+                    Get started !
                 </a>
-                </div>
+                </div> --}}
+                
             </div>
         @endauth
+        @guest
+        <div class="hidden -mr-48 ml-4 md:inline-flex self-center rounded-md shadow justify-self-end">
+            <a href="/login" class="inline-flex items-center justify-self-end px-3 py-1 border border-transparent text-base font-medium rounded-md text-white bg-green-500 hover:bg-green-700">
+            Login
+            </a>
+        </div>
+            <div class="-mr-6 inline-flex self-center rounded-md shadow justify-self-end">
+                <a href="/register" class="inline-flex items-center justify-self-end px-3 py-1 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                Get started
+                </a>
+            </div>
+            
+        @endguest
+        
+        
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
@@ -211,6 +237,14 @@
             <x-jet-responsive-nav-link href="/venues" :active="request()->routeIs('venues')">
                 {{ __('Venues') }}
             </x-jet-responsive-nav-link>
+            @guest
+            <x-jet-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+                {{ __('Login') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                {{ __('Register') }}
+            </x-jet-responsive-nav-link> 
+            @endguest
 
         </div>
 

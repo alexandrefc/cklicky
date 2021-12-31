@@ -8,6 +8,8 @@ interface VenueInterface
 
     public function getVenueById($id);
 
+    public function getVenueBySlug($slug);
+
     public function createVenue($request);
 
     public function deleteVenue($slug);

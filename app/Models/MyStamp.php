@@ -40,6 +40,15 @@ class MyStamp extends Model
     public function getAllMyStampById($stampId)
     {
         return self::where('stamp_id', $stampId)->get();
+        
+    }
+
+    public function removeFromMy($stampId) 
+    {
+        $stamp = $this->getMyStampById($stampId, auth()->user()->id);
+        (new CreateQrcode())->deleteQrcode($stamp->add_stamps_qrcode_path);
+        
+        $stamp->delete();
     }
 
     public function checkIfMyStampExists($stampId, $userId)

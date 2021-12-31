@@ -11,7 +11,11 @@ class Stamp extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 'total_stamps', 'add_x_stamps', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 'scheduled_days', 'gender', 'age'];
+        'title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 
+        'manager_email', 'valid_till', 'total_stamps', 'add_x_stamps', 'start_date', 'end_date', 
+        'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 
+        'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 
+        'scheduled_days', 'gender', 'age', 'start_time', 'end_time'];
     
     protected $casts = [
         'scheduled_days' => AsCollection::class,
@@ -37,6 +41,17 @@ class Stamp extends Model
         $today = now()->weekday();
         return $query->web()->whereJsonContains('scheduled_days', (string)$today)->orWhereJsonContains('scheduled_days', '8');
     }
+
+    public function scopeScheduledTime($query)
+    {
+        return $query->where('start_time', '<=', now())
+            ->where('end_time', '>=', now())
+            ->orWhere('start_time', '00:00:00')
+            ->orWhere('end_time', '00:00:00')
+            ->orWhere('start_time', NULL)
+            ->orWhere('end_time', NULL);
+    }
+
 
     public function scopeGender($query)
     {

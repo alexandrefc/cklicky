@@ -180,10 +180,19 @@ class CouponController extends Controller
         
         } else {
             
-            return redirect('/coupons')->dangerBanner('Coupon has been already added to favourites !');
+            return redirect('/loyalties')->dangerBanner('Coupon has been already added to favourites !');
             
         }
 
+    }
+
+    public function removeFromMy($couponId)
+    {
+        $myCoupon = new MyCoupon;
+
+        $myCoupon->removeFromMy($couponId);
+
+        return redirect('/myloyalties/' . auth()->user()->id)->banner('Coupon campaign has been removed from favourites !');
     }
 
     public function redeem($couponId, $userId) 

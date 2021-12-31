@@ -65,4 +65,23 @@ class User extends Authenticatable
                 'is_admin' => 1
             ]);
     }
+
+    public function removeAdmin($userId){
+        self::where('id', $userId)
+            ->update([
+                'is_admin' => 0
+            ]);
+    }
+
+    public function getAllUsers(){
+        return self::latest()->get();
+    }
+
+    public function deleteUser($user_id)
+    {
+        $user = self::where('id', $user_id)->first();
+
+        $user->delete();
+
+    }
 }

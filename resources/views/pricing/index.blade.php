@@ -1,10 +1,10 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
             
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
 {{-- <!doctype html>
 <html lang="en">
@@ -20,7 +20,7 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <body class="font-sans bg-gray-100 mt-16"> --}}
     
-    <div class="min-h-screen flex justify-center items-center pt-16">
+    <div class="min-h-screen flex justify-center items-center pt-16 mb-32">
         <div class="">
             <div class="text-center font-semibold">
                 <h1 class="text-5xl">
@@ -28,7 +28,7 @@
                     <span>Plan</span>
                 </h1>
                 <p class="pt-6 text-xl text-gray-400 font-normal w-full px-8 md:w-full">
-                    Choose a one simple All-In Subscription.
+                    No tricks. Choose a one simple All-In Subscription.
                 </p>
             </div>
             <div class="pt-24 flex flex-row">
@@ -83,7 +83,7 @@
                 </div> --}}
                 <!-- StartUp Card -->
                 <div class="w-80 p-8 m-auto bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
-                    <h1 class="text-white font-semibold text-2xl">White label solution</h1>
+                    <h1 class="text-white font-semibold text-2xl mt-3">White label solution</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
                         <span class="text-3xl font-semibold">199</span>
@@ -115,6 +115,31 @@
                                 <span class="text-white">Rebranding</span> included
                             </span>
                         </p>
+                        
+                        <p class="font-semibold text-gray-400 text-left pt-5">
+                            <span class="material-icons align-middle">
+                                +
+                            </span>
+                            <span class="pl-2">
+                                 <span class="text-white">Profiling and scheduling</span>
+                            </span>
+                        </p>
+                        <p class="font-semibold text-gray-400 text-left pt-5">
+                            <span class="material-icons align-middle">
+                                +
+                            </span>
+                            <span class="pl-2">
+                                <span class="text-white">Unlimited</span> campaigns
+                            </span>
+                        </p>
+                        <p class="font-semibold text-gray-400 text-left pt-5">
+                            <span class="material-icons align-middle">
+                                +
+                            </span>
+                            <span class="pl-2">
+                                <span class="text-white">Unlimited</span> accounts
+                            </span>
+                        </p>
                         <p class="font-semibold text-gray-400 text-left pt-5">
                             <span class="material-icons align-middle">
                                 +
@@ -123,7 +148,7 @@
                                 <span class="text-white">Technical </span> Support
                             </span>
                         </p>
-                        <p class="font-semibold text-gray-400 text-left pt-5">
+                        <p class="font-semibold text-gray-400 text-left pt-5 mb-6">
                             <span class="material-icons align-middle">
                                 +
                             </span>
@@ -144,21 +169,32 @@
                                 east
                             </span>
                         </form> --}}
-                        <form  
-                            class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
-                            action="/create-checkout-session.php" method="POST">
-                            @csrf
-                            <input type="hidden" name="lookup_key" value="PP" />
-                            <button class="pl-2 font-medium"
-                                id="checkout-and-portal-button" 
-                                type="submit">Subscribe</button>
-                            <span class="pl-2 material-icons align-middle text-sm">
-                                
-                            </span>
-                          </form>
+
+                        @if(Gate::allows('admin_only', auth()->user()))
+                            <form  
+                                class="w-full py-4 bg-blue-600 mt-8 rounded-xl text-white"
+                                action="/create-checkout-session.php" method="POST">
+                                @csrf
+                                <input type="hidden" name="lookup_key" value="PP" />
+                                <button class="pl-2 font-medium"
+                                    id="checkout-and-portal-button" 
+                                    type="submit">Subscribe</button>
+                                <span class="pl-2 material-icons align-middle text-sm">
+                                    
+                                </span>
+                            </form>
+                        @endif
+                        @guest
+                            <div class="inline-flex rounded-md shadow">
+                                <a href="/register" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                    Get free trial
+                                </a>
+                            </div>
+                        @endguest
+                        
                     </div>
-                    <div class="absolute top-2 right-4">
-                        <p class="bg-blue-700 font-semibold px-4 py-1 rounded-full uppercase text-xs">Popular</p>
+                    <div class="absolute top-3 right-2">
+                        <p class="bg-green-400 font-semibold px-4 py-1 rounded-full text-xs">50% off for yearly payments</p>
                     </div>
                 </div>
                 <!-- Enterprise Card -->

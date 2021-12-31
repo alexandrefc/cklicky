@@ -46,8 +46,8 @@ class PointController extends Controller
     {
         
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
-        $points = $this->pointInterface->getAllPoints();
-        $coupons = $couponInterface->getAllCoupons();
+        $points = $this->pointInterface->getAllManagerPoints();
+        $coupons = $couponInterface->getAllManagerCoupons();
         
         // Change to repo
         $categories = $categoryRepo->all();
@@ -55,7 +55,7 @@ class PointController extends Controller
         if(Gate::allows('admin_only', auth()->user())){
             return view('points.create', compact('venues', 'categories', 'points', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalties')->dangerBanner('Only Administrator is allowed !');
         }
         
     }
@@ -72,7 +72,7 @@ class PointController extends Controller
         $this->pointInterface->createPoint($request);
 
 
-        $request->session()->flash('flash.banner', 'point has been adeed succesfully !');
+        $request->session()->flash('flash.banner', 'Point campaign has been created succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/points');
@@ -104,8 +104,8 @@ class PointController extends Controller
     {
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $point = $this->pointInterface->getPointBySlug($slug);
-        $points = $this->pointInterface->getAllPoints();
-        $coupons = $couponInterface->getAllCoupons();
+        $points = $this->pointInterface->getAllManagerPoints();
+        $coupons = $couponInterface->getAllManagerCoupons();
         // Change to repo
         $categories = $categoryRepo->all();
 
@@ -131,7 +131,7 @@ class PointController extends Controller
     {
         $this->pointInterface->updatePoint($request, $slug);
 
-        $request->session()->flash('flash.banner', 'point has been updated succesfully !');
+        $request->session()->flash('flash.banner', 'Point campaign has been updated succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/points');
@@ -147,7 +147,7 @@ class PointController extends Controller
     {
         $this->pointInterface->deletePoint($slug);
 
-        $request->session()->flash('flash.banner', 'point has been deleted succesfully !');
+        $request->session()->flash('flash.banner', 'Point campaign has been deleted succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/points');
@@ -165,7 +165,7 @@ class PointController extends Controller
         {
             $myPoint->addToMyPoints($pointId, $userId, $user_time_to_redeem);
 
-            return redirect('/points')->banner('Point has been added to favourites succesfully !');
+            return redirect('/loyalties')->banner('Point has been added to favourites succesfully !');
         
         } else {
             
@@ -175,7 +175,14 @@ class PointController extends Controller
 
     }
 
-    
+    public function removeFromMy($pointId)
+    {
+        $myPoint = new MyPoint;
+
+        $myPoint->removeFromMy($pointId);
+
+        return redirect('/myloyalties/' . auth()->user()->id)->banner('Point campaign has been removed from favourites !');
+    }
 
     // public function addPointRewardToMyPoints($pointId, $userId)
     // {

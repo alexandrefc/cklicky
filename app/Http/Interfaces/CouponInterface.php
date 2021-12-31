@@ -8,6 +8,14 @@ interface CouponInterface
 
     public function getAllWebCoupons();
 
+    public function getAllWebScheduledCoupons();
+
+    public function getAllWebScheduledProfiledCoupons();
+
+    public function getAllGenderCoupons();
+
+    public function getAllAgeCoupons();
+    
     public function getCouponById($id);
 
     public function getCouponBySlug($slug);

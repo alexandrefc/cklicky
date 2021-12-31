@@ -6,7 +6,7 @@ Please read our privacy policy carefully to get a clear understanding of how we 
 Policy
 1. What personal information do we collect from the people that visit our blog, website?
 
-When ordering or registering on our website, as appropriate, you may be asked to enter your full name, Company name, Company address, Company Tax Id, email address, preferred currency.
+When ordering or registering on our website, as appropriate, you may be asked to enter your full name, Company name, Company address, Company Tax Id, email address, preferred currency, age, gender.
 
 2. When do we collect information?
 
@@ -18,7 +18,8 @@ We may use the information we collect from you when you register:
 
 - in purchase process - to verify your company, issue invoices, to comply with the law requirements
 - to send informations about changes in the platform and new features, promotions
-- to send periodic emails regarding your order or other products and services.
+- to send periodic emails regarding your order or other products and services
+- to showcase how the service works by delidering personalised and profiled loyalty camapaigns.
 
 4. How do we protect personal information?
 
@@ -42,8 +43,8 @@ We do not sell, trade, or otherwise transfer to outside parties your personally 
 
 Occasionally, at our discretion, we may include or offer third-party products or services on our website and mobile app. These third-party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these linked sites. Nonetheless, we seek to protect the integrity of our website or mobile app and welcome any feedback about these sites.
 
-- We record user activity on our Bleesk webpages to learn about possible bugs and improve user experience (smartsupp.com)
-- We collect user flow data on our Bleesk webpages to understand user's journey and drive up customer retention and revenue (mixpanel.com)
+- We record user activity on our webpages to learn about possible bugs and improve user experience (smartsupp.com)
+- We collect user flow data on our webpages to understand user's journey and drive up customer retention and revenue (mixpanel.com)
 - We use Google Analytics on our website
 - We use Postmarkapp service to make sure you received and opened our mails (postmarkapp.com)
 
@@ -57,11 +58,12 @@ If at any time you would like to delete, change or transfer your personal inform
 
 If there are any questions regarding this privacy policy you may contact us using the information below.
 
-BLEESK SP Z O.O.
+CKLICKY.COM
+TOMASZ SZYMOŃSKI
 UL. RADZIKOWSKIEGO 61D/5
 31-315 KRAKÓW, POLAND
 EUROPEAN UNION
-EMAIL: HI@BLEESK.COM
+EMAIL: HI@CKLICKY.COM
 MOBILE: +48 888 806 643
-NIP/EU VAT ID: PL9452185014
-NR KRS: 0000563762
+NIP/EU VAT ID: PL6792895776
+

@@ -1,12 +1,15 @@
 @component('mail::message')
-# Password has been changed
+# You have successfully changed your password !
 
-The body of your message.
+You can now login using new credentials.
 
-@component('mail::button', ['url' => ''])
-Button Text
+@component('mail::button', ['url' => config('app.url') . '/dashboard', 'color' => 'go'])
+Go to your account
 @endcomponent
 
-Thanks,<br>
+Please let us know if you need any help by contacting our support at support@cklicky.com.
+
+
+Have a great day,<br>
 {{ config('app.name') }}
 @endcomponent

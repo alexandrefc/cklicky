@@ -28,6 +28,11 @@ class VenueRepository implements VenueInterface
         return $this->model->where('id', $id)->first();
     }
 
+    public function getVenueBySlug($slug)
+    {
+        return $this->model->where('slug', $slug)->first();
+    }
+
     public function createVenue($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
@@ -43,7 +48,9 @@ class VenueRepository implements VenueInterface
             'qrcode_path' => $qrcode_path,
             'user_id' => auth()->user()->id,
             'manage_by_id' => auth()->user()->id,
-            'location' => $request->location
+            'location' => $request->location, 
+            'email' => $request->email,
+            'website' => $request->website
         ]);
     }
 
@@ -62,7 +69,9 @@ class VenueRepository implements VenueInterface
     public function updateVenue($request, $slug)
     {
         $venue = $this->model->where('slug', $slug)->first();
-        $existing_image_path = $venue->image_path;
+
+        
+        $existing_image_path = $venue->logo_path;
 
         // Should be new qrcode and slug ?
 
@@ -87,7 +96,9 @@ class VenueRepository implements VenueInterface
                 'logo_path' => $updated_image_path,
                 // 'user_id' => auth()->user()->id,
                 // 'manage_by_id' => auth()->user()->id,
-                'location' => $request->location
+                'location' => $request->location,
+                'email' => $request->email,
+                'website' => $request->website
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

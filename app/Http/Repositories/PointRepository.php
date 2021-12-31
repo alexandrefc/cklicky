@@ -41,7 +41,16 @@ class PointRepository implements PointInterface
 
     public function getAllWebScheduledPoints()
     {
-        return $this->model->scheduledWeb()->latest()->get();
+        return $this->model->scheduledWeb()->scheduledTime()
+            ->latest()
+            ->get();
+    }
+
+    public function getAllWebScheduledProfiledPoints()
+    {
+        return $this->model->gender()->age()->scheduledWeb()->scheduledTime()
+            ->latest()
+            ->get();
     }
 
     public function getAllGenderPoints()
@@ -96,7 +105,9 @@ class PointRepository implements PointInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age) 
+            'age' => json_encode($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time
             
         ]); 
     }
@@ -155,7 +166,9 @@ class PointRepository implements PointInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age) 
+            'age' => json_encode($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time 
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

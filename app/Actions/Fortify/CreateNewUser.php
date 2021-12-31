@@ -37,10 +37,10 @@ class CreateNewUser implements CreatesNewUsers
 
         event(new UserRegistered($input['email']));
 
-        // Billing::create([
-        //     'company' => $input['company_name'],
-        //     'user_email' => $input['email']
-        // ]);
+        Billing::create([
+            'company' => $input['company_name'],
+            'user_email' => $input['email']
+        ]);
 
         return DB::transaction(function () use ($input) {
             return tap(User::create([

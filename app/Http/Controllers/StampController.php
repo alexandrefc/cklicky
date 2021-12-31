@@ -161,14 +161,23 @@ class StampController extends Controller
         {
             $myStamp->addToMyStamps($stampId, $userId, $user_time_to_redeem);
 
-            return redirect('/stamps')->banner('stamp has been added to favourites succesfully !');
+            return redirect('/loyalties')->banner('Stamp has been added to favourites succesfully !');
         
         } else {
             
             // return redirect('/stamps')->dangerBanner('stamp has been already added to favourites !');
-            return back()->dangerBanner('stamp has been already added to favourites !');
+            return back()->dangerBanner('This Stamp Camapigns has been already added to favourites !');
         }
 
+    }
+
+    public function removeFromMy($stampId)
+    {
+        $myStamp = new MyStamp;
+
+        $myStamp->removeFromMy($stampId);
+
+        return redirect('/myloyalties/' . auth()->user()->id)->banner('Stamp campaign has been removed from favourites !');
     }
 
     
@@ -214,7 +223,7 @@ class StampController extends Controller
         return view('stamps.addstamps', compact('stamp', 'addStampsQrcodePath', 'myStamp'));
     }
 
-    public function addstamps($stampId, $userId) 
+    public function addStamps($stampId, $userId) 
     {
         $myStamp = new MyStamp;
         $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
@@ -235,7 +244,7 @@ class StampController extends Controller
                         if (!($myStamp->checkIfMyStampExists($stampId, $userId)))
                         {
                             
-                            $myStamp->addToMystamps($stampId, $userId, $user_time_to_redeem);
+                            $myStamp->addToMyStamps($stampId, $userId, $user_time_to_redeem);
                             $myStamp->addStamps($stampId, $userId, $addXStamps, $user_reset_time);
 
                                 if ($myStamp->checkIfRewardIsAvailable($stampId, $userId))

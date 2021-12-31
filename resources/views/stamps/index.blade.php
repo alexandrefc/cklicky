@@ -9,12 +9,12 @@
     <div class="container my-8 mx-8">
         
       <div class="flex justify-between mb-4">
-          <h2 class="text-3xl">
-              Your stamp Campaigns
+          <h2 class="font-semibold text-xl leading-tight">
+              Your Stamp Campaigns
               <a href="/stamps/create" class=""
               ><span
                 class="text-salmon font-medium text-lg ml-2 hover:underline"
-                >Create new stamp
+                >+ Create new stamp
               </span></a
             >
               
@@ -47,7 +47,7 @@
 
             <div class="px-4 py-2 mt-2">
               <div class="text-lg leading-6 font-medium space-y-1">
-                <h3 class="font-bold text-gray-800 text-lg md:text-3xl mb-2">
+                <h3 class="font-bold text-gray-800 text-lg md:text-2xl mb-2">
                   {{ $stamp->title }}
                 </h3>
               </div>

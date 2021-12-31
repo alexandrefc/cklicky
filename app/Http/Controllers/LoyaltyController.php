@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\StampInterface;
+use App\Http\Interfaces\VenueInterface;
 use App\Http\Interfaces\CouponInterface;
 use App\Http\Requests\ValidateCreateCoupon;
 
@@ -19,14 +21,18 @@ class LoyaltyController extends Controller
 {
     protected $couponModel;
     protected $pointModel;
+    protected $stampModel;
+    protected $venueModel;
 
-    public function __construct(PointInterface $pointModel, CouponInterface $couponModel)
+    public function __construct(PointInterface $pointModel, CouponInterface $couponModel, StampInterface $stampModel, VenueInterface $venueModel)
     {
-        $this->middleware('auth', ['except' => ['show']]);
+        $this->middleware('auth', ['except' => ['index']]);
         // $this->couponModel = new Coupon;
         // $this->pointModel = new Point;
         $this->couponModel = $couponModel;
         $this->pointModel = $pointModel;
+        $this->stampModel = $stampModel;
+        $this->venueModel = $venueModel;
     }
     /**
      * Display a listing of the resource.
@@ -35,17 +41,31 @@ class LoyaltyController extends Controller
      */
     public function index()
     {
+        // $coupons = $this->couponModel->getAllWebScheduledCoupons();
+        // $coupons = $this->couponModel->getAllGenderCoupons();
+        // $coupons = $this->couponModel->getAllAgeCoupons();
         $coupons = $this->couponModel->getAllWebCoupons();
+        // $coupons = $this->couponModel->getAllWebScheduledProfiledCoupons();
+
         $points = $this->pointModel->getAllWebPoints();
         // $points = $this->pointModel->getAllWebScheduledPoints();
         // $points = $this->pointModel->getAllGenderPoints();
         // $points = $this->pointModel->getAllAgePoints();
+        // $points = $this->pointModel->getAllWebScheduledProfiledPoints();
+
+        $stamps = $this->stampModel->getAllWebStamps();
+        // $stamps = $this->stampModel->getAllWebScheduledStamps();
+        // $stamps = $this->stampModel->getAllGenderStamps();
+        // $stamps = $this->stampModel->getAllAgeStamps();
+        // $stamps = $this->stampModel->getAllWebScheduledProfiledStamps();
+
+        $venues = $this->venueModel->getAllVenues();
         
         
         // $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
         // $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');
         
-        return view('loyalty.index', compact('coupons', 'points'));
+        return view('loyalty.index', compact('coupons', 'points', 'stamps', 'venues'));
               
     }
 
@@ -56,7 +76,7 @@ class LoyaltyController extends Controller
      */
     public function create()
     {
-        return view('loyalty.create');
+        // 
     }
 
     /**

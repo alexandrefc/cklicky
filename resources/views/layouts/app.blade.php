@@ -21,7 +21,7 @@
 
         <!-- Scripts -->
         @wireUiScripts
-        <script src="alpine.js"></script>
+        {{-- <script src="alpine.js"></script> --}}
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
         {{-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}

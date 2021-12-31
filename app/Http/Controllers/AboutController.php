@@ -5,9 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Point;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
+use App\Http\Interfaces\PointInterface;
+use App\Http\Interfaces\StampInterface;
+use App\Http\Interfaces\CouponInterface;
 
 class AboutController extends Controller
 {
+    protected $couponModel;
+    protected $pointModel;
+    protected $stampModel;
+
+    public function __construct(PointInterface $pointModel, CouponInterface $couponModel, StampInterface $stampModel)
+    {
+        // $this->middleware('auth', ['except' => ['show']]);
+        // $this->couponModel = new Coupon;
+        // $this->pointModel = new Point;
+        $this->couponModel = $couponModel;
+        $this->pointModel = $pointModel;
+        $this->stampModel = $stampModel;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +31,9 @@ class AboutController extends Controller
      */
     public function index()
     {
-        return view('about.index');
+        $points = $this->pointModel->getAllWebPoints();
+
+        return view('about.index', compact('points'));
     }
 
     public function myloyalties()
@@ -24,6 +42,12 @@ class AboutController extends Controller
         $coupons = (new Coupon())->getAllCoupons();
 
         return view('myloyalties.index', compact('points', 'coupons'));
+    }
+
+    public function whiteLabelSolution()
+    {
+
+        return view('about.index/#whitelabelsolution');
     }
 
     /**

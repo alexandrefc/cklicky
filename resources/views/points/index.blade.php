@@ -9,12 +9,12 @@
     <div class="container my-8 mx-8">
         
       <div class="flex justify-between mb-4">
-          <h2 class="text-3xl">
+          <h2 class="font-semibold text-xl leading-tight">
               Your Point Campaigns
               <a href="/points/create" class=""
               ><span
                 class="text-salmon font-medium text-lg ml-2 hover:underline"
-                >Create new point
+                >+ Create new point
               </span></a
             >
               
@@ -47,7 +47,7 @@
 
             <div class="px-4 py-2 mt-2">
               <div class="text-lg leading-6 font-medium space-y-1">
-                <h3 class="font-bold text-gray-800 text-lg md:text-3xl mb-2">
+                <h3 class="font-bold text-gray-800 text-lg md:text-2xl mb-2">
                   {{ $point->title }}
                 </h3>
               </div>
@@ -79,11 +79,14 @@
                   <p class="text-xs md:text-sm mb-1">
                     Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
                   </p>
-                  <p class="text-xs md:text-sm mb-3 md:mb-6">
-                    Time to redeem:
+                  <p class="text-xs md:text-sm mb-1">
+                    Campaign reset time:
                     
                     {{ $point->reset_time }} {{ $point->type_of_reset_time }}                
                   </p>
+                  <p class="text-xs md:text-sm mb-1">
+                    Available through: {{ $point->available_through ?? "No ava" }}                   
+                    </p>
                   <p class="text-xs mb-3 mt-2 md:mb-6">
                     Valid:
                     

@@ -55,6 +55,14 @@ class MyPoint extends Model
         return self::where('point_id', $pointId)->get();
     }
 
+    public function removeFromMy($pointId) 
+    {
+        $point = $this->getMyPointById($pointId, auth()->user()->id);
+        (new CreateQrcode())->deleteQrcode($point->add_points_qrcode_path);
+        
+        $point->delete();
+    }
+
     public function checkIfMyPointExists($pointId, $userId)
     {
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();

@@ -10,6 +10,8 @@ interface PointInterface
 
     public function getAllWebScheduledPoints();
 
+    public function getAllWebScheduledProfiledPoints();
+
     public function getAllGenderPoints();
 
     public function getAllAgePoints();

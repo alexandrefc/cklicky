@@ -1,15 +1,15 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
             
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
     <div class="container my-8 mx-8">
         
       <div class="flex justify-between mb-4">
-          <h2 class="text-3xl">
+          <h2 class="font-semibold text-xl leading-tight">
               Point Campaigns
               
           </h2>
@@ -65,9 +65,9 @@
                   <p class="text-xs mb-1">
                   Available in: {{ $point->venue->title ?? "No Venue" }}                   
                   </p>
-                  <p class="text-xs mb-1">
+                  {{-- <p class="text-xs mb-1">
                     Available through: {{ $point->available_through ?? "No ava" }}                   
-                    </p>
+                    </p> --}}
                   <p class="text-xs mb-3 mt-2 md:mb-6">
                     Valid:
                     
@@ -212,7 +212,7 @@
   <div class="container my-8 mx-8">
         
     <div class="flex justify-between mb-4">
-        <h2 class="text-3xl">
+        <h2 class="font-semibold text-xl leading-tight">
             Coupon Campaigns
             
         </h2>
@@ -411,8 +411,233 @@
 <div class="container my-8 mx-8">
         
   <div class="flex justify-between mb-4">
-      <h2 class="text-3xl">
-          Coupon Campaigns
+      <h2 class="font-semibold text-xl leading-tight">
+          Stamp Campaigns
+          
+      </h2>
+  </div>
+  
+  
+  <div
+    id="scrollContainer"
+    class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
+  >
+  @foreach ($stamps as $stamp)
+  
+  <div
+      class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
+    
+      <a href="/stamps/{{ $stamp->slug }}" class="">
+        <div class="aspect-w-16 aspect-h-9">
+          <img
+            class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
+            src="{{ asset('storage/images/loyalty/' . $stamp->image_path) }}"
+            alt=""
+          />
+        </div>
+
+        
+
+        <div class="px-4 py-2 mt-2">
+          <div class="text-lg leading-6 font-medium space-y-1">
+            <h3 class="font-bold text-gray-800 text-lg md:text-2xl mb-2">
+              {{ $stamp->title }}
+            </h3>
+          </div>
+
+          {{-- @for ($i = 0; $i < $myStamp->stamps_amount; $i++)
+                <div class="inline-flex border-2 border-pink-500 rounded-full h-10 w-10 items-center justify-center text-pink-500 m-1">
+                  <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                  </svg>
+                </div>
+          @endfor
+
+          @for ($i = 0; $i < ($stamp->total_stamps - $myStamp->stamps_amount); $i++)
+                <div class="inline-flex border-2 border-gray-300 rounded-full h-10 w-10 items-center justify-center text-transparent m-1">
+                  <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                  </svg>
+                </div>
+          @endfor --}}
+          
+          
+
+          <div class="text-md">
+              
+              <p class="text-sm md:text-lg mb-8 h-10">
+                  {{ $stamp->description }}                   
+              </p>
+              
+              
+              {{-- <p class="text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
+                Points collected: {{ $myStamp->stamps_amount ?? "0" }}/{{ $stamp->total_stamps ?? "" }}                   
+              </p> --}}
+              {{-- <p class="font-bold text-base mb-1">
+                  Campaign details:                   
+              </p> --}}
+              {{-- <p class="text-xs md:text-sm mb-1">
+              Category: {{ $point->category->name ?? "No Category" }}                   
+              </p> --}}
+              <p class="text-xs md:text-sm mb-1">
+              Available in: {{ $stamp->venue->title ?? "No Venue" }}                   
+              </p>
+              {{-- <p class="text-xs md:text-sm mb-1">
+                Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
+              </p> --}}
+              {{-- <p class="text-xs md:text-sm mb-3 md:mb-6">
+                Your time to redeem:
+                
+                {{ date('j M, Y', strtotime($myStamp->user_time_to_redeem)) }}                
+              </p> --}}
+              <p class="text-xs mb-3 mt-2 md:mb-6">
+                Valid:
+                
+                {{ date('j M, Y', strtotime($stamp->start_date)) }} - {{ date('j M, Y', strtotime($stamp->end_date)) }}                  
+              </p>
+              
+              
+              {{-- <p class="text-sm mb-1">
+              Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
+              </p> --}}
+              
+              
+              {{-- <span class="">
+              <a 
+                  href="/points/{{ $point->slug }}"
+                  class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+              Read more
+              </a>
+              </span>
+              
+              <span class="float-right">
+                  <a 
+                      href="/points/{{ $point->slug }}/edit"
+                      class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
+                  Edit
+                  </a>
+              </span> --}}
+              
+
+          
+
+          {{-- @if($point->id == $myPoints->point_id)
+            <span class="float-right">
+              <form 
+                  action="/points/addtomy/{{ $point->id }}"
+                  method="POST">
+                  @csrf
+
+                  <button 
+                      class="text-green-500 pr-3"
+                      type="submit">
+                      Add to favourites
+                  </button>
+
+              </form>
+            </span>
+          @else
+          <span class="float-right">
+            <form 
+                action="/points/addtomy/{{ $point->id }}"
+                method="POST">
+                @csrf
+
+                <button 
+                    class="text-green-500 pr-3"
+                    type="submit">
+                    Add to favourites
+                </button>
+
+            </form>
+          </span>
+          @endif --}}
+          
+
+          {{-- <span class="float-right">
+              <form 
+                  action="/points/{{ $point->slug }}"
+                  method="POST">
+                  @csrf
+                  @method('delete')
+
+                  <button 
+                      class="text-red-500 pr-3"
+                      type="submit">
+                      Delete
+                  </button>
+
+              </form>
+          </span> --}}
+          {{-- <div class="w-4/5 mb-5 mx-auto border-b-2 border-gray-200">
+              <br>
+          </div> --}}
+          <div class="flex space-x-1 mb-1">
+            <div class="flex-1 w=4/5 m-auto text-center">
+                <form 
+                    action="/stamps/addtomy/{{ $stamp->id }}"
+                    method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+            
+                    <button 
+                        type="submit"
+                        class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                        Add to My
+                    </button>
+                </form>
+            </div>
+
+            <div class="flex-1 w=4/5 m-auto text-center">
+                <form 
+                    action="/stamps/confirmaddstamps/{{ $stamp->id }}"
+                    method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+            
+                    <button 
+                        type="submit"
+                        class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                        Stamp Me
+                    </button>            
+                </form>
+            </div>
+          </div>
+          
+          
+          
+    
+          </div>
+
+              {{-- <div class="aspect-w-16 aspect-h-9">
+                  <img
+                  class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
+                  src="{{ asset('images/qrcodes/' . $point->qrcode_path) }}"
+                  alt=""
+                  />
+              </div> --}}
+        </div>
+
+      
+     
+        
+      </a>
+  
+    </div>
+
+    
+            @endforeach
+    
+  </div>
+</div>
+
+
+<div class="container my-8 mx-8">
+        
+  <div class="flex justify-between mb-4">
+      <h2 class="font-semibold text-xl leading-tight">
+          Small Image Coupon Campaigns
           
       </h2>
   </div>
@@ -428,7 +653,7 @@
 
   <div
       style="background-image: url({{ asset('/storage/images/loyalty/' . $coupon->image_path) }})"
-      class="full-screen-image flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
+      class="relative full-screen-image h-52 flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
       <a href="/coupons/{{ $coupon->slug }}" class="">
       {{-- <a href="" class="space-y-2"> --}}
         {{-- <div class="aspect-w-16 aspect-h-9">
@@ -444,7 +669,7 @@
         <div 
           class="px-4 py-2 mt-2 ">
           <div class="text-lg leading-6 font-medium space-y-1">
-            <h3 class="font-bold text-gray-100 text-lg md:text-3xl mb-2">
+            <h3 class="font-bold text-gray-100 text-lg md:text-2xl mb-2">
               {{ $coupon->title }}
             </h3>
           </div>
@@ -467,17 +692,17 @@
               {{-- <p class="text-sm mb-1">
               Category: {{ $point->category->name ?? "No Category" }}                   
               </p> --}}
-              <p class="text-xs mb-1">
+              {{-- <p class="text-xs mb-1">
               Available in: {{ $coupon->venue->title ?? "No Venue" }}                   
-              </p>
-              <p class="text-xs mb-3 mt-2 md:mb-6">
+              </p> --}}
+              {{-- <p class="text-xs mb-3 mt-2 md:mb-6">
                 Valid:
                 
                 {{ date('j M, Y', strtotime($coupon->start_date)) }} - {{ date('j M, Y', strtotime($coupon->end_date)) }}                  
-              </p>
+              </p> --}}
               
-          <div class="flex space-x-1 mb-1">
-            <div class="flex-1 w=4/5 m-auto text-center">
+          <div class="flex space-x-1 mb-1 absolute inset-x-0 bottom-4">
+            <div class="text-center m-auto w-1/2">
                 <form 
                     action="/coupons/addtomy/{{ $coupon->id }}"
                     method="POST"
@@ -492,7 +717,7 @@
                 </form>
             </div>
 
-            <div class="flex-1 w=4/5 m-auto text-center">
+            <div class="text-center m-auto w-1/2">
                 <form 
                     action="/coupons/confirmredeem/{{ $coupon->id }}"
                     method="POST"
@@ -533,8 +758,8 @@
 
     <div class="container my-8 mx-8">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-3xl">
-          Your points
+        <h2 class="font-semibold text-xl leading-tight">
+          Full Screen Image Point Campaigns
           
         </h2>
         {{-- <div>
@@ -561,7 +786,7 @@
   
       <div
         style="background-image: url({{ asset('/storage/images/loyalty/' . $point->image_fs_path) }})"
-        class="relative h-screen lg:h-96 full-screen-image flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
+        class="relative h-96 full-screen-image flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
         <a href="/points/{{ $point->slug }}" class="">
       {{-- <a href="" class="space-y-2"> --}}
         {{-- <div class="aspect-w-16 aspect-h-9">
@@ -577,7 +802,7 @@
         <div 
           class="px-4 py-2 mt-2 ">
           <div class="text-lg leading-6 font-medium space-y-1">
-            <h3 class="font-bold text-gray-100 text-lg md:text-3xl mb-2">
+            <h3 class="font-bold text-gray-100 text-lg md:text-2xl mb-2">
               {{ $point->title }}
             </h3>
           </div>
@@ -801,114 +1026,127 @@
           @endforeach
         
         
-        
-        
-        
       </div>
   </div>
 
-
   <div class="container my-8 mx-8">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-3xl">
-        Your coupons
-        {{-- <a href="/coupons/create" class=""
-          ><span
-            class="text-salmon font-medium text-lg ml-2 hover:underline"
-            >Create new coupon
-          </span></a
-        > --}}
-      </h2>
-      {{-- <div>
-        <button
-          class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
-        >
-          <<
-        </button>
-        <button
-          class="cursor-pointer text-xl mx-1 text-indigo-600 font-bold"
-        >
-          >>
-        </button>
-      </div> --}}
+        
+    <div class="flex justify-between mb-4">
+        <h2 class="font-semibold text-xl leading-tight">
+            Venues
+            {{-- <a href="/venues/create" class="">
+              <span
+                class="text-salmon font-medium text-lg ml-2 hover:underline"
+                >Create new venue
+              </span>
+            </a> --}}
+        </h2>
     </div>
+    
     
     <div
       id="scrollContainer"
       class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
     >
-    @foreach ($coupons as $coupon)
-      <div
-        class="flex-none w-2/3 md:w-1/4 w-max-350px h-250 h-max-350px mr-8 md:pb-4 border rounded-lg"
-      >
-        <a href="#" class="space-y-4">
-          <div class="aspect-w-16 aspect-h-9">
+    
+        @foreach ($venues as $venue)
+           
+            
+                
+    
+    <div
+        class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
+      
+        <a href="/venues/{{ $venue->id }}" class="w-full">
+          <div class="">
             <img
-              class="object-cover shadow-md hover:shadow-xl rounded-lg"
-              src="{{ asset('storage/images/loyalty/' . $coupon->image_path) }}"
+              class="w-4/5 p-2 mx-auto hover:shadow-xl rounded-lg"
+              src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}"
               alt=""
             />
           </div>
-
+  
           
-
-          <div class="px-4 py-2">
-            <div class="text-lg leading-6 font-medium space-y-1">
-              <h3 class="font-bold text-gray-800 text-3xl mb-2">
-                {{ $coupon->title }}
+  
+          <div class="px-4 py-2 mt-2">
+            <div class="h-16 text-lg leading-6 font-medium space-y-1">
+              <h3 class="font-bold text-gray-800 text-sm md:text-lg mb-2">
+                {{ $venue->title }}
               </h3>
             </div>
-            <div class="text-lg">
-              <p class="">
-                {{ $coupon->description }}                   </p>
-              <p class="font-medium text-sm text-indigo-600 mt-2">
-                Read more<span class="text-indigo-600">&hellip;</span>
-              </p>
-              <span class="float-right">
+            
+            
+  
+            <div class="text-md">
+                
+                <p class="text-xs md:text-sm mb-5 h-14">
+                    {{ $venue->description }}                   
+                </p>
+                
+                
+                <p class="text:sm md:text-lg my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">
+                  Total offers: {{ $venue->points->count() ?? "0" }}                   
+                </p>
+  
+                <p class="text-xs md:text-sm mb-1">
+                    Category: {{ $venue->category->name ?? "No Category" }}                   
+                    </p>
                 <a 
-                    href="/coupons/{{ $coupon->slug }}"
-                    class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                Read more
+                    class=""
+                    href="https://www.google.com/maps/place/{{ $venue->location }}"
+                    target="_blank">                    
+                    <p class="font-bold text-xs md:text-sm mb-1">
+                        Address:                   
+                    </p>
+                    <p class="text-xs md:text-sm mb-1 h-10">
+                        {{ $venue->location ?? "No location available" }}
+                    </p>
+                    <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
+                        Go to the map ->
+                    </p>
                 </a>
-            </span>
-              
-            <span class="float-right">
-                <a 
-                    href="/coupons/{{ $coupon->slug }}/edit"
-                    class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                Edit
-                </a>
-            </span>
-
-            <span class="float-right">
-                <form 
-                    action="/coupons/{{ $coupon->slug }}"
-                    method="POST">
-                    @csrf
-                    @method('delete')
-
-                    <button 
-                        class="text-red-500 pr-3"
-                        type="submit">
-                        Delete
-                    </button>
-
-                </form>
-            </span>
+                
+                
+            
+                <div class="flex space-x-1 mb-1">
+                  <div class="flex-1 w=4/5 m-auto text-center">
+                      <form 
+                          action="/venues/addtomy/{{ $venue->id }}"
+                          method="POST"
+                          enctype="multipart/form-data">
+                          @csrf
+                          
+                  
+                          <button 
+                              type="submit"
+                              class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                              Add to My
+                          </button>
+                      </form>
+                  </div>
+      
+                  
+                </div>
+                
+           
+            
+            
+            </div>
+   
+          </div>
+  
+        </a>
+    
+      </div>
+  
             
       
-            </div>
-          </div>
-        </a>
-      </div>
-      
-                  @endforeach
+          @endforeach
+            
       
     </div>
-</div>
-    
-    
-
+  </div>
+  
 
 
 </x-app-layout>

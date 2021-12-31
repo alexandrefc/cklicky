@@ -34,6 +34,10 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Http\Interfaces\StampInterface',
             'App\Http\Repositories\StampRepository'
         );
+        $this->app->bind(
+            'App\Http\Interfaces\CategoryInterface',
+            'App\Http\Repositories\CategoryRepository'
+        );
     }
 
     /**

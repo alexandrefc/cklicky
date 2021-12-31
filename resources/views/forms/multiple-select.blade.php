@@ -1,3 +1,5 @@
+<x-app-layout>
+
 <div class="relative" data-v-27032f04="">
 	<div class="pr-10 pb-1 relative border border-gray-300 dark:border-gray-600 rounded" data-v-27032f04="">
 		<div class="flex flex-wrap items-center" data-v-27032f04="">
@@ -47,3 +49,5 @@
 			</ul>
 		</div>
 	</div>
+
+</x-app-layout>

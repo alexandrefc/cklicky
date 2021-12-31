@@ -13,8 +13,11 @@ class ManageSubscriptionsForm extends Component
 
     public function redirectToStripe()
     {
-        
-
         return redirect()->away('https://dashboard.stripe.com/login');
+    }
+
+    public function subscribe()
+    {
+        return redirect('/pricing');
     }
 }

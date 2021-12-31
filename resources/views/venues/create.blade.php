@@ -109,7 +109,7 @@
 						        <label 
                                     class="text-xs font-semibold text-gray-600 py-2">
                                     Add Company Logo
-                                    <abbr class="hidden" title="required">*</abbr>
+                                    {{-- <abbr class="hidden" title="required">*</abbr> --}}
                                 </label>
 						        <div class="flex items-center py-6">
 							        <div class="w-12 h-12 mr-4 flex-none rounded-xl border overflow-hidden">
@@ -123,7 +123,10 @@
 						    </div>
 						    <div class="md:flex flex-row md:space-x-4 w-full text-xs">
 							    <div class="mb-3 space-y-2 w-full text-xs">
-                                    <label class="font-semibold text-gray-600 py-2">Company  Name <abbr title="required">*</abbr></label>
+                                    <label class="font-semibold text-gray-600 py-2">
+                                        Company  Name 
+                                        {{-- <abbr title="required">*</abbr> --}}
+                                    </label>
                                     <input 
                                         placeholder="Company Name" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
@@ -131,10 +134,13 @@
                                         type="text" 
                                         name="title" 
                                         id="title">
-                                    <p class="text-red text-xs hidden">Please fill out this field.</p>
+                                    {{-- <p class="text-red text-xs hidden">Please fill out this field.</p> --}}
                                 </div>
 							    <div class="mb-3 space-y-2 w-full text-xs">
-                                    <label class="font-semibold text-gray-600 py-2">Company  Mail <abbr title="required">*</abbr></label>
+                                    <label class="font-semibold text-gray-600 py-2">
+                                        Company  Mail 
+                                        {{-- <abbr title="required">*</abbr> --}}
+                                    </label>
                                     <input 
                                         placeholder="example@mail.com" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
@@ -142,7 +148,7 @@
                                         type="text" 
                                         name="email" 
                                         id="email">
-                                    <p class="text-red text-xs hidden">Please fill out this field.</p>
+                                    {{-- <p class="text-red text-xs hidden">Please fill out this field.</p> --}}
                                 </div>
 						    </div>
                             <div class="mb-3 space-y-2 w-full text-xs">
@@ -155,7 +161,11 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <input type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow" placeholder="example.com">
+                                    <input 
+                                        type="text" 
+                                        class="flex-shrink flex-grow flex-auto leading-normal w-px border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow" 
+                                        placeholder="example.com"
+                                        name="website">
                                 </div>
                             </div>
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
@@ -181,7 +191,7 @@
                                 </div>
                                 
                             </div>
-                            <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
+                            {{-- <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
                                 
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">Location<abbr title="required">*</abbr></label>
@@ -193,7 +203,7 @@
                                     </select>
                                     <p class="text-sm text-red-500 hidden mt-3" id="error">Please fill out this field.</p>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="flex-auto w-full mb-1 text-xs space-y-2">
                                 <label class="font-semibold text-gray-600 py-2">Description</label>
                                 <textarea 
@@ -203,14 +213,20 @@
                                     class="min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 
                                     placeholder="Enter your company info" 
                                     spellcheck="false"></textarea>
-                                <p class="text-xs text-gray-400 text-left my-3">You inserted 0 characters</p>
+                                {{-- <p class="text-xs text-gray-400 text-left my-3">You inserted 0 characters</p> --}}
                             </div>
-                            <p class="text-xs text-red-500 text-right my-3">Required fields are marked with an
+                            {{-- <p class="text-xs text-red-500 text-right my-3">Required fields are marked with an
                                 asterisk <abbr title="Required field">*</abbr>
-                            </p>
+                            </p> --}}
                             <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
-                                <button class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancel </button>
-                                <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500">Save</button>
+                                <button 
+                                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
+                                    type="reset"> 
+                                    Cancel 
+                                </button>
+                                <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500">
+                                    Save
+                                </button>
                             </div>
                         </div>
                         </form>

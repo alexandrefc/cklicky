@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Coupon;
+use App\Models\MyCoupon;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
@@ -37,6 +38,28 @@ class CouponRepository implements CouponInterface
         return $this->model->web()->latest()->get();
     }
 
+    public function getAllWebScheduledCoupons()
+    {
+        return $this->model->scheduledWeb()->scheduledTime()->latest()->get();
+    }
+
+    public function getAllWebScheduledProfiledCoupons()
+    {
+        return $this->model->gender()->age()->scheduledWeb()->scheduledTime()
+            ->latest()
+            ->get();
+    }
+
+    public function getAllGenderCoupons()
+    {
+        return $this->model->scheduledWeb()->gender()->latest()->get();
+    }
+
+    public function getAllAgeCoupons()
+    {
+        return $this->model->scheduledWeb()->age()->latest()->get();
+    }
+
     public function getCouponById($id)
     {
         return $this->model->where('id', $id)->first();
@@ -53,6 +76,7 @@ class CouponRepository implements CouponInterface
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $image_path = (new UploadImage())->uploadImage($request->image, $request->title);
+        $image_fs_path = (new UploadImage())->uploadImageFS($request->imageFS, $request->title);
         $qrcode_path = (new CreateQrcode())->createCouponQrcode($slug, $request->title);
         
         return $this->model->create([
@@ -73,24 +97,45 @@ class CouponRepository implements CouponInterface
             'type_of_period_to_redeem' => $request->period,
             'reset_time' => $request->timeReset,
             'type_of_reset_time' => $request->timeResetPeriod,
-            'reward_id' => $request->reward_id
+            'reward_id' => $request->reward_id,
+            'image_fs_path' => $image_fs_path,
+            'video_yt_id' => $request->videoYtId,
+            'scheduled_days' => $request->scheduled_days,
+            'gender' => $request->gender,
+            'age' => json_encode($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time
         ]);
     }
 
     public function deleteCoupon($slug)
     {
-        $coupon = $this->getCouponBySlug($slug)->first();
+        $coupon = $this->getCouponBySlug($slug);
+        $myCoupons = (new MyCoupon())->getAllMyCouponsById($coupon->id);
+        $deleteQrcode = new CreateQrcode;
+        $deleteImage = new UploadImage;
 
-        (new UploadImage())->deleteImage($coupon->image_path);
-        (new CreateQrcode())->deleteQrcode($coupon->qrcode_path);
+        foreach($myCoupons as $myCoupon)
+        {
+            $deleteQrcode->deleteQrcode($myCoupon->redeem_qrcode_path);
+        }
+        
+        $deleteImage->deleteImageFS($coupon->image_fs_path);
+
+        $deleteImage->deleteImage($coupon->image_path);
+        
+        $deleteQrcode->deleteQrcode($coupon->qrcode_path);
         
         $coupon->delete();
+
     }
 
     public function updateCoupon($request, $slug)
     {
-        $coupon = $this->getCouponBySlug($slug)->first();
+        $coupon = $this->getCouponBySlug($slug);
         $existing_image_path = $coupon->image_path;
+        $existing_image_fs_path = $coupon->image_fs_path;
+        $updateImage = new UploadImage;
 
         // Should be updated qrcode and slug ?
 
@@ -106,6 +151,14 @@ class CouponRepository implements CouponInterface
         } else {
             $updated_image_path = $existing_image_path;
         }
+
+        if ($request->hasFile('image_fs'))
+        {
+            $updated_image_fs_path = $updateImage->updateImageFS($request->image_fs, $request->title);
+            $updateImage->deleteImageFS($existing_image_fs_path);
+        } else {
+            $updated_image_fs_path = $existing_image_fs_path;
+        }
         
         $coupon->update([
             'title' => $request->title,
@@ -120,7 +173,17 @@ class CouponRepository implements CouponInterface
             'end_date' => $request->endDate,
             'x_time_to_redeem' => $request->xTimeToRedeem,
             'type_of_period_to_redeem' => $request->period,
-            'reward_id' => $request->reward_id
+            'reset_time' => $request->timeReset,
+            'type_of_reset_time' => $request->timeResetPeriod,
+            'reward_id' => $request->reward_id,
+            'image_fs_path' => $updated_image_fs_path,
+            'video_yt_id' => $request->videoYtId,
+            'scheduled_days' => $request->scheduled_days,
+            'gender' => $request->gender,
+            'age' => ($request->age),
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time 
+            
             // 'reset_time' => $request->timeReset,
             // 'type_of_reset_time' => $request->timeResetPeriod,
            

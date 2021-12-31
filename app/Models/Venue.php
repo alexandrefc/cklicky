@@ -9,7 +9,7 @@ class Venue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'pin', 'slug', 'logo_path', 'qrcode_path', 'user_id', 'manage_by_id', 'location' ];
+    protected $fillable = ['title', 'description', 'pin', 'slug', 'logo_path', 'qrcode_path', 'user_id', 'manage_by_id', 'location', 'email', 'website' ];
 
     public function points()
     {

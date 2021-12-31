@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CMSController extends Controller
@@ -13,7 +14,9 @@ class CMSController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $users = User::latest()->get();
+
+        return view('cms.dashboard', compact('users'));
     }
 
     /**

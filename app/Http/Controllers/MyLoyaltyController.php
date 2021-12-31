@@ -6,22 +6,29 @@ use App\Models\Point;
 use App\Models\Venue;
 use App\Models\Coupon;
 use App\Models\MyPoint;
+use App\Models\MyStamp;
+use App\Models\MyVenue;
 use App\Models\MyCoupon;
 use Illuminate\Http\Request;
+use App\Http\Interfaces\StampInterface;
 use App\Http\Interfaces\VenueInterface;
 
 
 class MyLoyaltyController extends Controller
 {
     protected $venueInterface;
-    public function __construct(VenueInterface $venueInterface)
+    protected $stampInterface;
+    public function __construct(VenueInterface $venueInterface, StampInterface $stampInterface)
     {
         $this->middleware('auth', ['except' => ['show']]);
         $this->couponModel = new Coupon;
         $this->pointModel = new Point;
+        $this->stampInterface = $stampInterface;
         $this->venueInterface = $venueInterface;
         $this->myCouponModel = new MyCoupon;
         $this->myPointModel = new MyPoint;
+        $this->myStampModel = new MyStamp;
+        $this->myVenueModel = new MyVenue;
     }
     /**
      * Display a listing of the resource.
@@ -32,11 +39,15 @@ class MyLoyaltyController extends Controller
     {
         $myCoupons = $this->myCouponModel->getMyCouponsByUserId();
         $myPoints = $this->myPointModel->getMyPointsByUserId();
+        $myStamps = $this->myStampModel->getMyStampsByUserId();
+        $myVenues = $this->myVenueModel->getMyVenuesByUserId();
         $points = $this->pointModel->getAllPoints();
         $coupons = $this->couponModel->getAllCoupons();
         $venues = $this->venueInterface->getAllVenues();
+        $stamps = $this->stampInterface->getAllStamps();
+        
 
-        return view('myloyalties.index', compact('points', 'coupons', 'myCoupons', 'myPoints', 'venues'));
+        return view('myloyalties.index', compact('points', 'coupons', 'stamps','myCoupons', 'myPoints', 'venues', 'myStamps', 'myVenues'));
     }
 
     /**
