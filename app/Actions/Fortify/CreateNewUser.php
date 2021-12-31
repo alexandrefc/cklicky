@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Billing;
 use App\Events\UserRegistered;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\DB;
@@ -28,11 +29,18 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'company_name' => ['string', 'max:255'],
             'gender' => ['string', 'max:255'],
-            'age' => ['numeric', 'max:120'],
+            // 'age' => ['numeric', 'max:120'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
+
+        event(new UserRegistered($input['email']));
+
+        // Billing::create([
+        //     'company' => $input['company_name'],
+        //     'user_email' => $input['email']
+        // ]);
 
         return DB::transaction(function () use ($input) {
             return tap(User::create([
@@ -45,9 +53,9 @@ class CreateNewUser implements CreatesNewUsers
             ]), function (User $user) {
                 $this->createTeam($user);
             });
+            
         });
 
-        event(new UserRegistered());
         
     }
 
