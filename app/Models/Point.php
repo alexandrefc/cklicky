@@ -24,6 +24,7 @@ class Point extends Model
     
     protected $casts = [
         'scheduled_days' => AsCollection::class,
+        'age' => AsCollection::class,
         
     ];
 

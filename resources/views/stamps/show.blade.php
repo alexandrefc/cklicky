@@ -20,11 +20,11 @@
           id="scrollContainer"
           class="flex flex-no-wrap overflow-x-scroll scrolling-touch items-start mb-8"
         > --}}
-        
+
         <div
             class="flex-none sm:flex-1 w-screen md:w-2/5 w-max-350px h-250 h-max-350px mx-auto md:pb-4 border rounded-lg">
           
-            {{-- <a href="" class="space-y-2 mx-auto"> --}}
+          
               <div class="aspect-w-16 aspect-h-9">
                 <img
                   class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
@@ -33,28 +33,46 @@
                 />
               </div>
 
-              
-
               <div class="px-4 py-2 mt-2">
                 <div class="text-lg leading-6 font-medium space-y-1">
-                  <h3 class=" font-bold text-gray-800 text-3xl mb-2">
+                  <h3 class=" font-bold text-gray-800 text-lg md:text-2xl mb-2">
                     {{ $stamp->title }}
                   </h3>
                 </div>
                 
-                
-
                 <div class="text-md">
                     
-                    <p class="mb-6">
+                    <p class="mb-6 text-sm md:text-base">
                         {{ $stamp->description }}                   
                     </p>
                   
                     
-                    <p class="text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
-                        Total stamps to collect: {{ $stamp->total_stamps ?? "" }}                   
-                    </p>
-                    <p class="font-bold text-base mb-1">
+                    @if ($myStamp)
+                            @for ($i = 0; $i < $myStamp->stamps_amount; $i++)
+                                <div class="inline-flex border-2 border-pink-500 rounded-full h-10 w-10 items-center justify-center text-pink-500 m-1">
+                                    <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                                    </svg>
+                                </div>
+                            @endfor
+
+                            @for ($i = 0; $i < ($stamp->total_stamps - $myStamp->stamps_amount); $i++)
+                                <div class="inline-flex border-2 border-gray-300 rounded-full h-10 w-10 items-center justify-center text-transparent m-1">
+                                    <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                                    </svg>
+                                </div>
+                            @endfor
+                    @else
+                        @for ($i = 0; $i < $stamp->total_stamps; $i++)
+                            <div class="inline-flex border-2 border-gray-300 rounded-full h-10 w-10 items-center justify-center text-transparent m-1">
+                                <svg class="h-5 w-5" x-description="solid/thumb-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                                </svg>
+                            </div>
+                        @endfor
+                    @endif
+                    <p class="font-bold text-base mb-1 mt-4">
                         Campaign details:                   
                     </p>
                     <p class="text-xs md:text-sm mb-1">
@@ -64,408 +82,178 @@
                         Venue: {{ $stamp->venue->title ?? "No Venue" }}                   
                     </p>
                     <p class="text-xs md:text-sm mb-1">
-                        Reward: {{ $stamp->reward_id ?? "No reward" }}                   
+                        Reward: {{ $reward->title ?? "No reward" }} 
+                        @if ($reward ?? '')
+                            <a href="/coupons/{{ $reward->slug }}">
+                                @if($myStamp ? $myStamp->finished : 0)
+                                    <span class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
+                                        See reward ->
+                                    </span>
+                                @endif
+                            </a>  
+                        @endif
                     </p>
                     <p class="text-xs md:text-sm mb-1">
-                        stamps to collect per purchase: {{ $stamp->add_x_stamps ?? "" }}                   
+                        Stamps to collect per purchase: {{ $stamp->add_x_stamps ?? "" }}                   
                     </p>
+                    
                     <p class="text-xs md:text-sm mb-1">
-                        You can collect stamps every:
-                        {{ $stamp->reset_time ?? ""}} {{ $stamp->type_of_reset_time ?? ""}}                
+                        You can collect another stamp after:
+                        {{ $myStamp->user_reset_time ?? "right after"}}               
                     </p>
                     <p class="text-xs md:text-sm mb-3 md:mb-6">
-                        Time to complete all stamps:
-                        {{ $stamp->x_time_to_redeem ?? ""}} {{ $stamp->type_of_period_to_redeem ?? ""}}                
+                        Your time to complete all stamps:
+                        {{ $myStamp->user_time_to_redeem ?? "till end of the campaign"}}               
                     </p>
+                    
                     <p class="text-xs mb-3 mt-2 md:mb-6">
-                        Valid:
-                        {{ date('j M, Y', strtotime($stamp->start_date)) }} - {{ date('j M, Y', strtotime($stamp->end_date)) }}                  
+                        {{ $stamp->start_date || $stamp->end_date ? "Campaign is valid between:" : ""}}
+                    {{ $stamp->start_date ? date('j M, Y', strtotime($stamp->start_date)) : " "}} - {{ $stamp->end_date ? date('j M, Y', strtotime($stamp->end_date)) : "" }}
+                        
                     </p>
                     <div class="flex space-x-1 mb-2">
                         <div class="flex-1 w=4/5 m-auto text-center">
-                            <form 
-                                action="/stamps/addtomy/{{ $stamp->id }}"
-                                method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                        
-                                <button 
-                                    type="submit"
-                                    class="uppercase  bg-yellow-500 text-gray-100 text-sm font-extrabold py-2 px-3 rounded-3xl">
-                                    Add to My
-                                </button>
-                            </form>
+                            @if (!$myStamp)
+                                <form 
+                                    action="/stamps/addtomy/{{ $stamp->id }}"
+                                    method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                            
+                                    <button 
+                                        type="submit"
+                                        class="bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                                        Add to My
+                                    </button>
+                                </form>
+                            @else
+                                <div class="flex-1 w=4/5 m-auto text-center">
+                                    <form 
+                                        action="/stamps/removefrommy/{{ $stamp->id }}"
+                                        method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('delete')
+                                
+                                        <button 
+                                            type="submit"
+                                            class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                                            Remove from my list
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
             
-                        <div class="flex-1 w=4/5 m-auto text-center">
-                            <form 
-                                action="/stamps/confirmaddstamps/{{ $stamp->id }}"
-                                method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                        
-                                <button 
-                                    type="submit"
-                                    class="uppercase bg-pink-700 text-gray-100 text-sm font-extrabold py-2 px-3 rounded-3xl">
-                                    Add stamps
-                                </button>            
-                            </form>
-                        </div>
+                        @if($myStamp ? $myStamp->finished : 0)
+                            <div class="flex-1 w=4/5 m-auto text-center">
+                                    <button 
+                                        type="submit"
+                                        class=" cursor-text bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl opacity-50 inactive">
+                                        Finished
+                                    </button>            
+                            </div>
+                        @else
+                            <div class="flex-1 w=4/5 m-auto text-center">
+                                <form 
+                                    action="/stamps/confirmaddstamps/{{ $stamp->id }}"
+                                    method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                            
+                                    <button 
+                                        type="submit"
+                                        class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                                        Stamp me
+                                    </button>            
+                                </form>
+                            </div>
+                        @endif 
                     </div>
-                    
-                    {{-- <span class="">
-                    <a 
-                        href="/stamps/{{ $stamp->slug }}"
-                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                    Read more
-                    </a>
-                    </span>
-                    
-                    <span class="float-right">
-                        <a 
-                            href="/stamps/{{ $stamp->slug }}/edit"
-                            class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                        Edit
-                        </a>
-                    </span> --}}
-                    
-
-                
-
-                {{-- @if($stamp->id == $mystamps->stamp_id)
-                  <span class="float-right">
-                    <form 
-                        action="/stamps/addtomy/{{ $stamp->id }}"
-                        method="POST">
-                        @csrf
-  
-                        <button 
-                            class="text-green-500 pr-3"
-                            type="submit">
-                            Add to favourites
-                        </button>
-  
-                    </form>
-                  </span>
-                @else
-                <span class="float-right">
-                  <form 
-                      action="/stamps/addtomy/{{ $stamp->id }}"
-                      method="POST">
-                      @csrf
-
-                      <button 
-                          class="text-green-500 pr-3"
-                          type="submit">
-                          Add to favourites
-                      </button>
-
-                  </form>
-                </span>
-                @endif --}}
-                
-
-                {{-- <span class="float-right">
-                    <form 
-                        action="/stamps/{{ $stamp->slug }}"
-                        method="POST">
-                        @csrf
-                        @method('delete')
-
-                        <button 
-                            class="text-red-500 pr-3"
-                            type="submit">
-                            Delete
-                        </button>
-
-                    </form>
-                </span> --}}
-                {{-- <div class="w-4/5 mb-5 mx-auto border-b-2 border-gray-200">
-                    <br>
-                </div> --}}
-                
-          
+                   
                 </div>
 
-                    {{-- <div class="aspect-w-16 aspect-h-9">
-                        <img
-                        class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
-                        src="{{ asset('images/qrcodes/' . $stamp->qrcode_path) }}"
-                        alt=""
-                        />
-                    </div> --}}
               </div>
-
-            
-           
-              
-            {{-- </a> --}}
-        
+  
           </div>
 
           
         <div
         class="flex-none sm:flex-1 w-screen md:w-2/5 w-max-350px h-250 h-max-350px mx-auto md:pb-4 border rounded-lg">
       
-        {{-- <a href="" class="space-y-2 mx-auto"> --}}
-
-          
-
           <div class="px-4 py-2 mt-2">
-            {{-- <div class="text-lg leading-6 font-medium space-y-1">
-              <h3 class="text-center font-bold text-gray-800 text-3xl mb-2">
-                {{ $stamp->title }}
-              </h3>
-            </div> --}}
-            
-            
+
+            <div class="my-5">
+                <a href="{{ asset('storage/images/qrcodes/' . $stamp->qrcode_path) }}">
+                    <img
+                        class="w-1/2 mx-auto mt-5 mb-3 shadow-md hover:shadow-xl rounded-lg"
+                        src="{{ asset('storage/images/qrcodes/' . $stamp->qrcode_path) }}"
+                        alt=""
+                    />
+                </a>
+            </div>
+           
+            <div class="w-4/5 mt-1 mb-6 mx-auto border-b-2 border-gray-200">
+                <br>
+            </div>
 
             <div class="text-md">
                 
-                {{-- <p class="mb-6">
-                    {{ $stamp->description }}                   
-                </p> --}}
-              
-                {{-- <div class="flex space-x-1 mb-6">
-                    <div class="flex-1 w=4/5 m-auto text-center">
-                        <form 
-                            action="/stamps/addtomy/{{ $stamp->id }}"
-                            method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                    
-                            <button 
-                                type="submit"
-                                class="uppercase  bg-yellow-500 text-gray-100 text-sm font-extrabold py-2 px-3 rounded-3xl">
-                                Add to My
-                            </button>
-                        </form>
-                    </div>
-        
-                    <div class="flex-1 w=4/5 m-auto text-center">
-                        <form 
-                            action="/stamps/confirmaddstamps/{{ $stamp->id }}"
-                            method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                    
-                            <button 
-                                type="submit"
-                                class="uppercase bg-pink-700 text-gray-100 text-sm font-extrabold py-2 px-3 rounded-3xl">
-                                Add stamps
-                            </button>            
-                        </form>
-                    </div>
-                </div> --}}
-                <p class="font-bold text-base mb-1">
-                    Conditions:                   
+                
+                <p class="font-bold text-xs md:text-base mb-3">
+                    General terms:                   
                 </p>
-                <p class="text-sm mb-1">
+                <p class="text-xs md:text-sm mb-1">
                 Category: {{ $stamp->category->name ?? "No Category" }}                   
                 </p>
-                <p class="text-sm mb-1">
+                <p class="text-xs md:text-sm mb-1">
                 Venue: {{ $stamp->venue->title ?? "No Venue" }}                   
                 </p>
-                <p class="text-sm mb-1">
+                <p class="text-xs md:text-sm mb-1">
+                    Reward: {{ $reward->title ?? "No reward" }}                   
+                </p>
+                <p class="text-xs md:text-sm mb-1">
                 stamps to collect per purchase: {{ $stamp->add_x_stamps ?? "" }}                   
                 </p>
-                <p class="text-sm mb-1">
-                stamps collected: {{ "0" }}/{{ $stamp->total_stamps ?? "" }}                   
+                <p class="text-xs md:text-sm mb-1">
+                Total stamps: {{ $stamp->total_stamps ?? "" }}                   
                 </p>
-                <p class="text-sm mb-6">
-                Valid between:
-                {{ date('j M, Y', strtotime($stamp->start_date)) }} - {{ date('j M, Y', strtotime($stamp->end_date)) }}                  
+                <p class="text-xs md:text-sm mb-1">
+                    Campaign reset time:
+                    {{ $stamp->reset_time ?? "no limits" }} {{ $stamp->reset_time ? $stamp->type_of_reset_time : ""}}                
+                </p>
+                <p class="text-xs md:text-sm mb-3 md:mb-1">
+                    Time to complete all stamps:
+                    {{ $stamp->x_time_to_redeem ?? "till end of the campaign" }} {{ $stamp->x_time_to_redeem ? $stamp->type_of_period_to_redeem : ""}}               
                 </p>
                 
-                {{-- <span class="">
-                <a 
-                    href="/stamps/{{ $stamp->slug }}"
-                    class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                Read more
-                </a>
-                </span>
+               
+                <p class="text-xs md:text-sm mb-3 mt-2 md:mb-6">
+                    {{ $stamp->start_date || $stamp->end_date ? "Campaign is valid between:" : ""}}
+                {{ $stamp->start_date ? date('j M, Y', strtotime($stamp->start_date)) : " "}} - {{ $stamp->end_date ? date('j M, Y', strtotime($stamp->end_date)) : "" }}
+                    
+                </p>                 
                 
-                <span class="float-right">
-                    <a 
-                        href="/stamps/{{ $stamp->slug }}/edit"
-                        class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                    Edit
-                    </a>
-                </span> --}}
-                
-
-            
-
-            {{-- @if($stamp->id == $mystamps->stamp_id)
-              <span class="float-right">
-                <form 
-                    action="/stamps/addtomy/{{ $stamp->id }}"
-                    method="POST">
-                    @csrf
-
-                    <button 
-                        class="text-green-500 pr-3"
-                        type="submit">
-                        Add to favourites
-                    </button>
-
-                </form>
-              </span>
-            @else
-            <span class="float-right">
-              <form 
-                  action="/stamps/addtomy/{{ $stamp->id }}"
-                  method="POST">
-                  @csrf
-
-                  <button 
-                      class="text-green-500 pr-3"
-                      type="submit">
-                      Add to favourites
-                  </button>
-
-              </form>
-            </span>
-            @endif --}}
-            
-
-            {{-- <span class="float-right">
-                <form 
-                    action="/stamps/{{ $stamp->slug }}"
-                    method="POST">
-                    @csrf
-                    @method('delete')
-
-                    <button 
-                        class="text-red-500 pr-3"
-                        type="submit">
-                        Delete
-                    </button>
-
-                </form>
-            </span> --}}
-            <div class="w-4/5 mt-20 mb-10 mx-auto border-b-2 border-gray-200">
-                <br>
-            </div>
-            
       
             </div>
 
-                <div class="aspect-w-16 aspect-h-9 my-5">
-                    <a href="{{ asset('storage/images/qrcodes/' . $stamp->qrcode_path) }}">
-                        <img
-                        class="w-3/4 mx-auto mt-5 shadow-md hover:shadow-xl rounded-lg"
-                        src="{{ asset('storage/images/qrcodes/' . $stamp->qrcode_path) }}"
-                        alt=""
-                        />
-                    </a>
-                    
-                </div>
+               
           </div>
 
-        
-       
-          
-        {{-- </a> --}}
-    
       </div>
           
-        {{-- </div> --}}
-    </div>
+    
+      </div>
+
+    
+          
+        
+   
 
     
 
 
-{{-- <div class="w-4/5 m-auto text-center py-16">
-    <div class="">
-        <h1 class="text-6xl">
-            {{ $stamp->title }}
-        </h1>
-    </div>
-</div>
 
-<div class="sm:grid grid-cols-1 gap-20 w-1/3 mx-auto border-t border-gray-200 text-center">
-    <div>
-        <img class="inline" src="{{ asset('images/loyalty/' . $stamp->image_path) }}" width="700" alt="">
-    </div>
-    
-    <div> --}}
-        {{-- <img src="{{ asset('images/qrcodes/' . $stamp->qrcode_path) }}" width="70" alt=""> --}}
-        {{-- <h2 class="text-gray-700 font-bold text-5xl pb-4 pt-5">
-            {{ $stamp->title }}
-        </h2> --}}
-        {{-- <span class="text-gray-500">
-            Offered by <span class="font-bold italic text-gray-800">{{ $stamp->venue->name }}</span>
-            , Valid till {{ date('jS M Y', strtotime($stamp->updated_at)) }}
-        </span> --}}
-        {{-- <p class="text-xl text-gray-700 leading-8 font-light">
-            {{ $stamp->description }}                
-        </p>
-    </div>
-</div>
-<div class="blobk-inline w=4/5 m-auto pt-1 text-center">
-    <form 
-        action="/stamps/addtomy/{{ $stamp->id }}"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Add to favourites
-        </button>
-    </form>
-
-</div>
-<div class="block-inline w=4/5 m-auto pt-1 text-center">
-    <form 
-        action="/stamps/confirmaddstamps/{{ $stamp->id }}"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Add stamps
-        </button>
-        
-
-    </form>
-</div> --}}
-{{-- <div class="block-inline w=4/5 m-auto pt-1 text-center">
-    <form 
-        action="/stamps/addstamps/{{ $stamp->id }}/{{ auth()->user()->id }}"
-        method="POST"
-        enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-
-        <button 
-            type="submit"
-            class="uppercase mt-15 bg-blue-500 text-gray-100 text-lg font-extrabold py-4 px-8 rounded-3xl">
-            Add stamps
-        </button>
-        
-
-    </form>
-</div> --}}
-
-{{-- @if (Auth::check() && Gate::allows('admin_only', auth()->user()) ) --}}
-    {{-- <div class="pt-10 w-4/5 m-auto text-center">
-        <img class="inline" src="{{ asset('images/qrcodes/' . $stamp->qrcode_path) }}" width="300" alt="">
-    </div> --}}
-{{-- @endif --}}
-
-
-{{-- <input 
-            type="text"
-            name="redeemed"
-            value="{{ $stamp->redeemed }}"
-            class="bg-transparent block border-b-2 w-full h-20 text-6xl outline-none"> --}}
 
 </x-app-layout>

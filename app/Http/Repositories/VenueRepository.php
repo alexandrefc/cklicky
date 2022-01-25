@@ -6,6 +6,7 @@ use App\Models\Venue;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\VenueInterface;
 
 class VenueRepository implements VenueInterface
@@ -21,6 +22,14 @@ class VenueRepository implements VenueInterface
     public function getAllVenues()
     {
         return $this->model->latest()->get();
+    }
+
+    public function getAllManagerVenues()
+    {
+        return $this->model->where('user_id', Auth::user()->id)
+            ->orWhere('manage_by_id', Auth::user()->id)
+            ->latest()
+            ->get();
     }
 
     public function getVenueById($id)
@@ -50,7 +59,8 @@ class VenueRepository implements VenueInterface
             'manage_by_id' => auth()->user()->id,
             'location' => $request->location, 
             'email' => $request->email,
-            'website' => $request->website
+            'website' => $request->website,
+            'category_id' => $request->category_id
         ]);
     }
 
@@ -80,9 +90,9 @@ class VenueRepository implements VenueInterface
         // $updated_slug = (new CreateSlug())->createSlug($request->title);
         // $updated_qrcode_path = (new CreateQrcode())->createQrcode($slug, $request->title);
         
-        if ($request->hasFile('image'))
+        if ($request->hasFile('logo'))
         {
-            $updated_image_path = (new UploadImage())->updateImage($request->image, $request->title);
+            $updated_image_path = (new UploadImage())->updateImage($request->logo, $request->title);
             (new UploadImage())->deleteImage($existing_image_path);
         } else {
             $updated_image_path = $existing_image_path;
@@ -98,7 +108,8 @@ class VenueRepository implements VenueInterface
                 // 'manage_by_id' => auth()->user()->id,
                 'location' => $request->location,
                 'email' => $request->email,
-                'website' => $request->website
+                'website' => $request->website,
+                'category_id' => $request->category_id
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug
@@ -106,8 +117,4 @@ class VenueRepository implements VenueInterface
         ]); 
     }
 
-    public function getAllManagerVenues($id) 
-    {
-        return $this->model->where('user_id', $id)->get();
-    }
 }

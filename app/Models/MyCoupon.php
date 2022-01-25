@@ -96,5 +96,46 @@ class MyCoupon extends Model
             ]);
     }
 
+    public function checkIfRewardIsAvailable($couponId, $userId)
+    {
+        $myCoupon = $this->getMyCouponById($couponId, $userId);
+        
+        if ($myCoupon->reward_id !== NULL)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } 
+
+    public function checkIfNowIsInTimeToRedeem($couponId, $userId)
+    {
+        $myCoupon = $this->getMyCouponById($couponId, $userId);
+        
+        $now = now();
+
+        $userTimeToRedeem = $myCoupon->user_time_to_redeem; 
+        
+        if ($now <= $userTimeToRedeem || $userTimeToRedeem == NULL)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } 
+
+    public function updateTimeToRedeem($couponId, $userId)
+    {
+        
+        $user_time_to_redeem = app()->call('App\Http\Interfaces\CouponInterface@getTimeToRedeem', ['couponId' => $couponId]);
+        
+        self::where('coupon_id', $couponId)
+                ->where('user_id', $userId)
+                ->update([
+                    'user_time_to_redeem' => $user_time_to_redeem
+            ]);
+        
+    }
+
 
 }

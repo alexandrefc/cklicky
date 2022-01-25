@@ -32,6 +32,8 @@ Route::get('/', function () {
     return view('about.index');
 })->name('welcome');
 
+Route::get('/faq', [AboutController::class, 'faq'])->name('faq');
+
 Route::get('/tests', function () {
     return (new PasswordChangedMail)->markdown('emails.password_changed');
 });
@@ -82,6 +84,11 @@ Route::delete('stamps/removefrommy/{stamp_id}', [StampController::class, 'remove
 
 Route::post('venues/addtomy/{venue_id}', [VenueController::class, 'addToMyVenues'])->name('addToMyVenues');
 Route::delete('venues/removefrommy/{venue_id}', [VenueController::class, 'removeFromMy'])->name('removeFromMyVenues');
+
+// Mailing
+Route::post('points/mail/{id}', [PointController::class, 'confirmSendPointByMail']);
+Route::post('stamps/mail/{id}', [StampController::class, 'confirmSendStampByMail']);
+Route::post('coupons/mail/{id}', [CouponController::class, 'confirmSendCouponByMail']);
 
 // Venues
 

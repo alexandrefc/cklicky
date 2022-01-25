@@ -24,21 +24,41 @@ class MyPoint extends Model
     protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
 
 
-    
-    public function addToMyPoints($pointId, $userId, $user_time_to_redeem)
+    public function addToMyPoints($pointId, $userId)
     {
-        // $userId = auth()->user()->id;
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
         
-
-
         self::create([
             'point_id' => $pointId,
             'user_id' => $userId, 
-            'add_points_qrcode_path' => $addPointsQrcodePath,
-            'user_time_to_redeem' => $user_time_to_redeem
+            'add_points_qrcode_path' => $addPointsQrcodePath
         ]);
     } 
+    // public function addToMyPoints($pointId, $userId, $user_time_to_redeem)
+    // {
+    //     // $userId = auth()->user()->id;
+    //     $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
+        
+    //     self::create([
+    //         'point_id' => $pointId,
+    //         'user_id' => $userId, 
+    //         'add_points_qrcode_path' => $addPointsQrcodePath,
+    //         'user_time_to_redeem' => $user_time_to_redeem
+    //     ]);
+    // } 
+
+    // public function updateMyPoint($pointId, $user_time_to_redeem)
+    // {
+       
+
+    //     self::where('point_id', $pointId)
+    //         ->where('user_id', auth()->user()->id)
+    //         ->update([
+    //             'user_time_to_redeem' => $user_time_to_redeem
+            
+            
+    //     ]);
+    // } 
 
     public function getMyPointsByUserId()
     {
@@ -112,29 +132,44 @@ class MyPoint extends Model
 
     public function addPoints($pointId, $userId, $addXPoints, $user_reset_time)
     {
+        
         $myPoint = self::where('point_id', $pointId)
             ->where('user_id', $userId)
             ->first();
         
+        if(!$myPoint->points_amount)
+        {
+            $user_time_to_redeem = app()->call('App\Http\Interfaces\PointInterface@getTimeToRedeem', ['pointId' => $pointId]); 
+
+            $pointsAmount = $myPoint->points_amount;
+            $pointsAmount = $pointsAmount + $addXPoints;
+            
+            self::where('point_id', $pointId)
+                ->where('user_id', $userId)
+                ->update([
+                    'points_amount' => $pointsAmount,
+                    'user_reset_time' => $user_reset_time,
+                    'user_time_to_redeem' => $user_time_to_redeem
+            ]);
+        } else {
+            
+            $pointsAmount = $myPoint->points_amount;
+            $pointsAmount = $pointsAmount + $addXPoints;
+            
+            self::where('point_id', $pointId)
+                ->where('user_id', $userId)
+                ->update([
+                    'points_amount' => $pointsAmount,
+                    'user_reset_time' => $user_reset_time
+            ]);
+        }
+
         // call() method to resolve the class
 
         // $point = app()->call('App\Http\Interfaces\PointInterface@getPointById', ['id' => $pointId]);
         // $user_reset_time = app()->call('App\Http\Interfaces\PointInterface@getUserResetTime', ['pointId' => $pointId]);
 
         // $addXPoints = $point->add_x_points;
-        
-        
-        $pointsAmount = $myPoint->points_amount;
-        $pointsAmount = $pointsAmount + $addXPoints;
-
-        
-        
-        self::where('point_id', $pointId)
-            ->where('user_id', $userId)
-            ->update([
-                'points_amount' => $pointsAmount,
-                'user_reset_time' => $user_reset_time
-        ]);
         
     }
 
@@ -146,7 +181,7 @@ class MyPoint extends Model
 
         $userTimeToRedeem = $point->user_time_to_redeem; 
         
-        if ($now <= $userTimeToRedeem)
+        if ($now <= $userTimeToRedeem || $userTimeToRedeem == NULL)
         {
             return TRUE;
         } else {
@@ -162,13 +197,26 @@ class MyPoint extends Model
 
         $userResetTime = $point->user_reset_time; 
         
-        if ($now > $userResetTime)
+        if ($now > $userResetTime || $userResetTime == NULL)
         {
             return TRUE;
         } else {
             return FALSE;
         }
 
+    }
+
+    public function updateTimeToRedeem($pointId, $userId)
+    {
+        
+        $user_time_to_redeem = app()->call('App\Http\Interfaces\PointInterface@getTimeToRedeem', ['pointId' => $pointId]);
+        
+        self::where('point_id', $pointId)
+                ->where('user_id', $userId)
+                ->update([
+                    'user_time_to_redeem' => $user_time_to_redeem
+            ]);
+        
     }
 
 }

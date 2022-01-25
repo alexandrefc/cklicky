@@ -28,6 +28,6 @@ class PasswordChangedMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.password_changed');
+        return $this->view('emails.password_changed');
     }
 }

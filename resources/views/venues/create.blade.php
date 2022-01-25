@@ -15,16 +15,15 @@
     </div> --}}
     
     @if ($errors->any())
-        <div class="w-4/5 m-auto">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li class="w-1/5 mb-4 text-gray-50 bg-red-700 rounded-2xl py-4">
-                        {{ $error }}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-        
+      <div class="w-11/12 m-auto my-6">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li class="w-1/5 mb-4 mt-2 mr-2 text-gray-50 bg-red-700 text-xs md:text-sm rounded-2xl py-1 px-2 inline">
+                      {{ $error }}
+                  </li>
+              @endforeach
+          </ul>
+      </div>
     @endif
 
     
@@ -92,7 +91,7 @@
             <div class="grid gap-8 grid-cols-1">
 	            <div class="flex flex-col ">
 			        <div class="flex flex-col sm:flex-row items-center">
-				        <h2 class="font-semibold text-lg mr-auto">Create a venue</h2>
+				        <h2 class="font-semibold text-lg mr-auto">Create venue</h2>
 				            <div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0">
 
                             </div>
@@ -107,13 +106,13 @@
 				        <div class="form">
 					        <div class="md:space-y-2 mb-3">
 						        <label 
-                                    class="text-xs font-semibold text-gray-600 py-2">
+                                    class="text-xs font-semibold text-gray-600 pt-2">
                                     Add Company Logo
                                     {{-- <abbr class="hidden" title="required">*</abbr> --}}
                                 </label>
-						        <div class="flex items-center py-6">
-							        <div class="w-12 h-12 mr-4 flex-none rounded-xl border overflow-hidden">
-								        <img class="w-12 h-12 mr-4 object-cover" src="https://images.unsplash.com/photo-1611867967135-0faab97d1530?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1352&amp;q=80" alt="Logo">
+						        <div class="flex items-center pb-6">
+							        <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                        {{-- <img class="p-1 w-full h-20 mr-4 object-center " src="" alt="Logo"> --}}
                                     </div>
 								    <label class="cursor-pointer ">
                                         <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse</span>
@@ -144,7 +143,7 @@
                                     <input 
                                         placeholder="example@mail.com" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
-                                        required="required" 
+                        
                                         type="text" 
                                         name="email" 
                                         id="email">
@@ -168,6 +167,7 @@
                                         name="website">
                                 </div>
                             </div>
+
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">Company Address</label>
@@ -178,7 +178,23 @@
                                         name="location" 
                                         id="location">
                                 </div>
-                                <div class="w-full flex flex-col mb-3">
+                                
+
+                                
+                                
+                            </div>
+
+                            <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
+                                {{-- <div class="w-full flex flex-col mb-3">
+                                    <label class="font-semibold text-gray-600 py-2">Company Address</label>
+                                    <input 
+                                        placeholder="Address" 
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
+                                        type="text" 
+                                        name="location" 
+                                        id="location">
+                                </div> --}}
+                                {{-- <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">PIN - 4 digits</label>
                                     <input 
                                         placeholder="1234" 
@@ -188,9 +204,22 @@
                                         name="pin" 
                                         id="pin"
                                         >
-                                </div>
-                                
+                                </div> --}}
+                                <div class="w-full flex flex-col mb-3">
+                                    <label class="font-semibold text-gray-600 py-2">Category</label>
+                                    <select 
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
+                                        name="category_id">
+                                        {{-- <option value="">All categories</option> --}}
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                        
+                                    </select>
+                                </div>                      
                             </div>
+
+
                             {{-- <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
                                 
                                 <div class="w-full flex flex-col mb-3">
@@ -207,7 +236,7 @@
                             <div class="flex-auto w-full mb-1 text-xs space-y-2">
                                 <label class="font-semibold text-gray-600 py-2">Description</label>
                                 <textarea 
-                                    required="" 
+                                    
                                     name="description" 
                                     id="description" 
                                     class="min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 

@@ -7,16 +7,16 @@
     </x-slot> --}}
 
     @if ($errors->any())
-    <div class="w-4/5 m-auto">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li class="w-1/5 mb-4 mr-6 text-gray-50 bg-red-700 rounded-2xl py-2 px-4 inline">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-    </div>
-  @endif
+      <div class="w-11/12 m-auto my-6">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li class="w-1/5 mb-4 mt-2 mr-2 text-gray-50 bg-red-700 text-xs md:text-sm rounded-2xl py-1 px-2 inline">
+                      {{ $error }}
+                  </li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
   
 
   <div class="flex h-full bg-gray-100 items-center justify-center  pt-16 pb-32">
@@ -40,26 +40,26 @@
           @csrf
           @method('PUT')
 
-              <div class="grid grid-cols-1 mt-5 mx-7">
-                  <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Title</label>
-                  <input 
-                      class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                      name="title" 
-                      type="text" 
-                      {{-- placeholder="{{ $point->title }}" --}}
-                      value="{{ $coupon->title }}"
-                      required="" />
-              </div>
-              <div class="grid grid-cols-1 mt-5 mx-7">
-                <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Short description</label>
-                <input 
-                    class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                    name="description" 
-                    type="text" 
-                    {{-- placeholder="{{ $point->title }}" --}}
-                    value="{{ $coupon->description }}"
-                    required="" />
-            </div>
+                <div class="grid grid-cols-1 mt-5 mx-7">
+                    <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Title</label>
+                    <input 
+                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                        name="title" 
+                        type="text" 
+                        {{-- placeholder="{{ $point->title }}" --}}
+                        value="{{ $coupon->title }}"
+                        required="" />
+                </div>
+                <div class="grid grid-cols-1 mt-5 mx-7">
+                    <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Short description</label>
+                    <input 
+                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                        name="description" 
+                        type="text" 
+                        {{-- placeholder="{{ $point->title }}" --}}
+                        value="{{ $coupon->description }}"
+                        />
+                </div>
               {{-- <div class="grid grid-cols-1 mt-5 mx-7">
                   <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
                   <textarea 
@@ -78,6 +78,7 @@
                   <div class='flex items-center justify-center w-full'>
                       <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
                           <div class='flex flex-col items-center justify-center pt-1'>
+                              {{-- <img src="{{ asset('storage/images/loyalty/' . $coupon->image_path) }}" class="w-10 h-10 rounded-xl border-purple-400 border-2 "   alt=""> --}}
                               <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                               {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
                               <input type='file' name="image" class="" />
@@ -133,31 +134,32 @@
                       @endforeach
                   </select>
               </div>
-    
               <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
-                  <div class="grid grid-cols-1">
-                  <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Start date</label>
-                  <input 
-                      class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                      name="startDate"
-                      id="start_date"
-                      type="date" 
-                      value="{{ date('Y-m-d', strtotime($coupon->start_date)) }}"
-                      placeholder="dd-mm-yy" />
-                  </div>
-                  <div class="grid grid-cols-1">
-                      <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
-                          End date
-                      </label>
-                      <input 
-                          class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
-                          name="endDate"
-                          id="end_date"
-                          value="{{ date('Y-m-d', strtotime($coupon->end_date)) }}"
-                          type="date" 
-                          placeholder="dd-mm-yy" />
-                  </div>
-              </div>
+                <div class="grid grid-cols-1">
+                <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Start date</label>
+                <input 
+                    class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                    name="startDate"
+                    type="date" 
+                        @if ($coupon->start_date)
+                            value="{{ date('Y-m-d', strtotime($coupon->start_date)) }}"
+                        @endif
+                    placeholder="dd-mm-yyyy" />
+                </div>
+                <div class="grid grid-cols-1">
+                    <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">
+                        End date
+                    </label>
+                    <input 
+                        class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                        name="endDate"
+                        type="date" 
+                            @if ($coupon->end_date)
+                                value="{{ date('Y-m-d', strtotime($coupon->end_date)) }}"
+                            @endif
+                        placeholder="dd-mm-yyyy" />
+                </div>
+            </div>
 
               {{-- <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mt-5 mx-7">
                   <div class="grid grid-cols-1">
@@ -463,9 +465,10 @@
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="start_time"
-                id="start_time"
                 type="time" 
-                value="{{  date('H:i', strtotime($coupon->start_time))  }}"
+                    @if ($coupon->start_time)
+                        value="{{ date('H:i', strtotime($coupon->start_time)) }}"
+                    @endif 
                 placeholder="" />
             </div>
             <div class="grid grid-cols-1">
@@ -473,43 +476,44 @@
               <input 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="end_time"
-                id="end_time"
                 type="time" 
-                value="{{  date('H:i', strtotime($coupon->end_time))  }}"
+                    @if ($coupon->end_time)
+                        value="{{ date('H:i', strtotime($coupon->end_time)) }}"
+                    @endif     
                 placeholder="" />
             </div>
-          </div>
+        </div>
     
         <div class="grid grid-cols-1 mt-5 mx-7">
           <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Make it available through</label>
           <select 
               class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
               name="availableThrough">
-            <option value="all" 
-                @if ($coupon->available_through == 'all') 
-                    selected='selected'
-                @endif>
-                    All
-            </option>
-            <option value="web" 
-                @if ($coupon->available_through == 'web') 
-                    selected='selected'
-                @endif>
-                    Webpage
-            </option>
-            <option value="mail" 
-                @if ($coupon->available_through == 'mail') 
-                    selected='selected'
-                @endif>
-                    Send by mail
-            </option>
-            
-            <option value="reward" 
-                @if ($coupon->available_through == "reward") 
-                    selected='selected'
-                @endif>
-                As a Reward
-            </option>
+                <option value="all" 
+                    @if ($coupon->available_through == 'all') 
+                        selected='selected'
+                    @endif>
+                        All
+                </option>
+                <option value="web" 
+                    @if ($coupon->available_through == 'web') 
+                        selected='selected'
+                    @endif>
+                        Webpage
+                </option>
+                <option value="mail" 
+                    @if ($coupon->available_through == 'mail') 
+                        selected='selected'
+                    @endif>
+                        Send by mail
+                </option>
+                
+                <option value="reward" 
+                    @if ($coupon->available_through == "reward") 
+                        selected='selected'
+                    @endif>
+                    As a Reward
+                </option>
           </select>
         </div>
 
@@ -535,6 +539,13 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="reward_id">
+                <option value="0"
+                    @if ($coupon->reward_id == 0) 
+                      selected='selected'
+                    @endif
+                    >
+                    Without reward
+                </option>
                 @foreach ($coupons as $coupon)
                     <option 
                         value="{{ $coupon->id }}"
@@ -551,10 +562,10 @@
         <div class='flex items-center justify-center  md:gap-8 gap-4 pt-5 pb-5'>
           <button 
             class='w-auto bg-gray-500 hover:bg-gray-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
-            type="" >Cancel</button>
+            type="reset" >Cancel</button>
           <button 
             class='w-auto bg-purple-500 hover:bg-purple-700 rounded-lg shadow-xl font-medium text-white px-4 py-2'
-            type="submit">Create</button>
+            type="submit">Update</button>
         </div>
     
       </div>

@@ -49,6 +49,8 @@ class DashboardController extends Controller
         return back()->banner('User has been deleted !');
     }
 
+    
+
     /**
      * Show the form for creating a new resource.
      *

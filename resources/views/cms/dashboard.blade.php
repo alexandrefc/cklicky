@@ -10,10 +10,12 @@
     <div>
         {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
         
-        <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
+        <div x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-200">
             <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
-        
-            <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
+            
+            <div @click="sidebarOpen = true" class="lg:hidden text-green-700 font-extrabold text-xl bg-gray-200 w-1/12"></div>
+
+            <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform  bg-gradient-to-b from-green-700 to-green-300 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
                 <div class="flex items-center justify-center mt-8">
                     <div class="flex items-center">
                         {{-- <svg class="h-12 w-12" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,12 +23,12 @@
                             <path d="M201.694 387.105C231.686 417.098 280.312 417.098 310.305 387.105C325.301 372.109 332.8 352.456 332.8 332.8C332.8 313.144 325.301 293.491 310.305 278.495C295.309 263.498 288 256 275.2 230.4C256 243.2 243.201 320 243.201 345.6C201.694 345.6 179.2 332.8 179.2 332.8C179.2 352.456 186.698 372.109 201.694 387.105Z" fill="white"></path>
                         </svg> --}}
                         
-                        <span class="text-white text-2xl mx-2 font-semibold">Dashboard</span>
+                        <span class="text-white font-extrabold text-2xl">Dashboard</span>
                     </div>
                 </div>
         
                 <nav class="mt-10">
-                    <a class="flex items-center mt-4 py-2 px-6 bg-gray-700 bg-opacity-25 text-gray-100" href="/dashboard">
+                    <a class="flex items-center mt-4 py-2 px-6 bg-gray-700 bg-opacity-25 text-white font-bold" href="/dashboard">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,7 +40,7 @@
                         <span class="mx-3">Loyalty campaigns</span>
                     </a>
         
-                    <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                         href="/categories/create">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -50,7 +52,7 @@
                         <span class="mx-3">Categories</span>
                     </a>
         
-                    <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                         href="/app-users">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -62,8 +64,8 @@
                         <span class="mx-3">App users</span>
                     </a>
         
-                    <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-                        href="/forms">
+                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+                        href="/faq">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -84,9 +86,9 @@
                         <div class="mt-4">
                             <div class="flex flex-wrap -mx-6">
 
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/2 mb-6">
+                                <div class="w-full px-6 md:w-1/2 xl:w-1/2 mb-16">
                                     <a href="/categories/create">
-                                    <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
+                                    <div class="flex items-center px-5 py-6 shadow-lg hover:shadow-xl rounded-md bg-white">
                                         <div class="p-3 rounded-full bg-indigo-600 bg-opacity-75">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
@@ -95,15 +97,15 @@
                                         
                                         <div class="mx-auto text-center">
                                             <h4 class="text-2xl font-semibold text-gray-700">1. STEP</h4>
-                                            <div class="text-gray-500 ">Create Categories</div>
+                                            <div class="text-gray-500 ">Create & Edit Categories</div>
                                         </div>
                                     </div>
                                 </a>
                                 </div>
 
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/2 mb-6">
+                                <div class="w-full px-6 md:w-1/2 xl:w-1/2 mb-16">
                                     <a href="/venues">
-                                    <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
+                                    <div class="flex items-center px-5 py-6 shadow-lg hover:shadow-xl rounded-md bg-white">
                                         <div class="p-3 rounded-full bg-indigo-600 bg-opacity-75">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -113,7 +115,7 @@
                                         
                                         <div class="mx-auto text-center">
                                             <h4 class="text-2xl font-semibold text-gray-700">2. STEP</h4>
-                                            <div class="text-gray-500 ">Create Venue</div>
+                                            <div class="text-gray-500 ">Create & Edit Venue</div>
                                         </div>
                                     </div>
                                 </a>
@@ -122,7 +124,7 @@
 
 
 
-                                <div class="w-full px-32 sm:w-1/2 xl:w-4/5 mx-auto mb-8">
+                                {{-- <div class="w-full px-32 sm:w-1/2 xl:w-4/5 mx-auto mb-8">
                                     <a class=" cursor-text "
                                         href="/points">
                                     <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
@@ -145,11 +147,11 @@
                                         </div>
                                     </div>
                                 </a>
-                                </div>
+                                </div> --}}
 
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/3 mb-6">
+                                <div class="w-full px-6 md:w-1/2 xl:w-1/3 mb-16">
                                     <a href="/points">
-                                    <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
+                                    <div class="flex items-center px-5 py-6 shadow-lg hover:shadow-xl rounded-md bg-white">
                                         <div class="p-3 rounded-full bg-pink-600 bg-opacity-75">
                                             <svg class="h-8 w-8 text-white" viewBox="0 0 28 28" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -170,9 +172,9 @@
                                 </a>
                                 </div>
 
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/3 mb-6">
+                                <div class="w-full px-6 md:w-1/2 xl:w-1/3 mb-16">
                                     <a href="/coupons">
-                                    <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
+                                    <div class="flex items-center px-5 py-6 shadow-lg hover:shadow-xl rounded-md bg-white">
                                         <div class="p-3 rounded-full bg-pink-600 bg-opacity-75">
                                             <svg class="h-8 w-8 text-white" viewBox="0 0 28 28" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -196,9 +198,9 @@
 
 
 
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+                                <div class="w-full px-6 md:w-1/2 xl:w-1/3 mb-16">
                                     <a href="/stamps">
-                                    <div class="flex items-center px-5 py-6 shadow-sm rounded-md bg-white">
+                                    <div class="flex items-center px-5 py-6 shadow-lg hover:shadow-xl rounded-md bg-white">
                                         <div class="p-3 rounded-full bg-pink-600 bg-opacity-75">
                                             <svg class="h-8 w-8 text-white" viewBox="0 0 28 28" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">

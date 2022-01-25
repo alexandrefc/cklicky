@@ -6,11 +6,100 @@
         </h2>
     </x-slot> --}}
 
-    <div class="mx-15">
+    {{-- <div class="mx-15">
         <div style="width: auto; margin: auto; height: 400px;">
             {!! Mapper::render() !!}
         </div>
-    </div>
+    </div> --}}
+
+{{-- {{ $location = 'krakow+poland' }}
+{{ $marker = 'warszawa+poland' }} --}}
+
+    {{-- <iframe
+        width="450"
+        height="250"
+        frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/place
+        ?key=AIzaSyBxKZcVDwTkvcYt0OGdUJkBPMwRftYnm8Q
+        &q={{ $location }}
+        &q={{ $marker }}" allowfullscreen>
+    </iframe> --}}
+
+    {{-- <style type="text/css">
+        /* Set the size of the div element that contains the map */
+        #map {
+          height: 400px;
+          /* The height is 400 pixels */
+          width: 100%;
+          /* The width is the width of the web page */
+        }
+      </style>
+
+<script>
+    // Initialize and add the map
+    function initMap() {
+      // The location of Uluru
+      const uluru = { lat: -25.344, lng: 131.036 };
+      // The map, centered at Uluru
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: uluru,
+      });
+      // The marker, positioned at Uluru
+      const marker = new google.maps.Marker({
+        position: uluru,
+        map: map,
+      });
+    }
+  </script>
+
+    <div id="map">
+
+    </div> --}}
+
+    
+    {{-- <script>
+            var geocoder;
+            var map;
+
+            function initialize() {
+                geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(-34.397, 150.644);
+                var mapOptions = {
+                zoom: 8,
+                center: latlng
+                }
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                
+            }
+           
+
+            function codeAddress() {
+                var address = document.getElementById('address').value;
+               
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+                });
+            }
+
+
+    </script> --}}
+
+{{-- <body onload="initialize()">
+    <div id="map" style="width: 320px; height: 480px; margin-left: auto; margin-right: auto;"></div>
+     <div>
+       <input id="address" type="textbox" value="{{ $location }}">
+       <input type="button" value="Show on the map" onclick="codeAddress()">
+     </div>
+   </body> --}}
     
 
     <div class="container my-8 mx-8">
@@ -21,7 +110,7 @@
                 <a href="/venues/create" class="">
                     <span
                         class="text-salmon font-medium text-lg ml-2 hover:underline">
-                        Create new venue
+                        + Create new venue
                     </span>
                 </a>
             </h2>
@@ -70,24 +159,31 @@
                       Total offers: {{ $venue->points->count() ?? "0" }}                   
                     </p>
 
-                    {{-- <p class="text-xs md:text-sm mb-1">
+                    <p class="text-xs md:text-xs mb-1">
                         Category: {{ $venue->category->name ?? "No Category" }}                   
-                        </p> --}}
+                    </p>
+                    <p class="text-xs md:text-xs mb-1">
+                        Email: {{ $venue->email ?? "No Email" }}                   
+                    </p>
+                    <p class="text-xs md:text-xs mb-1">
+                        Website: {{ $venue->website ?? "No website" }}                   
+                    </p>
                     <a 
                         class=""
                         href="https://www.google.com/maps/place/{{ $venue->location }}"
                         target="_blank">                    
-                        <p class="font-bold text-xs md:text-sm mb-1">
+                        <p class="font-bold text-xs md:text-sm mb-1 mt-4">
                             Address:                   
                         </p>
                         <p class="text-xs md:text-sm mb-1 h-10">
                             {{ $venue->location ?? "No location available" }}
                         </p>
+                        
                         <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
                             Go to the map ->
                         </p>
                     </a>
-                    
+                   
                 <div class="flex space-x-1 mb-1">
                   <div class="flex-1 w=4/5 m-auto text-center">
                       <form 
@@ -136,6 +232,26 @@
     </div>
 
    
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxKZcVDwTkvcYt0OGdUJkBPMwRftYnm8Q&callback=initMap&libraries=&v=weekly"
+      async
+    >
 
+            // Initialize and add the map
+        function initMap() {
+        // The location of Uluru
+        const uluru = { lat: -25.344, lng: 131.036 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: uluru,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+            position: uluru,
+            map: map,
+        });
+        }
+</script>
 
 </x-app-layout>

@@ -19,6 +19,7 @@ class Stamp extends Model
     
     protected $casts = [
         'scheduled_days' => AsCollection::class,
+        'age' => AsCollection::class,
     ];
 
     public function scopeId($query, $id)
@@ -76,5 +77,10 @@ class Stamp extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function reward()
+    {
+        return $this->hasOne(Reward::class);
     }
 }

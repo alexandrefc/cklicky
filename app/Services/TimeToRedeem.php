@@ -37,25 +37,37 @@ class TimeToRedeem
 
     public function setTimeToRedeem($period, $timeToRedeem)
     {
-        switch ($period) {
-            case "minutes":
-                return now()->addMinutes($timeToRedeem);
-                break;
-            case "hours":
-                return now()->addHours($timeToRedeem);
-                break;
-            case "days":
-                return now()->addDays($timeToRedeem);
-                break;
-            case "months":
-                return now()->addMonths($timeToRedeem);
-                break;
+        if($timeToRedeem == NULL)
+        {
+            return NULL;
+        } else {
+            switch ($period) {
+                case "minutes":
+                    return now()->addMinutes($timeToRedeem);
+                    break;
+                case "hours":
+                    return now()->addHours($timeToRedeem);
+                    break;
+                case "days":
+                    return now()->addDays($timeToRedeem);
+                    break;
+                case "months":
+                    return now()->addMonths($timeToRedeem);
+                    break;
+            }
         }
+
+        
         
     }
 
     public function setResetTime($period, $resetTime)
     {
+        if($resetTime == NULL)
+        {
+            return NULL;
+        }
+
         switch ($period) {
             case "seconds":
                 return now()->addSeconds($resetTime);

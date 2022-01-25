@@ -10,10 +10,16 @@ class BillingInformation extends Component
     public $billing, $billings, $company_name, $country, $street, $city, $state, $post_code, $tax_id;
     public $updateBilling = false;
 
-    // protected $rules = [
-    //     'name'=>'required',
-    //     'description'=>'required'
-    // ];
+    protected $rules = [
+        'company_name'=>'required|string|max:255',
+        'country'=>'nullable|string|max:255', 
+        'street'=>'nullable|string|max:255',
+        'city'=>'nullable|string|max:255',
+        'state'=>'nullable|string|max:255',
+        'post_code'=>'nullable|string|max:255',
+        'tax_id'=>'nullable|string|max:255',
+        
+    ];
 
     public function render()
     {
@@ -78,6 +84,6 @@ class BillingInformation extends Component
         // ])->save();
 
         $this->emit('saved');
-        $this->emit('refresh-navigation-menu');
+        // $this->emit('refresh-navigation-menu');
     }
 }

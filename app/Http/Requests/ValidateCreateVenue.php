@@ -24,16 +24,16 @@ class ValidateCreateVenue extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required|mimes:jpg, png, jpeg|max:5048'
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'logo' => 'required|mimes:jpg,png,jpeg|max:5048'
         ];
     }
 
     public function messages()
     {
         return [
-            'title.required' => 'A title is required',
+            'title.required' => 'A Company Name is required',
             'title.unique' => 'This title already exists, please try other',
             'content.required' => 'A message is required',
             'content.unique' => 'This content already exists, please try other',

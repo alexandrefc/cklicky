@@ -29,5 +29,9 @@ interface CouponInterface
     public function getAllManagerCoupons();
 
     public function checkIfUserIsManager($couponId);
+
+    public function addCouponRewardToMyCoupons($couponId, $userId);
+
+    public function getTimeToRedeem($couponId);
     
 }

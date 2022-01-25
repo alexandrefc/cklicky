@@ -43,8 +43,6 @@
               />
             </div>
 
-            
-
             <div class="px-4 py-2 mt-2">
               <div class="text-lg leading-6 font-medium space-y-1">
                 <h3 class="font-bold text-gray-800 text-lg md:text-2xl mb-2">
@@ -60,117 +58,87 @@
                       {{ $point->description }}                   
                   </p>
                   
-                  
                   <p class="text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
-                    Total points: {{ $point->total_points ?? "" }}                   
+                    Total points: {{ $point->add_x_points . "/" . $point->total_points ?? "" }}                   
                   </p>
                   <p class="font-bold text-base mb-1">
                       Campaign details:                   
                   </p>
-                  <p class="text-xs md:text-sm mb-1">
-                  Category: {{ $point->category->name ?? "No Category" }}                   
-                  </p>
-                  <p class="text-xs md:text-sm mb-1">
-                  Venue: {{ $point->venue->title ?? "No Venue" }}                   
-                  </p>
-                  <p class="text-xs md:text-sm mb-1">
-                  Reward: {{ $point->reward_id ?? "No rewards" }}                   
+                 
+                  <p class="text-xs  mb-1">
+                    Category: {{ $point->category->name ?? "No Category" }}                   
                     </p>
-                  <p class="text-xs md:text-sm mb-1">
+                    <p class="text-xs  mb-1">
+                    Venue: {{ $point->venue->title ?? "No Venue" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                      Manager: {{ $point->manager_email ?? "No manager" }}                   
+                      </p>
+
+                    <p class="text-xs  mb-1">
+                      Available through: {{ $point->available_through ?? "" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                      @foreach ($rewards as $reward)
+                            @if ($reward->id == $point->reward_id)
+                              Reward: {{ $reward->title ?? "No reward" }} 
+                                  <a href="/coupons/{{ $reward->slug }}">
+                                          <span class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
+                                              See reward ->
+                                          </span>
+                                  </a>  
+                            @endif
+                      @endforeach
+                      @if ($point->reward_id == NULL)
+                              Reward: No reward 
+                      @endif
+                    </p>
+                    <p class="text-xs  mb-1">
+                      YouTube: {{ $point->video_yt_id ?? "No video" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                      Full screen: {{ $point->image_fs_path ? "Yes" : "No full screen image" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
                     Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
-                  </p>
-                  <p class="text-xs md:text-sm mb-1">
-                    Campaign reset time:
-                    
-                    {{ $point->reset_time }} {{ $point->type_of_reset_time }}                
-                  </p>
-                  <p class="text-xs md:text-sm mb-1">
-                    Available through: {{ $point->available_through ?? "No ava" }}                   
                     </p>
-                  <p class="text-xs mb-3 mt-2 md:mb-6">
-                    Valid:
+                    <p class="text-xs  mb-1">
+                    Total points: {{ $point->total_points ?? "" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                        Campaign reset time:
+                        {{ $point->reset_time ?? "no limits" }} {{ $point->reset_time ? $point->type_of_reset_time : ""}}                
+                    </p>
+                    <p class="text-xs  mb-3 md:mb-1">
+                        Time to complete all points:
+                        {{ $point->x_time_to_redeem ?? "till end of the campaign" }} {{ $point->x_time_to_redeem ? $point->type_of_period_to_redeem : ""}}               
+                    </p>
+                    <p class="text-xs  mb-1">
+                      Gender rules: {{ $point->gender ?? "" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                      Age rules: {{ $point->age[0] ?? "" }}                   
+                    </p>
+                    <p class="text-xs  mb-1">
+                      Scheduled days of the week: {{ $point->scheduled_days ? $point->scheduled_days->implode(', ') : "" }}                   
+                    </p>
                     
-                    {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
-                  </p>
-                  
-                  
-                  {{-- <p class="text-sm mb-1">
-                  Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
-                  </p> --}}
-                  
-                  
-                  {{-- <span class="">
-                  <a 
-                      href="/points/{{ $point->slug }}"
-                      class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                  Read more
-                  </a>
-                  </span>
-                  
-                  <span class="float-right">
-                      <a 
-                          href="/points/{{ $point->slug }}/edit"
-                          class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                      Edit
-                      </a>
-                  </span> --}}
-                  
-
+                    <p class="text-xs  mb-3 md:mb-1">
+                      Scheduled time of the day: 
+                      @if ($point->start_time || $point->end_time)
+                        {{ date('H:i', strtotime($point->start_time)) }} - {{ date('H:i', strtotime($point->end_time)) }}
+                      @endif
+                    </p>
+                    <p class="text-xs  mb-3 mt-2 md:mb-6">
+                      Campaign valid between:
+                      {{ $point->start_date ? date('j M, Y', strtotime($point->start_date)) : " "}} - {{ $point->end_date ? date('j M, Y', strtotime($point->end_date)) : "" }}
+                    </p>
+                </div>
+              </div>
+            </a>
               
-
-              {{-- @if($point->id == $myPoints->point_id)
-                <span class="float-right">
-                  <form 
-                      action="/points/addtomy/{{ $point->id }}"
-                      method="POST">
-                      @csrf
-
-                      <button 
-                          class="text-green-500 pr-3"
-                          type="submit">
-                          Add to favourites
-                      </button>
-
-                  </form>
-                </span>
-              @else
-              <span class="float-right">
-                <form 
-                    action="/points/addtomy/{{ $point->id }}"
-                    method="POST">
-                    @csrf
-
-                    <button 
-                        class="text-green-500 pr-3"
-                        type="submit">
-                        Add to favourites
-                    </button>
-
-                </form>
-              </span>
-              @endif --}}
-              
-
-              {{-- <span class="float-right">
-                  <form 
-                      action="/points/{{ $point->slug }}"
-                      method="POST">
-                      @csrf
-                      @method('delete')
-
-                      <button 
-                          class="text-red-500 pr-3"
-                          type="submit">
-                          Delete
-                      </button>
-
-                  </form>
-              </span> --}}
-              {{-- <div class="w-4/5 mb-5 mx-auto border-b-2 border-gray-200">
-                  <br>
-              </div> --}}
-              <div class="flex space-x-1 mb-1">
-                <div class="flex-1 w=4/5 m-auto text-center">
+              <div class="flex space-x-1 mb-1 mx-5">
+                <div class="flex-1 w=4/5 m-auto text-left">
                     <form 
                     action="/points/{{ $point->slug }}"
                     method="POST">
@@ -184,21 +152,22 @@
                         </button>
                     </form>
                 </div>
-    
-                <div class="flex-1 w=4/5 m-auto text-right">
-                    {{-- <form 
-                        action="/points/confirmaddpoints/{{ $point->id }}"
-                        method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                
+                <div class="flex-1 w=4/5 m-auto text-center">
+                    <form 
+                      action="/points/mail/{{ $point->id }}"
+                      method="POST">
+                      @csrf
+                      
                         <button 
                             type="submit"
-                            class=" bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                            Edit
-                        </button>            
-                    </form> --}}
+                            class=" bg-pink-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                            Mail
+                        </button>
+                    </form>
+                </div>
+    
+                <div class="flex-1 w=4/5 m-auto text-right">
+                  
                       <a 
                           href="/points/{{ $point->slug }}/edit"
                           class="bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
@@ -207,29 +176,17 @@
                 </div>
               </div>
               
-              
-        
-              </div>
-
-                  {{-- <div class="aspect-w-16 aspect-h-9">
+                  <div class="m-6">
                       <img
                       class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
                       src="{{ asset('images/qrcodes/' . $point->qrcode_path) }}"
                       alt=""
                       />
-                  </div> --}}
-            </div>
-
-          
-         
+                  </div>
             
-          </a>
-      
         </div>
-
               {{-- @endif --}}
             @endforeach
-              
         
       </div>
   </div>

@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\MyStamp;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Mail\SendStampCampaign;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Interfaces\StampInterface;
 use App\Http\Interfaces\VenueInterface;
 use App\Http\Interfaces\CouponInterface;
+use App\Http\Interfaces\CategoryInterface;
+use App\Http\Requests\ValidateCreateStamp;
+use App\Http\Requests\ValidateUpdateStamp;
 use App\Http\Requests\ValidateCreateCoupon;
 
 class StampController extends Controller
@@ -25,12 +31,13 @@ class StampController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CouponInterface $couponInterface)
     {
         // $stamps = $this->stampInterface->getAllstamps();
         $stamps = $this->stampInterface->getAllManagerStamps();
-           
-        return view('stamps.index', compact('stamps'));
+        $rewards = $couponInterface->getAllManagerCoupons();
+
+        return view('stamps.index', compact('stamps', 'rewards'));
     }
 
     /**
@@ -38,15 +45,15 @@ class StampController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(VenueInterface $venueInterface, Category $categoryRepo, CouponInterface $couponInterface)
+    public function create(VenueInterface $venueInterface, CategoryInterface $categoryInterface, CouponInterface $couponInterface)
     {
         
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $stamps = $this->stampInterface->getAllStamps();
         $coupons = $couponInterface->getAllCoupons();
         
-        // Change to repo
-        $categories = $categoryRepo->all();
+        
+        $categories = $categoryInterface->getAllCategories();
 
         if(Gate::allows('admin_only', auth()->user())){
             return view('stamps.create', compact('venues', 'categories', 'stamps', 'coupons'));
@@ -62,13 +69,13 @@ class StampController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ValidateCreateCoupon $request)
+    public function store(ValidateCreateStamp $request)
     {
 
         $this->stampInterface->createStamp($request);
 
 
-        $request->session()->flash('flash.banner', 'stamp has been adeed succesfully !');
+        $request->session()->flash('flash.banner', 'Stamp campaign has been created successfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/stamps');
@@ -80,12 +87,19 @@ class StampController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(CouponInterface $couponInterface, $slug)
     {
         $stamp = $this->stampInterface->getStampBySlug($slug);
+        $myStamp = new MyStamp;
+        $reward = $couponInterface->getCouponById($stamp->reward_id);
+
+        if(auth()->check()){
+            $myStamp = $myStamp->getMyStampById($stamp->id, auth()->user()->id);
+        }
+        
         
 
-        return view('stamps.show', compact('stamp'));
+        return view('stamps.show', compact('stamp', 'myStamp', 'reward'));
     }
 
     
@@ -96,19 +110,19 @@ class StampController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(VenueInterface $venueInterface, Category $categoryRepo, CouponInterface $couponInterface, $slug)
+    public function edit(VenueInterface $venueInterface, CategoryInterface $categoryInterface, CouponInterface $couponInterface, $slug)
     {
         $venues = $venueInterface->getAllManagerVenues(auth()->user()->id);
         $stamp = $this->stampInterface->getStampBySlug($slug);
         $stamps = $this->stampInterface->getAllStamps();
         $coupons = $couponInterface->getAllCoupons();
-        // Change to repo
-        $categories = $categoryRepo->all();
+        
+        $categories = $categoryInterface->getAllCategories();
 
         if(Gate::allows('admin_only', auth()->user())){
-            return view('stamps.edit', compact('stamp','venues', 'categories', 'stamps', 'coupons'));
+            return view('stamps.edit', compact('stamp', 'venues', 'categories', 'stamps', 'coupons'));
         } else {
-            return redirect('/stamps')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
         }
         // $stamp = $this->stampInterface->getstampBySlug($slug);
         // $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);
@@ -123,11 +137,11 @@ class StampController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $slug)
+    public function update(ValidateUpdateStamp $request, $slug)
     {
         $this->stampInterface->updateStamp($request, $slug);
 
-        $request->session()->flash('flash.banner', 'stamp has been updated succesfully !');
+        $request->session()->flash('flash.banner', 'Stamp campaign has been updated succesfully !');
         $request->session()->flash('flash.bannerStyle', 'success');
 
         return redirect('/stamps');
@@ -141,12 +155,17 @@ class StampController extends Controller
      */
     public function destroy(Request $request, $slug)
     {
-        $this->stampInterface->deleteStamp($slug);
+        if(Gate::allows('admin_only', auth()->user())){
+            $this->stampInterface->deleteStamp($slug);
 
-        $request->session()->flash('flash.banner', 'stamp has been deleted succesfully !');
-        $request->session()->flash('flash.bannerStyle', 'success');
+            $request->session()->flash('flash.banner', 'Stamp campaign has been deleted succesfully !');
+            $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/stamps');
+            return redirect('/stamps');
+
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 
     // Add to favourites
@@ -155,13 +174,13 @@ class StampController extends Controller
     {
         $myStamp = new MyStamp;
         $userId = auth()->user()->id;
-        $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
+        // $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
 
         if (!($myStamp->checkIfMyStampExists($stampId, $userId)))
         {
-            $myStamp->addToMyStamps($stampId, $userId, $user_time_to_redeem);
+            $myStamp->addToMyStamps($stampId, $userId);
 
-            return redirect('/loyalties')->banner('Stamp has been added to favourites succesfully !');
+            return back()->banner('Stamp campaign has been added to favourites successfully !');
         
         } else {
             
@@ -177,7 +196,7 @@ class StampController extends Controller
 
         $myStamp->removeFromMy($stampId);
 
-        return redirect('/myloyalties/' . auth()->user()->id)->banner('Stamp campaign has been removed from favourites !');
+        return back()->banner('Stamp campaign has been removed from favourites !');
     }
 
     
@@ -209,11 +228,11 @@ class StampController extends Controller
         $myStamp = new MyStamp;
         $userId = auth()->user()->id;
         $stampId = $id;
-        $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
+        // $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
         
         if (!($myStamp->checkIfMyStampExists($stampId, $userId)))
         {
-            $myStamp->addToMyStamps($stampId, $userId, $user_time_to_redeem);
+            $myStamp->addToMyStamps($stampId, $userId);
         }
 
         $stamp = $this->stampInterface->getStampById($id);
@@ -226,7 +245,7 @@ class StampController extends Controller
     public function addStamps($stampId, $userId) 
     {
         $myStamp = new MyStamp;
-        $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
+        // $user_time_to_redeem = $this->stampInterface->getTimeToRedeem($stampId);
 
         $addXStamps = $this->stampInterface->getStampById($stampId)->add_x_stamps;
         $user_reset_time = $this->stampInterface->getUserResetTime($stampId);
@@ -244,18 +263,18 @@ class StampController extends Controller
                         if (!($myStamp->checkIfMyStampExists($stampId, $userId)))
                         {
                             
-                            $myStamp->addToMyStamps($stampId, $userId, $user_time_to_redeem);
+                            $myStamp->addToMyStamps($stampId, $userId);
                             $myStamp->addStamps($stampId, $userId, $addXStamps, $user_reset_time);
 
                                 if ($myStamp->checkIfRewardIsAvailable($stampId, $userId))
                                 {
                                     
-                                    $this->stampInterface->addStampRewardToMyStamps($stampId, $userId);
+                                    $this->stampInterface->addStampRewardToMyCoupons($stampId, $userId);
                                     // $this->couponInterface->addCouponRewardToMystamps($stampId, $userId);
 
-                                    return redirect('/stamps')->banner('Reward is added !');
+                                    return redirect('/stamps/' . $stamp->slug)->banner('Congratulations ! You have received reward - check your favourite offers!');
                                 } else {
-                                    return redirect('/stamps')->banner('stamp has been added to favourites and added succesfully !');
+                                    return redirect('/stamps/' . $stamp->slug)->banner('Stamp has been added successfully !');
                                 }  
                         } else {
                             if (!($myStamp->checkIfStampIsFinished($stampId, $userId)))
@@ -263,27 +282,63 @@ class StampController extends Controller
                                 $myStamp->addStamps($stampId, $userId, $addXStamps, $user_reset_time);
                                 if ($myStamp->checkIfRewardIsAvailable($stamp, $userId))
                                 {
-                                    $this->stampInterface->addStampRewardToMyStamps($stampId, $userId);
+                                    $this->stampInterface->addStampRewardToMyCoupons($stampId, $userId);
 
-                                    return redirect('/stamps')->banner('Reward is added !');
+                                    return redirect('/stamps/' . $stamp->slug)->banner('Congratulations ! You have received reward - check your favourite offers!');
                                 } else {
-                                    return redirect('/stamps/' . $stamp->slug)->banner('stamps has been added succesfully !');                    }
+                                    return redirect('/stamps/' . $stamp->slug)->banner('Stamp has been added added successfully !');                    }
                             } else {
-                                return redirect('/stamps')->dangerBanner('stamps has been finished !');
+                                return redirect('/stamps/' . $stamp->slug)->dangerBanner('You have already collected all stamps !');
                             }
                         }
                     } else {
-                        return redirect('/stamps')->dangerBanner('Only Manager is permitted to add stamps!');
+                        return redirect('/stamps/' . $stamp->slug)->dangerBanner('Please show qrcode to seller. Only Manager is permitted to add stamps.');
                     }
                 } else {
-                    return redirect('/stamps')->dangerBanner('Too late !');
+                    return redirect('/stamps/' . $stamp->slug)->dangerBanner('Uuups, Your time to collect stamps is over!');
                 }
             } else {
-                return redirect('/stamps')->dangerBanner('Camapaign is not valid!');
+                return redirect('/stamps/' . $stamp->slug)->dangerBanner('Uuups, this camapaign seems to be not valid now !');
             }
         } else {
-            return redirect('/stamps')->dangerBanner('Wait a minute!');
+            return redirect('/stamps/' . $stamp->slug)->dangerBanner('Uuups, it is too early to add stamps again !');
         }
+    }
+
+    public function confirmSendStampByMail($id)
+    {
+        
+        $mailCampaign = $this->stampInterface->getStampById($id);
+        $myCampaign = new MyStamp;
+
+        $users = User::all();
+
+        foreach ($users as $user) 
+        {
+            Mail::to($user->email)
+                ->bcc('t.sz@aol.com')
+                ->send(new SendStampCampaign($mailCampaign));
+
+                if(!$myCampaign->checkIfMyStampExists($id, $user->id))
+                {
+                    $myCampaign->addToMyStamps($id, $user->id);
+                }
+                
+                $myStamp = $myCampaign->getMyStampById($id, $user->id);
+                
+                if($mailCampaign->available_through == 'mail' && $myStamp->user_time_to_redeem == NULL)
+                {
+                    $myCampaign->updateTimeToRedeem($id, $user->id);
+                }
+        }
+
+        
+
+        return back()->banner('Stamp Campaign has been sent successfully !');
+    
+        // event(new SendPointByMail($mailCampaign));
+            
+        // return view('points.addpoints', compact('point', 'addPointsQrcodePath', 'myPoint'));
     }
 
 

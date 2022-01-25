@@ -12,18 +12,16 @@ class MyStamp extends Model
 
     protected $fillable = ['stamp_id', 'user_id', 'stamps_amount', 'add_stamps_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
 
-    public function addToMyStamps($stampId, $userId, $user_time_to_redeem)
+    public function addToMyStamps($stampId, $userId)
     {
         // $userId = auth()->user()->id;
         $addStampsQrcodePath = (new CreateQrcode())->createAddStampsQrcode($stampId, $userId);
         
 
-
         self::create([
             'stamp_id' => $stampId,
             'user_id' => $userId, 
-            'add_stamps_qrcode_path' => $addStampsQrcodePath,
-            'user_time_to_redeem' => $user_time_to_redeem
+            'add_stamps_qrcode_path' => $addStampsQrcodePath
         ]);
     } 
 
@@ -62,7 +60,7 @@ class MyStamp extends Model
         $myStamp = $this->getMyStampById($stampId, $userId);
         
         
-        if ($myStamp->Stamps_amount >= $stamp->total_stamps)
+        if ($myStamp->stamps_amount >= $stamp->total_stamps)
         {
             $this->makeMyStampFinished($stampId, $userId);
 
@@ -89,6 +87,8 @@ class MyStamp extends Model
         return $myStamp->finished;
     } 
 
+    
+
     public function getAddStampsQrcodePath($stampId)
     {
         $myStamp = self::where('stamp_id', $stampId)
@@ -111,18 +111,33 @@ class MyStamp extends Model
 
         // $addXStamps = $Stamp->add_x_Stamps;
         
-        
-        $stampsAmount = $myStamp->stamps_amount;
-        $stampsAmount = $stampsAmount + $addXStamps;
+        if(!$myStamp->stamps_amount)
+        {
+            $user_time_to_redeem = app()->call('App\Http\Interfaces\StampInterface@getTimeToRedeem', ['stampId' => $stampId]); 
 
+            $stampsAmount = $myStamp->stamps_amount;
+            $stampsAmount = $stampsAmount + $addXStamps;
+            
+            self::where('stamp_id', $stampId)
+                ->where('user_id', $userId)
+                ->update([
+                    'stamps_amount' => $stampsAmount,
+                    'user_reset_time' => $user_reset_time,
+                    'user_time_to_redeem' => $user_time_to_redeem
+                ]);
+        } else {
+            
+            $stampsAmount = $myStamp->stamps_amount;
+            $stampsAmount = $stampsAmount + $addXStamps;
+            
+            self::where('stamp_id', $stampId)
+                ->where('user_id', $userId)
+                ->update([
+                    'stamps_amount' => $stampsAmount,
+                    'user_reset_time' => $user_reset_time
+                ]);
+        }
         
-        
-        self::where('stamp_id', $stampId)
-            ->where('user_id', $userId)
-            ->update([
-                'stamps_amount' => $stampsAmount,
-                'user_reset_time' => $user_reset_time
-        ]);
         
     }
 
@@ -134,7 +149,7 @@ class MyStamp extends Model
 
         $userTimeToRedeem = $stamp->user_time_to_redeem; 
         
-        if ($now <= $userTimeToRedeem)
+        if ($now <= $userTimeToRedeem || $userTimeToRedeem == NULL)
         {
             return TRUE;
         } else {
@@ -150,12 +165,25 @@ class MyStamp extends Model
 
         $userResetTime = $stamp->user_reset_time; 
         
-        if ($now > $userResetTime)
+        if ($now > $userResetTime || $userResetTime == NULL)
         {
             return TRUE;
         } else {
             return FALSE;
         }
 
+    }
+
+    public function updateTimeToRedeem($stampId, $userId)
+    {
+        
+        $user_time_to_redeem = app()->call('App\Http\Interfaces\StampInterface@getTimeToRedeem', ['stampId' => $stampId]);
+        
+        self::where('stamp_id', $stampId)
+                ->where('user_id', $userId)
+                ->update([
+                    'user_time_to_redeem' => $user_time_to_redeem
+            ]);
+        
     }
 }

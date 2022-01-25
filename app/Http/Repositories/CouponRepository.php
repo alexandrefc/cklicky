@@ -7,6 +7,7 @@ use App\Models\MyCoupon;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\CouponInterface;
 
@@ -102,7 +103,7 @@ class CouponRepository implements CouponInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age),
+            'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time
         ]);
@@ -207,4 +208,27 @@ class CouponRepository implements CouponInterface
         }
 
     } 
+
+    public function addCouponRewardToMyCoupons($couponId, $userId)
+    {
+        $myCoupon = new MyCoupon;
+        $coupon = $this->getCouponById($couponId);
+        $rewardId = $coupon->reward_id;
+        // $user_time_to_redeem = $this->getTimeToRedeem($pointId);
+
+        if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
+        {
+            $myCoupon->addToMyCoupons($rewardId, $userId);
+        } 
+    }
+
+    public function getTimeToRedeem($couponId)
+    {
+        $coupon = $this->getCouponById($couponId);
+        
+        return (new TimeToRedeem())->setTimeToRedeem($coupon->type_of_period_to_redeem, $coupon->x_time_to_redeem);
+    }
+
+
+
 }

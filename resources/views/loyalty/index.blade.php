@@ -69,9 +69,8 @@
                     Available through: {{ $point->available_through ?? "No ava" }}                   
                     </p> --}}
                   <p class="text-xs mb-3 mt-2 md:mb-6">
-                    Valid:
-                    
-                    {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
+                    {{ $point->start_date || $point->end_date ? "Valid between:" : ""}}
+                    {{ $point->start_date ? date('j M, Y', strtotime($point->start_date)) : " "}} - {{ $point->end_date ? date('j M, Y', strtotime($point->end_date)) : "" }}                  
                   </p>
                   {{-- <p class="text-sm mb-1">
                   Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
@@ -264,13 +263,12 @@
                 {{-- <p class="text-sm mb-1">
                 Category: {{ $point->category->name ?? "No Category" }}                   
                 </p> --}}
-                <p class=" text-xs mb-1">
+                <p class="text-xs mb-1">
                 Available in: {{ $coupon->venue->title ?? "No Venue" }}                   
                 </p>
                 <p class="text-xs mb-3 mt-2 md:mb-6">
-                  Valid:
-                  
-                  {{ date('j M, Y', strtotime($coupon->start_date)) }} - {{ date('j M, Y', strtotime($coupon->end_date)) }}                  
+                  {{ $coupon->start_date || $coupon->end_date ? "Valid between:" : ""}}
+                  {{ $coupon->start_date ? date('j M, Y', strtotime($coupon->start_date)) : " "}} - {{ $coupon->end_date ? date('j M, Y', strtotime($coupon->end_date)) : "" }}
                 </p>
                 {{-- <p class="text-sm mb-1">
                 Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
@@ -479,7 +477,7 @@
               {{-- <p class="text-xs md:text-sm mb-1">
               Category: {{ $point->category->name ?? "No Category" }}                   
               </p> --}}
-              <p class="text-xs md:text-sm mb-1">
+              <p class="text-xs mb-1">
               Available in: {{ $stamp->venue->title ?? "No Venue" }}                   
               </p>
               {{-- <p class="text-xs md:text-sm mb-1">
@@ -490,11 +488,12 @@
                 
                 {{ date('j M, Y', strtotime($myStamp->user_time_to_redeem)) }}                
               </p> --}}
+              
               <p class="text-xs mb-3 mt-2 md:mb-6">
-                Valid:
-                
-                {{ date('j M, Y', strtotime($stamp->start_date)) }} - {{ date('j M, Y', strtotime($stamp->end_date)) }}                  
+                  {{ $stamp->start_date || $stamp->end_date ? "Valid between:" : ""}}
+                  {{ $stamp->start_date ? date('j M, Y', strtotime($stamp->start_date)) : " "}} - {{ $stamp->end_date ? date('j M, Y', strtotime($stamp->end_date)) : "" }}
               </p>
+              
               
               
               {{-- <p class="text-sm mb-1">
@@ -788,7 +787,7 @@
         style="background-image: url({{ asset('/storage/images/loyalty/' . $point->image_fs_path) }})"
         class="relative h-96 full-screen-image flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
         <a href="/points/{{ $point->slug }}" class="">
-      {{-- <a href="" class="space-y-2"> --}}
+     
         {{-- <div class="aspect-w-16 aspect-h-9">
           <img
             class="object-cover w-full shadow-md hover:shadow-xl rounded-lg"
@@ -811,80 +810,16 @@
 
           <div class="text-md text-gray-900">
               
-              {{-- <p class="text-sm md:text-lg mb-6 h-10">
-                  {{ $coupon->description }}                   
-              </p> --}}
-              
-              
-              {{-- <p class="text-xl mb-1 text-center">
-                Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
-              </p> --}}
-              {{-- <p class="font-bold text-base mb-1">
-                  More details:                   
-              </p> --}}
-              {{-- <p class="text-sm mb-1">
-              Category: {{ $point->category->name ?? "No Category" }}                   
-              </p> --}}
-              {{-- <p class="text-xs mb-1">
-              Available in: {{ $point->venue->title ?? "No Venue" }}                   
-              </p>
-              <p class="text-xs mb-3 mt-2 md:mb-6">
-                Valid:
-                
-                {{ date('j M, Y', strtotime($point->start_date)) }} - {{ date('j M, Y', strtotime($point->end_date)) }}                  
-              </p> --}}
-              {{-- <p class="text-sm mb-1">
-              Points to collect per purchase: {{ $point->add_x_points ?? "" }}                   
-              </p> --}}
-              {{-- <p class="text-sm mb-1">
-              Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
-              </p> --}}
-              
-              
-              {{-- <span class="">
-              <a 
-                  href="/points/{{ $point->slug }}"
-                  class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-              Read more
-              </a>
-              </span>
-              
-              <span class="float-right">
-                  <a 
-                      href="/points/{{ $point->slug }}/edit"
-                      class="text-gray-700 italic hover:text-gray-900 pb-1 border-b-2">
-                  Edit
-                  </a>
-              </span> --}}
-              
-
-          
-
-          
-          
-
-              
-          
           
     
           </div>
 
-          
-
-              {{-- <div class="aspect-w-16 aspect-h-9">
-                  <img
-                  class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
-                  src="{{ asset('images/qrcodes/' . $point->qrcode_path) }}"
-                  alt=""
-                  />
-              </div> --}}
         </div>
 
       
      
         
-      {{-- </a> --}}
-        
+      
       <div class="flex w-4/5 space-x-1 mb-1 absolute inset-x-0 bottom-4 m-auto">
         <div class=" text-center m-auto w-1/2">
           <form 
@@ -929,7 +864,7 @@
       @else
 
 
-        <div
+        {{-- <div
           class="flex-none w-2/3 md:w-1/4 w-max-350px h-250 h-max-350px mr-8 md:pb-4 border rounded-lg h-96"
         >
           <a href="#" class="space-y-4">
@@ -949,7 +884,7 @@
                 src="{{ asset('storage/images/loyalty/' . $point->image_path) }}"
                 alt=""
                 />
-              @endif
+              @endif --}}
                            
               {{-- <img
                 class="object-cover shadow-md hover:shadow-xl rounded-lg"
@@ -967,7 +902,7 @@
               <iframe width="300" height="220" src="https://www.youtube.com/embed/E7SCzULQYUQ?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
               <h3>title</h3>
           </div> --}}
-            </div>
+            {{-- </div>
 
             
 
@@ -1021,7 +956,7 @@
             </div>
           </a>
           
-        </div>
+        </div> --}}
         @endif
           @endforeach
         

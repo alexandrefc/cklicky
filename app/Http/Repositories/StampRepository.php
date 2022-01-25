@@ -4,12 +4,14 @@ namespace App\Http\Repositories;
 
 use App\Models\Stamp;
 use App\Models\MyStamp;
+use App\Models\MyCoupon;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\StampInterface;
+use App\Models\Reward;
 
 class StampRepository implements StampInterface
 {
@@ -103,11 +105,25 @@ class StampRepository implements StampInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age),
+            'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time 
             
         ]); 
+
+        if($request->reward_id)
+        {
+            $reward = new Reward;
+            $campaign_id = $this->getStampBySlug($slug)->id;
+            $campaign_type = 'stamp'; 
+            $reward_id = $request->reward_id; 
+            $reward_type = 'coupon';
+            $reward_points_amount = $request->total_stamps;
+    
+            $reward->createReward($campaign_id, $campaign_type, $reward_id, $reward_type, $reward_points_amount);
+        }
+       
+
     }
 
     public function updateStamp($request, $slug)
@@ -164,7 +180,7 @@ class StampRepository implements StampInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age),
+            'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time 
             // 'qrcode_path' => $updated_qrcode_path,
@@ -172,6 +188,22 @@ class StampRepository implements StampInterface
             // 'slug' => $updated_slug
             
         ]); 
+
+        if($request->reward_id)
+        {
+            $stamp = $this->getStampBySlug($slug);
+            if($stamp->reward_id == NULL)
+            {
+                $campaign_type = 'stamp'; 
+                $reward_id = $request->reward_id; 
+                $reward_type = 'coupon';
+                $reward_points_amount = $request->total_stamps;
+                $campaign_id = $stamp->id;
+        
+                $reward = new Reward;
+                $reward->createReward($campaign_id, $campaign_type, $reward_id, $reward_type, $reward_points_amount);
+            }
+        }
     }
 
     public function deleteStamp($slug)
@@ -184,7 +216,7 @@ class StampRepository implements StampInterface
 
         foreach($myStamps as $myStamp)
         {
-            $deleteQrcode->deleteQrcode($myStamp->add_Stamps_qrcode_path);
+            $deleteQrcode->deleteQrcode($myStamp->add_stamps_qrcode_path);
         }
         
         $deleteImage->deleteImageFS($stamp->image_fs_path);
@@ -230,7 +262,7 @@ class StampRepository implements StampInterface
         // $startDate = $Stamp->start_date; 
         // $endDate = $Stamp->end_date; 
         
-        if ($stamp->start_date <= now() && now() <= $stamp->end_date)
+        if ($stamp->start_date <= now() && now() <= $stamp->end_date || $stamp->start_date == 0 || $stamp->end_date == 0)
         {
             return TRUE;
         } else {
@@ -252,5 +284,19 @@ class StampRepository implements StampInterface
             $myStamp->addToMyStamps($rewardId, $userId, $user_time_to_redeem);
         } 
       
+    }
+
+    public function addStampRewardToMyCoupons($stampId, $userId)
+    {
+        $myCoupon = new MyCoupon;
+        $stamp = $this->getStampById($stampId);
+        $rewardId = $stamp->reward_id;
+        // $user_time_to_redeem = $this->getTimeToRedeem($pointId);
+
+        if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
+        {
+            $myCoupon->addToMyCoupons($rewardId, $userId);
+        } 
+
     }
 }

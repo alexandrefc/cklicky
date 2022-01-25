@@ -53,22 +53,41 @@
         @endif
 
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 sm:col-span-6">
             <x-jet-label for="name" value="{{ __('Name') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
+            <x-jet-input id="name" type="text" class="mt-1 block w-4/6" wire:model.defer="state.name" autocomplete="name" />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Email -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 sm:col-span-6">
             <x-jet-label for="email" value="{{ __('Email') }}" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
+            <x-jet-input id="email" type="email" class="mt-1 block w-4/6" wire:model.defer="state.email" />
             <x-jet-input-error for="email" class="mt-2" />
+        </div>
+        <!-- Age, Gender, Category campaign preferences -->
+        <div class="col-span-6 sm:col-span-6 uppercase border-b-2">
+            <x-jet-label value="{{ __('Campaign preferences') }}" />
+        </div>
+        <div class="col-span-6 sm:col-span-2">
+            <x-jet-label for="age" value="{{ __('Age') }}" />
+            <x-jet-input id="age" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.age" autocomplete="age" />
+            <x-jet-input-error for="age" class="mt-2" />
+        </div>
+        <div class="col-span-6 sm:col-span-2">
+            <x-jet-label for="gender" value="{{ __('Gender') }}" />
+            <x-jet-input id="gender" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.gender" autocomplete="gender" />
+            <x-jet-input-error for="gender" class="mt-2" />
+        </div>
+        <div class="col-span-6 sm:col-span-2">
+            <x-jet-label for="category" value="{{ __('Category') }}" />
+            <x-jet-input id="category" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.category" autocomplete="category" />
+            <x-jet-input-error for="category" class="mt-2" />
         </div>
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-jet-action-message class="mr-3 text-green-500" on="saved">
             {{ __('Saved.') }}
         </x-jet-action-message>
 

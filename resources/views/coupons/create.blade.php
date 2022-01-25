@@ -7,10 +7,10 @@
     </x-slot> --}}
 
     @if ($errors->any())
-      <div class="w-4/5 m-auto">
+      <div class="w-11/12 m-auto my-6">
           <ul>
               @foreach ($errors->all() as $error)
-                  <li class="w-1/5 mb-4 mr-6 text-gray-50 bg-red-700 rounded-2xl py-2 px-4 inline">
+                  <li class="w-1/5 mb-4 mt-2 mr-2 text-gray-50 bg-red-700 text-xs md:text-sm rounded-2xl py-1 px-2 inline">
                       {{ $error }}
                   </li>
               @endforeach
@@ -30,7 +30,7 @@
       
           <div class="flex justify-center">
             <div class="flex">
-              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Create coupon</h1>
+              <h1 class="text-gray-600 font-bold md:text-2xl text-xl">Create coupon campaign</h1>
             </div>
           </div>
           <form 
@@ -49,8 +49,14 @@
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
-            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Short description</label>
-            <textarea class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" name="description" id="description" cols="30" rows="3"></textarea>
+            <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">Short description</label>
+            <input 
+                class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
+                name="description" 
+                type="text" 
+                placeholder="Description"
+                
+                />
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
@@ -60,7 +66,7 @@
                       <div class='flex flex-col items-center justify-center pt-1'>
                         <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
-                        <input type='file' name="image" class="" />
+                        <input type='file' name="image" class="" required="" />
                       </div>
                     
                   </label>
@@ -96,7 +102,8 @@
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="managerEmail" 
                 type="email" 
-                placeholder="example@email.com" />
+                placeholder="example@email.com"
+                required="" />
           </div>
 
           <div class="grid grid-cols-1 mt-5 mx-7">
@@ -104,6 +111,7 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="category">
+                  {{-- <option value="0">All categories</option>   --}}
                   @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                   @endforeach
@@ -117,7 +125,7 @@
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="startDate"
                 type="date" 
-                placeholder="1" />
+                placeholder="" />
             </div>
             <div class="grid grid-cols-1">
               <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">End date</label>
@@ -125,7 +133,7 @@
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                 name="endDate"
                 type="date" 
-                placeholder="1" />
+                placeholder="" />
             </div>
           </div>
 
@@ -161,7 +169,7 @@
                           class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent" 
                           name="xTimeToRedeem" 
                           type="number" 
-                          placeholder="1" />
+                          placeholder="" />
                   </div>
                   <div class="grid grid-cols-1">
                         <select 
@@ -319,10 +327,10 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="availableThrough">
-              <option value="web">Webpage</option>
-              <option value="mail">Send by mail</option>
-              <option value="all">All</option>
-              <option value="reward">As a Reward</option>
+                  <option value="all">All</option>
+                  <option value="web">Webpage</option>
+                  <option value="mail">Send by mail</option>
+                  <option value="reward">As a Reward</option>
             </select>
           </div>
 
@@ -342,6 +350,7 @@
             <select 
                 class="py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 name="reward_id">
+                <option value="0" selected>Without reward</option>
                 @foreach ($coupons as $coupon)
                 <option value="{{ $coupon->id }}">{{ $coupon->title }}</option>
                 @endforeach

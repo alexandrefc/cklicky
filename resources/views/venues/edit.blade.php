@@ -15,17 +15,16 @@
   </div> --}}
   
   @if ($errors->any())
-      <div class="w-4/5 m-auto">
+      <div class="w-11/12 m-auto my-6">
           <ul>
               @foreach ($errors->all() as $error)
-                  <li class="w-1/5 mb-4 text-gray-50 bg-red-700 rounded-2xl py-4">
+                  <li class="w-1/5 mb-4 mt-2 mr-2 text-gray-50 bg-red-700 text-xs md:text-sm rounded-2xl py-1 px-2 inline">
                       {{ $error }}
                   </li>
               @endforeach
           </ul>
       </div>
-      
-  @endif
+    @endif
 
   
   
@@ -41,7 +40,7 @@
             <div class="grid gap-8 grid-cols-1">
                 <div class="flex flex-col ">
                     <div class="flex flex-col sm:flex-row items-center">
-                        <h2 class="font-semibold text-lg mr-auto">Update a venue</h2>
+                        <h2 class="font-semibold text-lg mr-auto">Update venue</h2>
                             <div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0">
 
                             </div>
@@ -130,12 +129,10 @@
                                         value="{{ $venue->website }}">
                                 </div>
                             </div>
-                          
+
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
                                 <div class="w-full flex flex-col mb-3">
-                                    <label class="font-semibold text-gray-600 py-2">
-                                        Company Address
-                                    </label>
+                                    <label class="font-semibold text-gray-600 py-2">Company Address</label>
                                     <input 
                                         placeholder="Address" 
                                         value="{{ $venue->location }}" 
@@ -144,7 +141,12 @@
                                         name="location" 
                                         id="location">
                                 </div>
-                                <div class="w-full flex flex-col mb-3">
+                                                 
+                            </div>
+                          
+                            <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
+                                
+                                {{-- <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">PIN - 4 digits</label>
                                     <input 
                                         placeholder="1234" 
@@ -155,6 +157,22 @@
                                         name="pin" 
                                         id="pin"
                                         >
+                                </div> --}}
+                                <div class="w-full flex flex-col mb-3">
+                                    <label class="font-semibold text-gray-600 py-2">Category</label>
+                                    <select 
+                                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
+                                        name="category_id"
+                                        value="{{ $venue->category_id }}">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    @if ($venue->category_id == $category->id) 
+                                                        selected='selected'
+                                                    @endif >{{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        
+                                    </select>
                                 </div>
                             </div>
                           {{-- <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">

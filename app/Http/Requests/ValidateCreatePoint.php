@@ -24,9 +24,29 @@ class ValidateCreatePoint extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required|mimes:jpg, png, jpeg|max:5048'
+            'title'=>'required|string|max:255',
+            'description'=>'nullable|string|max:255', 
+            'image' => 'required|mimes:jpg,png,jpeg|max:2048',
+            'imageFS' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'videoYtId'=>'nullable|string|max:255',
+            'managerEmail'=>'required|email',
+            'category'=>'nullable|integer',
+            'startDate'=>'nullable|date',
+            'endDate'=>'nullable|date',
+            'xTimeToRedeem'=>'nullable|integer',
+            'period'=>'nullable|string|max:255',
+            'timeReset'=>'nullable|integer',
+            'timeResetPeriod'=>'nullable|string|max:255',
+            'age'=>'nullable|array',
+            'gender'=>'nullable|string|max:255',
+            'scheduled_days'=>'nullable|array',
+            'start_time'=>'nullable|date_format:H:i',
+            'end_time'=>'nullable|date_format:H:i',
+            'availableThrough'=>'required|string|max:255',
+            'venue_id'=>'nullable|integer',
+            'reward_id'=>'nullable|integer',
+            'xPoints'=>'required|integer',
+            'totalPoints'=>'required|integer'
         ];
     }
 

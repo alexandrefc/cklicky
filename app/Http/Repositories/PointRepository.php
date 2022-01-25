@@ -10,6 +10,7 @@ use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\PointInterface;
+use App\Models\MyCoupon;
 
 class PointRepository implements PointInterface
 {
@@ -105,7 +106,7 @@ class PointRepository implements PointInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age),
+            'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time
             
@@ -142,8 +143,13 @@ class PointRepository implements PointInterface
             $updated_image_fs_path = $existing_image_fs_path;
         }
 
-        
-        
+        // if($request->x_time_to_redeem)
+        // {
+        //     $user_time_to_redeem = $this->getTimeToRedeem($point->id);
+        //     $myPoint = new MyPoint();
+        //     $myPoint->updateMyPoint($point->id, $user_time_to_redeem);
+        // }
+
         $point->update([
             'title' => $request->title,
             'description' => $request->description,
@@ -166,7 +172,7 @@ class PointRepository implements PointInterface
             'video_yt_id' => $request->videoYtId,
             'scheduled_days' => $request->scheduled_days,
             'gender' => $request->gender,
-            'age' => json_encode($request->age),
+            'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time 
             // 'qrcode_path' => $updated_qrcode_path,
@@ -232,7 +238,7 @@ class PointRepository implements PointInterface
         // $startDate = $point->start_date; 
         // $endDate = $point->end_date; 
         
-        if ($point->start_date <= now() && now() <= $point->end_date)
+        if ($point->start_date <= now() && now() <= $point->end_date || $point->start_date == 0 || $point->end_date == 0)
         {
             return TRUE;
         } else {
@@ -253,6 +259,21 @@ class PointRepository implements PointInterface
         {
             $myPoint->addToMyPoints($rewardId, $userId, $user_time_to_redeem);
         } 
-      
     }
+    public function addPointRewardToMyCoupons($pointId, $userId)
+    {
+        $myCoupon = new MyCoupon;
+        $point = $this->getPointById($pointId);
+        $rewardId = $point->reward_id;
+        // $user_time_to_redeem = $this->getTimeToRedeem($pointId);
+
+        if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
+        {
+            $myCoupon->addToMyCoupons($rewardId, $userId);
+        } 
+    }
+
+
+    
+
 }

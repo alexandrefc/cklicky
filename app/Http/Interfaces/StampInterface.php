@@ -32,6 +32,8 @@ interface StampInterface
 
     public function addStampRewardToMyStamps($stampId, $userId);
 
+    public function addStampRewardToMyCoupons($stampId, $userId);
+
     public function getAllManagerStamps();
 
     public function getTimeToRedeem($stampId);

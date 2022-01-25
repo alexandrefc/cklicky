@@ -35,5 +35,14 @@ class AuthServiceProvider extends ServiceProvider
             }
                 return false;
         });
+
+        Gate::define('wls_only', function($user)
+        {
+            if($user->is_wls == 1)
+            {
+                return true;
+            }
+                return false;
+        });
     }
 }

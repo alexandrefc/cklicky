@@ -50,6 +50,12 @@ class AboutController extends Controller
         return view('about.index/#whitelabelsolution');
     }
 
+    public function faq()
+    {
+
+        return view('cms.howto');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

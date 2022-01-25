@@ -7,8 +7,13 @@ use Carbon\Carbon;
 
 use App\Models\Venue;
 use App\Models\MyVenue;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Interfaces\VenueInterface;
+use App\Http\Interfaces\CategoryInterface;
+use App\Http\Requests\ValidateCreateVenue;
+use App\Http\Requests\ValidateUpdateVenue;
 
 class VenueController extends Controller
 {
@@ -25,8 +30,13 @@ class VenueController extends Controller
      */
     public function index()
     {
-        $venues = $this->venueInterface->getAllVenues();
+        $venues = $this->venueInterface->getAllManagerVenues();
         $location = "Kraków Polska";
+
+        // $locations = $this->venueInterface->getAllManagerVenues();
+        // $mapLocations = $locations->location;
+
+        // dd($mapLocations);
         
 
         // foreach($venues as $venue) 
@@ -39,9 +49,6 @@ class VenueController extends Controller
             ->map(['markers' => ['title' => 'Bleesk', 'animation' => 'DROP'], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]])
             ->marker(52.2296756, 21.0122287);
 
-
-        
-
         return view('venues.index', compact('venues'));
     }
 
@@ -50,9 +57,14 @@ class VenueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CategoryInterface $categoryInterface)
     {
-        return view('venues.create');
+        if(Gate::allows('admin_only', auth()->user())){
+            $categories = $categoryInterface->getAllCategories();
+            return view('venues.create', compact('categories'));
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 
     /**
@@ -61,7 +73,7 @@ class VenueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidateCreateVenue $request)
     {
         $this->venueInterface->createVenue($request);
 
@@ -92,11 +104,16 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(CategoryInterface $categoryInterface, $slug)
     {
-        $venue = $this->venueInterface->getVenueBySlug($slug);
+        if(Gate::allows('admin_only', auth()->user())){
+            $venue = $this->venueInterface->getVenueBySlug($slug);
+            $categories = $categoryInterface->getAllCategories();
 
-        return view('venues.edit', compact('venue'));
+            return view('venues.edit', compact('venue', 'categories'));
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 
     /**
@@ -106,7 +123,7 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ValidateUpdateVenue $request, $id)
     {
         $this->venueInterface->updateVenue($request, $id);
 
@@ -121,9 +138,13 @@ class VenueController extends Controller
      */
     public function destroy($slug)
     {
-        $this->venueInterface->deleteVenue($slug);
+        if(Gate::allows('admin_only', auth()->user())){
+            $this->venueInterface->deleteVenue($slug);
 
-        return redirect('/venues')->banner('Venue has been deleted successfully !');
+            return redirect('/venues')->banner('Venue has been deleted successfully !');
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 
     // Add to favourites
@@ -138,7 +159,7 @@ class VenueController extends Controller
         {
             $myVenue->addToMyVenues($venueId, $userId);
 
-            return redirect('/venues')->banner('Venue has been added to favourites succesfully !');
+            return back()->banner('Venue has been added to favourites successfully !');
         
         } else {
             
@@ -154,6 +175,6 @@ class VenueController extends Controller
 
         $myVenue->removeFromMy($venueId);
 
-        return redirect('/myloyalties/' . auth()->user()->id)->banner('Venue has been removed from favourites !');
+        return back()->banner('Venue has been removed from favourites !');
     }
 }

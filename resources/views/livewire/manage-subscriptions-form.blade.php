@@ -4,7 +4,7 @@
     </x-slot> --}}
 
     <x-slot name="title">
-        {{ __('Go white labeled !') }}
+        {{ __('Go white label !') }}
     </x-slot>
 
     {{-- <x-slot name="description">

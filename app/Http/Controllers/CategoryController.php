@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Interfaces\CategoryInterface;
+use App\Http\Requests\ValidateCreateCategory;
+use App\Http\Requests\ValidateUpdateCategory;
 
 class CategoryController extends Controller
 {
@@ -32,9 +35,13 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryInterface->getAllCategories();
+        if(Gate::allows('admin_only', auth()->user())){
+            $categories = $this->categoryInterface->getAllCategories();
 
-        return view('cms.categories', compact('categories'));
+            return view('cms.categories', compact('categories'));
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 
     /**
@@ -43,13 +50,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidateCreateCategory $request)
     {
         $this->categoryInterface->createCategory($request);
 
-        // return redirect('categories/create');
-
-        return back()->banner('Category has been created succesfully !');
+        return back()->banner('Category has been created successfully !');
 
     }
 
@@ -82,7 +87,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ValidateUpdateCategory $request, $id)
     {
         //
     }
@@ -95,11 +100,16 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $this->categoryInterface->deleteCategory($id);
+        if(Gate::allows('admin_only', auth()->user())){
+            $this->categoryInterface->deleteCategory($id);
 
-        $request->session()->flash('flash.banner', 'Category has been deleted succesfully !');
-        $request->session()->flash('flash.bannerStyle', 'success');
+            $request->session()->flash('flash.banner', 'Category has been deleted successfully !');
+            $request->session()->flash('flash.bannerStyle', 'success');
 
-        return redirect('/categories/create');
+            return redirect('/categories/create');
+        
+        } else {
+            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+        }
     }
 }

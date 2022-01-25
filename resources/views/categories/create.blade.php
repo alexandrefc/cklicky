@@ -42,6 +42,8 @@
                     <div class="grid grid-cols-1 border-b  border-purple-300 mb-2">
                         {{ $category->name }}
                     </div>
+                    @if(Gate::allows('admin_only', auth()->user()))
+                      
                     <div class="grid grid-cols-1 mb-2 justify-items-end">
                         <div>
                           <form 
@@ -58,6 +60,7 @@
                           </form>
                         </div>
                     </div>
+                    @endif
                   @endforeach
                 </div>
           </div>

@@ -9,7 +9,8 @@ class Venue extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'pin', 'slug', 'logo_path', 'qrcode_path', 'user_id', 'manage_by_id', 'location', 'email', 'website' ];
+    protected $fillable = ['title', 'description', 'pin', 'slug', 'logo_path', 'qrcode_path', 'user_id', 
+    'manage_by_id', 'location', 'email', 'website', 'category_id' ];
 
     public function points()
     {
@@ -19,6 +20,16 @@ class Venue extends Model
     public function coupons()
     {
         return $this->hasMany(Coupon::class);
+    }
+
+    public function stamps()
+    {
+        return $this->hasMany(Stamp::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
 }

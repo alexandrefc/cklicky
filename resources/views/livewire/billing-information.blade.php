@@ -52,14 +52,14 @@
 
         <div class="col-span-6 sm:col-span-1">
             <x-jet-label for="post_code" value="{{ __('ZIP / Postal code') }}" />
-            <x-jet-input id="post_code" type="number" class="mt-1 block w-full" wire:model.defer="post_code" />
+            <x-jet-input id="post_code" type="text" class="mt-1 block w-full" wire:model.defer="post_code" />
             <x-jet-input-error for="post_code" class="mt-2" />
         </div>
 
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-jet-action-message class="mr-3 text-green-500" on="saved">
             {{ __('Saved.') }}
         </x-jet-action-message>
 
