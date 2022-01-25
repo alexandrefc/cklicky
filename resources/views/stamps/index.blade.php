@@ -198,7 +198,7 @@
                 <div class="m-6">
                     <img
                       class="object-cover mt-5 shadow-md hover:shadow-xl rounded-lg"
-                      src="{{ asset('images/qrcodes/' . $stamp->qrcode_path) }}"
+                      src="{{ asset('storage/images/qrcodes/' . $stamp->qrcode_path) }}"
                       alt=""
                     />
                 </div>
