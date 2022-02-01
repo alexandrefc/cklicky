@@ -42,6 +42,11 @@
             </div>
 
             <div class="mt-4">
+                <x-jet-label for="test_email" value="{{ __('User test account email') }}" />
+                <x-jet-input id="test_email" class="block mt-1 w-full" type="email" name="test_email" :value="old('test_email')" required />
+            </div>
+
+            <div class="mt-4">
                 <x-jet-label for="gender" value="{{ __('Gender ') }} (Optional)" />
                 <select 
                     name="gender"
