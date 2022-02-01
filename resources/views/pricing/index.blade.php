@@ -82,7 +82,7 @@
                     </div>
                 </div> --}}
                 <!-- StartUp Card -->
-                <div class="w-80 p-8 m-auto bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
+                <div class="w-9/12 sm:w-7/12 p-8 m-auto bg-gray-900 text-center rounded-3xl text-white border-4 shadow-xl border-white transform scale-125">
                     <h1 class="text-white font-semibold text-2xl mt-3">White label solution</h1>
                     <p class="pt-2 tracking-wide">
                         <span class="text-gray-400 align-top">$ </span>
