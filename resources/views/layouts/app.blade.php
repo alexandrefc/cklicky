@@ -16,6 +16,12 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+         <!-- Favicon -->
+         {{-- <link rel="shortcut icon" href="{{ asset('storage/logo/favicon.ico') }}"> --}}
+         
+         <link rel="icon" type="image/png" href="{{ asset('storage/logo/logo_small_icon_only_inverted.png') }}">
+
+
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5H7L25KPYM"></script>
         <script>
