@@ -38,12 +38,9 @@ class StampRepository implements StampInterface
 
     public function getAllTestingStamps()
     {
-        if(auth()->user()){
-            return $this->model
-                ->where('manager_email', Auth::user()->email)
-                ->orWhere('made_by_id', Auth::user()->id)
-                ->orWhere('test_email', Auth::user()->email)
-                ->orWhere('made_by_id', 1)
+        if(auth()->user())
+        {
+            return $this->model->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {

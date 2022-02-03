@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,17 +41,27 @@ class Stamp extends Model
     public function scopeScheduledWeb($query)
     {
         $today = now()->weekday();
-        return $query->web()->whereJsonContains('scheduled_days', (string)$today)->orWhereJsonContains('scheduled_days', '8');
+        
+        return $query->web()->whereJsonContains('scheduled_days', (string)$today)
+            ->orWhere('scheduled_days', NULL);
     }
 
     public function scopeScheduledTime($query)
     {
-        return $query->where('start_time', '<=', now())
-            ->where('end_time', '>=', now())
+        return $query->where('start_time', '<=', now()->format('H:i:s'))
+            ->where('end_time', '>=', now()->format('H:i:s'))
             ->orWhere('start_time', '00:00:00')
             ->orWhere('end_time', '00:00:00')
             ->orWhere('start_time', NULL)
             ->orWhere('end_time', NULL);
+    }
+
+    public function scopeTesting($query)
+    {
+        return $query->where('manager_email', Auth::user()->email)
+            ->orWhere('made_by_id', Auth::user()->id)
+            ->orWhere('test_email', Auth::user()->email)
+            ->orWhere('made_by_id', 1);
     }
 
 
