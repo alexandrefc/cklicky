@@ -32,7 +32,7 @@
 
 
 
-@component('mail::button', ['url' => config('app.url') . '/points/{{ $mailCampaign->slug }}', 'color' => 'go'])
+@component('mail::button', ['url' => config('app.url') . '/points/' . $mailCampaign->slug, 'color' => 'go'])
 Check the offer now !
 @endcomponent
 

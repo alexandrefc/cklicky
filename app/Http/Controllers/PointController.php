@@ -314,7 +314,10 @@ class PointController extends Controller
         $mailCampaign = $this->pointInterface->getPointById($id);
         $myCampaign = new MyPoint;
 
-        $users = User::all();
+        // $users = User::all();
+
+        $user = new User;
+        $users = $user->getMailUsers();
 
         foreach ($users as $user) 
         {

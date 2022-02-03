@@ -30,7 +30,7 @@
 {{ $mailCampaign->start_date ? date('j M, Y', strtotime($mailCampaign->start_date)) : " "}} - {{ $mailCampaign->end_date ? date('j M, Y', strtotime($mailCampaign->end_date)) : "" }}
 </p>
 
-@component('mail::button', ['url' => config('app.url') . '/points/{{ $mailCampaign->slug }}', 'color' => 'go'])
+@component('mail::button', ['url' => config('app.url') . '/stamps/' . $mailCampaign->slug, 'color' => 'go'])
 Check the offer now !
 @endcomponent
 

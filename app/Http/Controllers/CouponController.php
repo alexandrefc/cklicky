@@ -286,7 +286,8 @@ class CouponController extends Controller
         $mailCampaign = $this->couponInterface->getCouponById($id);
         $myCampaign = new MyCoupon;
 
-        $users = User::all();
+        $user = new User;
+        $users = $user->getMailUsers();
 
         foreach ($users as $user) 
         {

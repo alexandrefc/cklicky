@@ -76,6 +76,13 @@ class User extends Authenticatable
     public function getAllUsers(){
         return self::latest()->get();
     }
+    
+    public function getMailUsers()
+    {
+        return self::where('email', auth()->user()->email)
+            ->orWhere('email', auth()->user()->test_email)
+            ->get();
+    }
 
     public function deleteUser($user_id)
     {
@@ -84,4 +91,5 @@ class User extends Authenticatable
         $user->delete();
 
     }
+
 }

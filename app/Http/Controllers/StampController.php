@@ -311,7 +311,10 @@ class StampController extends Controller
         $mailCampaign = $this->stampInterface->getStampById($id);
         $myCampaign = new MyStamp;
 
-        $users = User::all();
+        // $users = User::all();
+
+        $user = new User;
+        $users = $user->getMailUsers();
 
         foreach ($users as $user) 
         {
