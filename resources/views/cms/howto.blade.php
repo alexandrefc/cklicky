@@ -55,18 +55,23 @@
                         <p class="">
                             Please note that free trail and demo account is dedicated only to our new potential partners for testing purposes.
                             cKlicky.com does not provide loyalty solutions under our brand, we cooperate only based on the white label solution.
-                            Not all data and features are available in demo account. <br><br>
+                            Not all data and features are available in demo account. 
+                            During the trail you will be able to see and interact with campaigns created only by you.<br><br>
+                            
                             For better experience during the tests please use google Chrome browser. <br> <br>
+                            
                             <a class="text-green-600 font-extrabold" href="{{ route('register') }}">-> Create cklicky.com account.</a> <br>
                         </p>
                         <p class="text-xs md:text-sm">
                             2. During the registration process please add "User test account email". <br>
-                            3. Log in using your main/admin account credentials.<br>
-                            4. Create venues and categories (available only with white label solution) <a class="text-green-600 font-extrabold" href="{{ route('dashboard') }}">-></a> <br>
-                            5. Create loyalty campaigns: Points, Coupons & Stamps <a class="text-green-600 font-extrabold" href="{{ route('dashboard') }}">-></a> <br>                            
+                            {{-- 3. Log in using your main/admin account credentials.<br> --}}
+                            3. Create venues and categories (available only with white label solution) <a class="text-green-600 font-extrabold" href="{{ route('dashboard') }}">-></a> <br>
+                            4. Create loyalty campaigns: Points, Coupons & Stamps <a class="text-green-600 font-extrabold" href="{{ route('dashboard') }}">-></a> <br>                            
+                            5. Create another account (User account) using "User test account email" as an email. <br>
+                            IMPORTANT: This account must match User test account email specified when creating the main account. <br>
                             6. Log in using your user account credentials (user test account email). <br>
                             7. Now you can browse the offers, add to favourites and see the user experience. <br>
-                            6. Please follow the below guides how to add points & stamps or redeem coupon.
+                            8. Please follow the below guides how to add points & stamps or redeem coupon.
                         </p>
                             
                     </div>

@@ -15,7 +15,7 @@ class Stamp extends Model
         'manager_email', 'valid_till', 'total_stamps', 'add_x_stamps', 'start_date', 'end_date', 
         'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 'type_of_period_to_redeem', 
         'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 
-        'scheduled_days', 'gender', 'age', 'start_time', 'end_time'];
+        'scheduled_days', 'gender', 'age', 'start_time', 'end_time', 'test_email'];
     
     protected $casts = [
         'scheduled_days' => AsCollection::class,

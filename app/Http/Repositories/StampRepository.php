@@ -36,6 +36,25 @@ class StampRepository implements StampInterface
             ->get();
     }
 
+    public function getAllTestingStamps()
+    {
+        if(auth()->user()){
+            return $this->model
+                ->where('manager_email', Auth::user()->email)
+                ->orWhere('made_by_id', Auth::user()->id)
+                ->orWhere('test_email', Auth::user()->email)
+                ->orWhere('made_by_id', 1)
+                ->latest()
+                ->get();
+        } else {
+            return $this->model
+                ->where('made_by_id', 1)
+                ->latest()
+                ->get();
+        }
+        
+    }
+
     public function getAllWebStamps()
     {
         return $this->model->web()->latest()->get();
@@ -107,7 +126,8 @@ class StampRepository implements StampInterface
             'gender' => $request->gender,
             'age' => $request->age,
             'start_time' => $request->start_time,
-            'end_time' => $request->end_time 
+            'end_time' => $request->end_time,
+            'test_email' => auth()->user()->test_email 
             
         ]); 
 

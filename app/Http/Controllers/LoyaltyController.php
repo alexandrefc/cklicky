@@ -44,20 +44,24 @@ class LoyaltyController extends Controller
         // $coupons = $this->couponModel->getAllWebScheduledCoupons();
         // $coupons = $this->couponModel->getAllGenderCoupons();
         // $coupons = $this->couponModel->getAllAgeCoupons();
-        $coupons = $this->couponModel->getAllWebCoupons();
+        // $coupons = $this->couponModel->getAllWebCoupons();
         // $coupons = $this->couponModel->getAllWebScheduledProfiledCoupons();
+        $coupons = $this->couponModel->getAllTestingCoupons();
 
-        $points = $this->pointModel->getAllWebPoints();
+
+        // $points = $this->pointModel->getAllWebPoints();
         // $points = $this->pointModel->getAllWebScheduledPoints();
         // $points = $this->pointModel->getAllGenderPoints();
         // $points = $this->pointModel->getAllAgePoints();
         // $points = $this->pointModel->getAllWebScheduledProfiledPoints();
-
-        $stamps = $this->stampModel->getAllWebStamps();
+        $points = $this->pointModel->getAllTestingPoints();
+        
+        // $stamps = $this->stampModel->getAllWebStamps();
         // $stamps = $this->stampModel->getAllWebScheduledStamps();
         // $stamps = $this->stampModel->getAllGenderStamps();
         // $stamps = $this->stampModel->getAllAgeStamps();
         // $stamps = $this->stampModel->getAllWebScheduledProfiledStamps();
+        $stamps = $this->stampModel->getAllTestingStamps();
 
         $venues = $this->venueModel->getAllVenues();
         

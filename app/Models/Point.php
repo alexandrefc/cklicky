@@ -19,7 +19,7 @@ class Point extends Model
         'title', 'description', 'image_path', 'slug', 'made_by_id', 'qrcode_path', 'venue_id', 'manager_email', 'valid_till', 
         'total_points', 'add_x_points', 'start_date', 'end_date', 'reset_time', 'type_of_reset_time', 'x_time_to_redeem', 
         'type_of_period_to_redeem', 'available_through', 'category_id', 'reward_id', 'image_fs_path', 'video_yt_id', 
-        'scheduled_days', 'gender', 'age', 'start_time', 'end_time'
+        'scheduled_days', 'gender', 'age', 'start_time', 'end_time', 'test_email'
     ];
     
     protected $casts = [

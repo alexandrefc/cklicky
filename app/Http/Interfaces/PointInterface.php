@@ -36,6 +36,8 @@ interface PointInterface
 
     public function getAllManagerPoints();
 
+    public function getAllTestingPoints();
+
     public function getTimeToRedeem($pointId);
 
     public function getUserResetTime($pointId);

@@ -34,7 +34,7 @@ class UploadImage
         {
         $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
         Image::make($image)->resize(350, 233)->save($image);
-        $image->storeAs('/images/loyalty', $newImageName);
+        $image->storeAs('public/images/loyalty', $newImageName);
         
         return $newImageName;
         }

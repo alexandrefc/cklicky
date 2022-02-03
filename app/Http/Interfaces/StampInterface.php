@@ -36,6 +36,8 @@ interface StampInterface
 
     public function getAllManagerStamps();
 
+    public function getAllTestingStamps();
+   
     public function getTimeToRedeem($stampId);
 
     public function getUserResetTime($stampId);

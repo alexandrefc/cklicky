@@ -28,6 +28,8 @@ interface CouponInterface
 
     public function getAllManagerCoupons();
 
+    public function getAllTestingCoupons();
+   
     public function checkIfUserIsManager($couponId);
 
     public function addCouponRewardToMyCoupons($couponId, $userId);

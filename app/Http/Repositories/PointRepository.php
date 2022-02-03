@@ -2,15 +2,16 @@
 
 namespace App\Http\Repositories;
 
+use App\Models\User;
 use App\Models\Point;
 use App\Models\MyPoint;
+use App\Models\MyCoupon;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\PointInterface;
-use App\Models\MyCoupon;
 
 class PointRepository implements PointInterface
 {
@@ -33,6 +34,25 @@ class PointRepository implements PointInterface
             ->orWhere('made_by_id', Auth::user()->id)
             ->latest()
             ->get();
+    }
+
+    public function getAllTestingPoints()
+    {
+        if(auth()->user()){
+            return $this->model
+                ->where('manager_email', Auth::user()->email)
+                ->orWhere('made_by_id', Auth::user()->id)
+                ->orWhere('test_email', Auth::user()->email)
+                ->orWhere('made_by_id', 1)
+                ->latest()
+                ->get();
+        } else {
+            return $this->model
+                ->where('made_by_id', 1)
+                ->latest()
+                ->get();
+        }
+        
     }
 
     public function getAllWebPoints()
@@ -108,7 +128,8 @@ class PointRepository implements PointInterface
             'gender' => $request->gender,
             'age' => $request->age,
             'start_time' => $request->start_time,
-            'end_time' => $request->end_time
+            'end_time' => $request->end_time,
+            'test_email' => auth()->user()->test_email
             
         ]); 
     }

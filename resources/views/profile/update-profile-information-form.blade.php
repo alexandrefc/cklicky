@@ -65,6 +65,14 @@
             <x-jet-input id="email" type="email" class="mt-1 block w-4/6" wire:model.defer="state.email" />
             <x-jet-input-error for="email" class="mt-2" />
         </div>
+
+         <!-- Testing Email -->
+         <div class="col-span-6 sm:col-span-6">
+            <x-jet-label for="test_email" value="{{ __('User test account email') }}" />
+            <x-jet-input id="test_email" type="email" class="mt-1 block w-4/6" wire:model.defer="state.test_email" />
+            <x-jet-input-error for="test_email" class="mt-2" />
+        </div>
+
         <!-- Age, Gender, Category campaign preferences -->
         <div class="col-span-6 sm:col-span-6 uppercase border-b-2">
             <x-jet-label value="{{ __('Campaign preferences') }}" />
