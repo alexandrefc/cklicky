@@ -74,10 +74,10 @@
         </div>
 
         <!-- Age, Gender, Category campaign preferences -->
-        <div class="col-span-6 sm:col-span-6 uppercase border-b-2">
+        <div class="col-span-6 sm:col-span-6 uppercase bg-gray-100 p-1 rounded-md">
             <x-jet-label value="{{ __('Campaign preferences') }}" />
         </div>
-        <div class="col-span-6 sm:col-span-2">
+        {{-- <div class="col-span-6 sm:col-span-2">
             <x-jet-label for="age" value="{{ __('Age') }}" />
             <x-jet-input id="age" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.age" autocomplete="age" />
             <x-jet-input-error for="age" class="mt-2" />
@@ -86,13 +86,52 @@
             <x-jet-label for="gender" value="{{ __('Gender') }}" />
             <x-jet-input id="gender" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.gender" autocomplete="gender" />
             <x-jet-input-error for="gender" class="mt-2" />
-        </div>
-        <div class="col-span-6 sm:col-span-2">
+        </div> --}}
+        {{-- <div class="col-span-6 sm:col-span-2">
             <x-jet-label for="category" value="{{ __('Category') }}" />
             <x-jet-input id="category" type="text" class="capitalize mt-1 block w-full" wire:model.defer="state.category" autocomplete="category" />
             <x-jet-input-error for="category" class="mt-2" />
+        </div> --}}
+
+        <div class="col-span-6 sm:col-span-2">
+            <x-jet-label for="age" value="{{ __('Age ') }}" />
+            <select 
+                name="age"
+                id="age"
+                class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                wire:model.defer="state.age"
+                >
+                <optgroup label="age">
+                    <option value="all">All ages</option>
+                    <option value="children">Children ( - 18 y.o.)</option>
+                    <option value="youngs">Young adults (19 - 29 y.o.)</option>
+                    <option value="adults">Adults (30 - 65 y.o.)</option>
+                    <option value="seniors">Seniors (65 - y.o.)</option>
+                </optgroup>
+                
+            </select>      
         </div>
+
+        <div class="col-span-6 sm:col-span-2">
+            <x-jet-label for="gender" value="{{ __('Gender ') }}" />
+            <select 
+                name="gender"
+                id="gender"
+                class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                wire:model.defer="state.gender"
+                >
+                <optgroup label="Gender">
+                    <option value="men">Men</option>
+                    <option value="female">Female</option>
+                    <option value="all">Not specified</option>
+                </optgroup>
+                
+            </select>      
+        </div>  
+            
+        
     </x-slot>
+
 
     <x-slot name="actions">
         <x-jet-action-message class="mr-3 text-green-500" on="saved">

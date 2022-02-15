@@ -8,6 +8,8 @@ interface PointInterface
 
     public function getAllWebPoints();
 
+    public function getAllWebPaginatePoints();
+
     public function getAllWebScheduledPoints();
 
     public function getAllWebScheduledProfiledPoints();

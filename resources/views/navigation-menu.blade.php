@@ -234,9 +234,9 @@
             <x-jet-responsive-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
                 {{ __('Promotions') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="/venues" :active="request()->routeIs('venues')">
+            {{-- <x-jet-responsive-nav-link href="/venues" :active="request()->routeIs('venues')">
                 {{ __('Venues') }}
-            </x-jet-responsive-nav-link>
+            </x-jet-responsive-nav-link> --}}
             @guest
             <x-jet-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
                 {{ __('Login') }}
@@ -269,6 +269,12 @@
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}
                 </x-jet-responsive-nav-link>
+
+                @if(Gate::allows('admin_only', auth()->user()))
+                <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-jet-responsive-nav-link>
+                @endif
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                     <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">

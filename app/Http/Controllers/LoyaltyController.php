@@ -10,11 +10,15 @@ use App\Services\CreateSlug;
 use Illuminate\Http\Request;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Interfaces\PointInterface;
 use App\Http\Interfaces\StampInterface;
 use App\Http\Interfaces\VenueInterface;
 use App\Http\Interfaces\CouponInterface;
+use App\Http\Interfaces\CategoryInterface;
 use App\Http\Requests\ValidateCreateCoupon;
+
 
 
 class LoyaltyController extends Controller
@@ -39,7 +43,7 @@ class LoyaltyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CategoryInterface $categoryInterface)
     {
         // $coupons = $this->couponModel->getAllWebScheduledCoupons();
         // $coupons = $this->couponModel->getAllGenderCoupons();
@@ -48,8 +52,14 @@ class LoyaltyController extends Controller
         // $coupons = $this->couponModel->getAllWebScheduledProfiledCoupons();
         $coupons = $this->couponModel->getAllTestingCoupons();
 
-
         // $points = $this->pointModel->getAllWebPoints();
+        // $points = $this->pointModel->getAllWebPaginatePoints();
+        
+        // $points = QueryBuilder::for(Point::class)
+        //     ->allowedFilters([AllowedFilter::exact('category', 'category_id')])
+        //     ->latest()
+        //     ->get();
+
         // $points = $this->pointModel->getAllWebScheduledPoints();
         // $points = $this->pointModel->getAllGenderPoints();
         // $points = $this->pointModel->getAllAgePoints();
@@ -63,13 +73,11 @@ class LoyaltyController extends Controller
         // $stamps = $this->stampModel->getAllWebScheduledProfiledStamps();
         $stamps = $this->stampModel->getAllTestingStamps();
 
-        $venues = $this->venueModel->getAllVenues();
+        $venues = $this->venueModel->getAllTestingVenues();
+
+        $categories = $categoryInterface->getAllCategories();
         
-        
-        // $startTime = Carbon::createFromFormat('H:i a', '08:00 AM');
-        // $endTime = Carbon::createFromFormat('H:i a', '09:00 PM');
-        
-        return view('loyalty.index', compact('coupons', 'points', 'stamps', 'venues'));
+        return view('loyalty.index', compact('coupons', 'points', 'stamps', 'venues', 'categories'));
               
     }
 

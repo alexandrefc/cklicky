@@ -11,6 +11,8 @@ use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Interfaces\PointInterface;
 
 class PointRepository implements PointInterface
@@ -40,11 +42,14 @@ class PointRepository implements PointInterface
     {
         if(auth()->user())
         {
-            return $this->model->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+            return QueryBuilder::for(Point::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
+                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
-            return $this->model
+            return QueryBuilder::for(Point::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->where('made_by_id', 1)
                 ->latest()
                 ->get();
@@ -55,6 +60,11 @@ class PointRepository implements PointInterface
     public function getAllWebPoints()
     {
         return $this->model->web()->latest()->get();
+    }
+
+    public function getAllWebPaginatePoints()
+    {
+        return $this->model->web()->latest()->cursorPaginate(5);
     }
 
     public function getAllWebScheduledPoints()
@@ -192,7 +202,8 @@ class PointRepository implements PointInterface
             'gender' => $request->gender,
             'age' => $request->age,
             'start_time' => $request->start_time,
-            'end_time' => $request->end_time 
+            'end_time' => $request->end_time,
+            'test_email' => auth()->user()->test_email
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

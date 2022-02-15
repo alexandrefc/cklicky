@@ -13,13 +13,15 @@
                 <x-jet-section-border />
             @endif
 
+            @if (Gate::allows('admin_only'))
+                <div id="billing" class="mt-10 sm:mt-0">
+                    @livewire('billing-information')
+                </div>
             
-            <div id="billing" class="mt-10 sm:mt-0">
-                @livewire('billing-information')
-            </div>
+            
             
             <x-jet-section-border />
-           
+            @endif
 
             @if(Gate::allows('admin_only', auth()->user()))
                 <div class="mt-10 sm:mt-0">

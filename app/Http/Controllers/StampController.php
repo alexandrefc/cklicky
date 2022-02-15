@@ -119,10 +119,10 @@ class StampController extends Controller
         
         $categories = $categoryInterface->getAllCategories();
 
-        if(Gate::allows('admin_only', auth()->user())){
+        if(Gate::allows('manager_only', $stamp)){
             return view('stamps.edit', compact('stamp', 'venues', 'categories', 'stamps', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return back()->dangerBanner('Only Admin is allowed !');
         }
         // $stamp = $this->stampInterface->getstampBySlug($slug);
         // $venues = (new VenueRepository())->getAllManagerVenues(auth()->user()->id);

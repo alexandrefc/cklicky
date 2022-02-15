@@ -60,7 +60,7 @@
                         </a>
                     </div>
 
-                    <div class="flex-1 w=4/5 m-auto text-center">
+                    {{-- <div class="flex-1 w=4/5 m-auto text-center">
                         <form 
                             action="/coupons/redeem/{{ $coupon->id }}/{{ auth()->user()->id }}"
                             method="POST"
@@ -74,7 +74,7 @@
                                 Redeem
                             </button>            
                         </form>
-                    </div>
+                    </div> --}}
                     @endif
                 </div>
               </div>

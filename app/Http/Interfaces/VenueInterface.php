@@ -8,6 +8,8 @@ interface VenueInterface
 
     public function getAllManagerVenues();
 
+    public function getAllTestingVenues();
+
     public function getVenueById($id);
 
     public function getVenueBySlug($slug);
@@ -18,6 +20,7 @@ interface VenueInterface
 
     public function updateVenue($request, $slug);
 
+    
     
     
 }

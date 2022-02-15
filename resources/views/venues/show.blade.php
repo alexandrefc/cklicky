@@ -140,20 +140,20 @@
 
           
 
-          <a 
+          {{-- <a 
           class=""
           href="https://www.google.com/maps/place/{{ $venue->location }}"
-          target="_blank">                    
+          target="_blank">                     --}}
           
       
 
           <div class="mx-15">
-            <div style="width: auto; margin: auto; height: 500px;">
-                {!! Mapper::render() !!}
+            <div id="map" style="width: auto; margin: auto; height: 500px;">
+                {{-- {!! Mapper::render() !!} --}}
             </div>
         </div>
        
-      </a>
+      {{-- </a> --}}
         {{-- </a> --}}
     
       </div>
@@ -476,5 +476,71 @@
       
     </div>
 </div>
+
+<script>
+
+
+  function initMap() {
+    const venue =  {!! json_encode($venue) !!};
+    const label = venue.title ;
+    const coordinates = venue.coordinates;
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: coordinates,
+    });
+    const infoWindow = new google.maps.InfoWindow({
+      content: "cKlicky.com",
+      disableAutoPan: false,
+    });
+    
+      const contentString =
+      '<div class="text-xs"id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+      '<h1 id="firstHeading" class="font-extrabold pb-3">'+label+'</h1>' +
+      '<div id="bodyContent">' +
+      // "<p><b>" +venue.description+
+      '</b> <p class="text:xs my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">' +
+      "Total offers: " + '{{ $venue->points->count() ?? "0" }}</p>' +
+      '<p class="text-xs md:text-xs mb-1">' +
+      'Email: '+venue.email+'</p>'    + 
+      '<p class="text-xs md:text-xs mb-1">' +
+      'Website: '+venue.website+'</p>'    +               
+      '<p><a href="https://www.google.com/maps/place/'+venue.location+'">' + 
+      "<b>Show directions -> </b></a> " +
+      "</p>" +
+      "</div>" +
+      "</div>";
+     
+      // const image = "http://cklicky.test/images/loyalty/"+element.logo_path+"";
+  
+      const message = venue.description;
+      
+      const marker = new google.maps.Marker({
+          position: coordinates,
+          map: map,
+         
+          // icon: image,
+          });
+  
+          marker.addListener("click", () => {
+          infoWindow.setContent(contentString);
+          infoWindow.open(map, marker);
+          map.setZoom(12);
+          map.setCenter(marker.getPosition());
+  
+        });
+        
+  }
+  
+  </script>
+  
+  
+  <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&libraries=&v=weekly"
+        async
+      >
+  
+  </script>
 
 </x-app-layout>

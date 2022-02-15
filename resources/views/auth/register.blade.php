@@ -61,10 +61,7 @@
                             selected
                             value="all">Not specified</option>
                     </optgroup>
-                    {{-- <optgroup label="Gender">
-                    <option value="montreal">Montreal</option>
-                    <option value="qc">Quebec City</option>
-                    </optgroup> --}}
+                    
                 </select>            
             </div>
 

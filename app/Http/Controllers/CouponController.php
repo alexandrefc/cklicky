@@ -155,10 +155,10 @@ class CouponController extends Controller
         $categories = $categoryInterface->getAllCategories();
         $coupons = $this->couponInterface->getAllCoupons();
 
-        if(Gate::allows('admin_only', auth()->user())){
+        if(Gate::allows('manager_only', $coupon)){
             return view('coupons.edit', compact('coupon', 'venues', 'categories', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return back()->dangerBanner('Only Admin is allowed !');
         }
     }
 

@@ -7,6 +7,9 @@ use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Geocoder\Facades\Geocoder;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Interfaces\VenueInterface;
 
 class VenueRepository implements VenueInterface
@@ -32,6 +35,17 @@ class VenueRepository implements VenueInterface
             ->get();
     }
 
+    public function getAllTestingVenues()
+    {
+        return QueryBuilder::for(Venue::class)
+            ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'id')])
+            ->testing()
+            ->latest()
+            ->get();
+    }
+
+    
+
     public function getVenueById($id)
     {
         return $this->model->where('id', $id)->first();
@@ -47,6 +61,7 @@ class VenueRepository implements VenueInterface
         $slug = (new CreateSlug())->createSlug($request->title);
         $logo_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
+        $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         
         return $this->model->create([
             'title' => $request->title,
@@ -60,7 +75,9 @@ class VenueRepository implements VenueInterface
             'location' => $request->location, 
             'email' => $request->email,
             'website' => $request->website,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'test_email' => auth()->user()->test_email,
+            'coordinates' => $coordinates
         ]);
     }
 
@@ -79,7 +96,7 @@ class VenueRepository implements VenueInterface
     public function updateVenue($request, $slug)
     {
         $venue = $this->model->where('slug', $slug)->first();
-
+        $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         
         $existing_image_path = $venue->logo_path;
 
@@ -109,7 +126,9 @@ class VenueRepository implements VenueInterface
                 'location' => $request->location,
                 'email' => $request->email,
                 'website' => $request->website,
-                'category_id' => $request->category_id
+                'category_id' => $request->category_id,
+                'test_email' => auth()->user()->test_email,
+                'coordinates' => $coordinates
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

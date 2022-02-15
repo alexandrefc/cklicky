@@ -54,7 +54,7 @@
                         </a>
                     </div>
 
-                    <div class="flex-1 w=4/5 m-auto text-center">
+                    {{-- <div class="flex-1 w=4/5 m-auto text-center">
                         <form 
                             action="/points/addpoints/{{ $point->id }}/{{ auth()->user()->id }}"
                             method="POST"
@@ -68,7 +68,7 @@
                                 Add Points
                             </button>            
                         </form>
-                    </div>
+                    </div> --}}
                     
                 </div>
               </div>

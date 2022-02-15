@@ -65,13 +65,13 @@ Route::resource('stamps', StampController::class);
 
 Route::post('coupons/addtomy/{coupon_id}', [CouponController::class, 'addToMyCoupons'])->name('addToMyCoupons');
 Route::put('coupons/confirmredeem/{slug}', [CouponController::class, 'confirmRedeem']);
-Route::put('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
+Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
 Route::delete('coupons/removefrommy/{coupon_id}', [CouponController::class, 'removeFromMy'])->name('removeFromMyCoupons');
 
 
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
-Route::put('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
+Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
 Route::delete('points/removefrommy/{point_id}', [PointController::class, 'removeFromMy'])->name('removeFromMyPoints');
 
 
@@ -79,7 +79,7 @@ Route::delete('points/removefrommy/{point_id}', [PointController::class, 'remove
 
 Route::post('stamps/addtomy/{stamp_id}', [StampController::class, 'addToMyStamps'])->name('addToMyStamps');
 Route::put('stamps/confirmaddstamps/{slug}', [StampController::class, 'confirmAddStamps']);
-Route::put('stamps/addstamps/{point_id}/{user_id}', [StampController::class, 'addStamps'])->name('addStamps');
+Route::get('stamps/addstamps/{point_id}/{user_id}', [StampController::class, 'addStamps'])->name('addStamps');
 Route::delete('stamps/removefrommy/{stamp_id}', [StampController::class, 'removeFromMy'])->name('removeFromMyStamps');
 
 Route::post('venues/addtomy/{venue_id}', [VenueController::class, 'addToMyVenues'])->name('addToMyVenues');

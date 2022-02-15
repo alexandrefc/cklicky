@@ -24,6 +24,7 @@
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-5H7L25KPYM"></script>
+    
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -41,6 +42,7 @@
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <script src="{{ mix('js/app.js') }}" defer></script>
         {{-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
+        
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />

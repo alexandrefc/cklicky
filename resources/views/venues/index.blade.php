@@ -11,95 +11,15 @@
             {!! Mapper::render() !!}
         </div>
     </div> --}}
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
-{{-- {{ $location = 'krakow+poland' }}
-{{ $marker = 'warszawa+poland' }} --}}
-
-    {{-- <iframe
-        width="450"
-        height="250"
-        frameborder="0" style="border:0"
-        src="https://www.google.com/maps/embed/v1/place
-        ?key=....................
-        &q={{ $location }}
-        &q={{ $marker }}" allowfullscreen>
-    </iframe> --}}
-
-    {{-- <style type="text/css">
-        /* Set the size of the div element that contains the map */
-        #map {
-          height: 400px;
-          /* The height is 400 pixels */
-          width: 100%;
-          /* The width is the width of the web page */
-        }
-      </style>
-
-<script>
-    // Initialize and add the map
-    function initMap() {
-      // The location of Uluru
-      const uluru = { lat: -25.344, lng: 131.036 };
-      // The map, centered at Uluru
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: uluru,
-      });
-      // The marker, positioned at Uluru
-      const marker = new google.maps.Marker({
-        position: uluru,
-        map: map,
-      });
-    }
-  </script>
-
-    <div id="map">
-
-    </div> --}}
-
-    
-    {{-- <script>
-            var geocoder;
-            var map;
-
-            function initialize() {
-                geocoder = new google.maps.Geocoder();
-                var latlng = new google.maps.LatLng(-34.397, 150.644);
-                var mapOptions = {
-                zoom: 8,
-                center: latlng
-                }
-                map = new google.maps.Map(document.getElementById('map'), mapOptions);
-                
-            }
-           
-
-            function codeAddress() {
-                var address = document.getElementById('address').value;
-               
-                geocoder.geocode( { 'address': address}, function(results, status) {
-                if (status == 'OK') {
-                    map.setCenter(results[0].geometry.location);
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: results[0].geometry.location
-                    });
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-                });
-            }
-
-
-    </script> --}}
-
-{{-- <body onload="initialize()">
-    <div id="map" style="width: 320px; height: 480px; margin-left: auto; margin-right: auto;"></div>
-     <div>
+{{-- <body onload="initialize()"> --}}
+    <div id="map" style="width: auto; height: 480px; margin-left: auto; margin-right: auto;"></div>
+     {{-- <div>
        <input id="address" type="textbox" value="{{ $location }}">
        <input type="button" value="Show on the map" onclick="codeAddress()">
-     </div>
-   </body> --}}
+     </div> --}}
+   {{-- </body> --}}
     
 
     <div class="container my-8 mx-8">
@@ -126,6 +46,7 @@
                     
         
         <div
+            id="{{ $venue->id }}"
             class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
           
             <a href="/venues/{{ $venue->id }}" class="w-full ">
@@ -182,6 +103,7 @@
                         <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
                             Go to the map ->
                         </p>
+                        
                     </a>
                    
                 <div class="flex space-x-1 mb-1">
@@ -208,6 +130,7 @@
                         Edit
                         </a>
                   </div>
+                  
                 </div>
                 
                 
@@ -232,26 +155,246 @@
     </div>
 
    
+
+{{-- <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+<script type="module">
+  import { MarkerClusterer } from "@googlemaps/markerclusterer";
+</script> --}}
+
+
+<script>
+
+
+function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: { lat: 50.56391, lng: 19.154312 },
+  });
+  const venues =  {!! json_encode($venues->toArray()) !!};
+  
+  venues.forEach(element => {
+    
+    const label = element.title ;
+    const contentString =
+    '<div class="text-xs"id="content">' +
+    '<div id="siteNotice">' +
+    "</div>" +
+    '<h1 id="firstHeading" class="font-extrabold pb-3">'+label+'</h1>' +
+    '<div id="bodyContent">' +
+    "<p><b>" +element.description+
+    '</b> <p class="text:xs my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">' +
+    "Total offers: " + '{{ $venue->points->count() ?? "0" }}</p>' +
+    '<p class="text-xs md:text-xs mb-1">' +
+    'Email: '+element.email+'</p>'    + 
+    '<p class="text-xs md:text-xs mb-1">' +
+    'Website: '+element.website+'</p>'    +               
+    '<p><a href="#'+element.id+'">' +
+    "<b>Go to the venue -> </b></a> " +
+    "</p>" +
+    "</div>" +
+    "</div>";
+   
+    // const image = "http://cklicky.test/images/loyalty/"+element.logo_path+"";
+
+    const message = element.description;
+    const coordinates = element.coordinates;
+    const marker = new google.maps.Marker({
+        position: coordinates,
+        map: map,
+       
+        // icon: image,
+        });
+
+        marker.addListener("click", () => {
+        infoWindow.setContent(contentString);
+        infoWindow.open(map, marker);
+        map.setZoom(12);
+        map.setCenter(marker.getPosition());
+
+      });
+      
+    });
+
+          
+  const infoWindow = new google.maps.InfoWindow({
+    content: "cKlicky.com",
+    disableAutoPan: false,
+  });
+
+  const locationButton = document.createElement("button");
+
+locationButton.textContent = "Show offers nearby";
+locationButton.classList.add("custom-map-control-button");
+map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+locationButton.addEventListener("click", () => {
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        infoWindow.setPosition(pos);
+        infoWindow.setContent("Location found.");
+        infoWindow.open(map);
+        map.setCenter(pos);
+      },
+      () => {
+        handleLocationError(true, infoWindow, map.getCenter());
+      }
+    );
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+});
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+infoWindow.setPosition(pos);
+infoWindow.setContent(
+  browserHasGeolocation
+    ? "Error: The Geolocation service failed."
+    : "Error: Your browser doesn't support geolocation."
+);
+
+    
+    // return marker;
+  // });
+
+  
+
+  // titles.forEach(element => {
+  //   geocoder.geocode( { 'address': element}, function(results, status) {
+  //     if (status == 'OK') {
+  //         map.setCenter(results[0].geometry.location);
+  //         var marker = new google.maps.Marker({
+  //             map: map,
+  //             position: results[0].geometry.location
+  //         });
+  //     } else {
+  //         alert('Geocode was not successful for the following reason: ' + status);
+  //     } 
+  //   );
+  // });
+  
+
+  
+
+
+  
+  // geocoder.geocode( { 'address': address}, function(results, status) {
+  //     if (status == 'OK') {
+  //         map.setCenter(results[0].geometry.location);
+  //         var marker = new google.maps.Marker({
+  //             map: map,
+  //             position: results[0].geometry.location
+  //         });
+  //     } else {
+  //         alert('Geocode was not successful for the following reason: ' + status);
+  //     }
+  //     });
+
+  // const map = new google.maps.Map(document.getElementById("map"), {
+  //   zoom: 3,
+  //   center: { lat: -31.56391, lng: 147.154312 },
+  // });
+  // locations.forEach(element => {
+  //   const marker = new google.maps.Marker({
+  //         position: element,
+  //         map: map,
+  //       });
+
+      
+  //     const label = "{{ $venue->title }}";
+
+  //     marker.addListener("click", () => {
+  //     infoWindow.setContent(label);
+  //     infoWindow.open(map, marker);
+  //   });
+  //   return marker;
+  // });
+ 
+  
+  
+  
+
+
+  // // Create an array of alphabetical characters used to label the markers.
+  // const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  // // Add some markers to the map.
+  // const markers = locations.map((position, i) => {
+  //   const label = labels[i % labels.length];
+  //   const marker = new google.maps.Marker({
+  //     position,
+  //     label,
+  //   });
+
+  //   // markers can only be keyboard focusable when they have click listeners
+  //   // open info window when marker is clicked
+  //   // marker.addListener("click", () => {
+  //   //   infoWindow.setContent(label);
+  //   //   infoWindow.open(map, marker);
+  //   // });
+  //   // return marker;
+  // });
+
+  // Add a marker clusterer to manage the markers.
+  // new MarkerClusterer({ markers, map });
+}
+
+
+
+
+
+
+  // var geocoder;
+  // var map;
+
+  // function initialize() {
+  //     geocoder = new google.maps.Geocoder();
+  //     var latlng = new google.maps.LatLng(-34.397, 150.644);
+  //     var mapOptions = {
+  //     zoom: 8,
+  //     center: latlng
+  //     }
+  //     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      
+  // }
+
+  // function codeAddress() {
+  //     var address = document.getElementById('address').value;
+     
+  //     geocoder.geocode( { 'address': address}, function(results, status) {
+  //     if (status == 'OK') {
+  //         map.setCenter(results[0].geometry.location);
+  //         var marker = new google.maps.Marker({
+  //             map: map,
+  //             position: results[0].geometry.location
+  //         });
+  //     } else {
+  //         alert('Geocode was not successful for the following reason: ' + status);
+  //     }
+  //     });
+  // }
+
+  
+
+  
+
+
+</script>
+
+
 <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxKZcVDwTkvcYt0OGdUJkBPMwRftYnm8Q&callback=initMap&libraries=&v=weekly"
+      src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&libraries=&v=weekly"
       async
     >
 
-            // Initialize and add the map
-        function initMap() {
-        // The location of Uluru
-        const uluru = { lat: -25.344, lng: 131.036 };
-        // The map, centered at Uluru
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 4,
-            center: uluru,
-        });
-        // The marker, positioned at Uluru
-        const marker = new google.maps.Marker({
-            position: uluru,
-            map: map,
-        });
-        }
 </script>
+
+
 
 </x-app-layout>

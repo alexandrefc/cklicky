@@ -9,6 +9,8 @@ use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Interfaces\CouponInterface;
 
 class CouponRepository implements CouponInterface
@@ -38,11 +40,14 @@ class CouponRepository implements CouponInterface
     {
         if(auth()->user())
         {
-            return $this->model->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+            return QueryBuilder::for(Coupon::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
+                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
-            return $this->model
+            return QueryBuilder::for(Coupon::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->where('made_by_id', 1)
                 ->latest()
                 ->get();
@@ -200,7 +205,8 @@ class CouponRepository implements CouponInterface
             'gender' => $request->gender,
             'age' => ($request->age),
             'start_time' => $request->start_time,
-            'end_time' => $request->end_time 
+            'end_time' => $request->end_time,
+            'test_email' => auth()->user()->test_email
             
             // 'reset_time' => $request->timeReset,
             // 'type_of_reset_time' => $request->timeResetPeriod,

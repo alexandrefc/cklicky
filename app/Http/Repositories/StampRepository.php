@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Stamp;
+use App\Models\Reward;
 use App\Models\MyStamp;
 use App\Models\MyCoupon;
 use App\Services\CreateSlug;
@@ -10,8 +11,9 @@ use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use App\Services\TimeToRedeem;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Interfaces\StampInterface;
-use App\Models\Reward;
 
 class StampRepository implements StampInterface
 {
@@ -40,11 +42,14 @@ class StampRepository implements StampInterface
     {
         if(auth()->user())
         {
-            return $this->model->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+            return QueryBuilder::for(Stamp::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
+                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
-            return $this->model
+            return QueryBuilder::for(Stamp::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->where('made_by_id', 1)
                 ->latest()
                 ->get();
@@ -199,7 +204,8 @@ class StampRepository implements StampInterface
             'gender' => $request->gender,
             'age' => $request->age,
             'start_time' => $request->start_time,
-            'end_time' => $request->end_time 
+            'end_time' => $request->end_time,
+            'test_email' => auth()->user()->test_email 
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

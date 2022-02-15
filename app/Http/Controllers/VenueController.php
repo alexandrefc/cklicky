@@ -10,6 +10,7 @@ use App\Models\MyVenue;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Geocoder\Facades\Geocoder;
 use App\Http\Interfaces\VenueInterface;
 use App\Http\Interfaces\CategoryInterface;
 use App\Http\Requests\ValidateCreateVenue;
@@ -32,6 +33,8 @@ class VenueController extends Controller
     {
         $venues = $this->venueInterface->getAllManagerVenues();
         $location = "Kraków Polska";
+        
+       
 
         // $locations = $this->venueInterface->getAllManagerVenues();
         // $mapLocations = $locations->location;
@@ -45,9 +48,9 @@ class VenueController extends Controller
         // }
         // $location = Mapper::location('Kraków');
         // $map = Mapper::map($location, ['markers' => ['icon' => ['symbol' => 'CIRCLE', 'scale' => 10], 'animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker']])->marker(53.381128999999990000, -1.470085000000040000);
-        $map = Mapper::location($location)
-            ->map(['markers' => ['title' => 'Bleesk', 'animation' => 'DROP'], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]])
-            ->marker(52.2296756, 21.0122287);
+        // $map = Mapper::location($location)
+        //     ->map(['markers' => ['title' => 'Bleesk', 'animation' => 'DROP'], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]])
+        //     ->marker(52.2296756, 21.0122287);
 
         return view('venues.index', compact('venues'));
     }
@@ -92,8 +95,8 @@ class VenueController extends Controller
     public function show($id)
     {
         $venue = $this->venueInterface->getVenueById($id);
-        $map = Mapper::location($venue->location)
-            ->map(['markers' => ['title' => $venue->title, 'label' => ''], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]]);
+        // $map = Mapper::location($venue->location)
+        //     ->map(['markers' => ['title' => $venue->title, 'label' => ''], 'clusters' => ['size' => 10, 'center' => true, 'zoom' => 20]]);
 
         return view('venues.show', compact('venue'));
     }
@@ -106,13 +109,14 @@ class VenueController extends Controller
      */
     public function edit(CategoryInterface $categoryInterface, $slug)
     {
-        if(Gate::allows('admin_only', auth()->user())){
-            $venue = $this->venueInterface->getVenueBySlug($slug);
+        $venue = $this->venueInterface->getVenueBySlug($slug);
+        if(Gate::allows('venue_manager_only', $venue))
+        {
             $categories = $categoryInterface->getAllCategories();
 
             return view('venues.edit', compact('venue', 'categories'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return back()->dangerBanner('Only Admin is allowed !');
         }
     }
 

@@ -1,4 +1,6 @@
 <x-app-layout>
+
+  
     {{-- <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('cKlicky.com') }}
@@ -6,6 +8,55 @@
         </h2>
     </x-slot> --}}
 
+        <div x-data="{ open: false }" class="bg-gradient-to-b from-green-700 to-green-300 w-4/5 sm:w-5/12 md:w-1/3 lg:w-1/5">
+          <button class="text-white font-bold w-full" @click="open = ! open">Choose brands and categories =></button>
+          
+            <div style="display: none !important;" x-show="open" @click.outside="open = false">
+              <button class="text-white font-bold w-full">Show categories</button>
+              <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                <label >All Categories</label>
+              </div>
+              <div class="inline-flex w-1/5">
+                <input class=" rounded-md" name="categoryAll" type="checkbox" value="all" id="categoryAll">
+              </div>
+              @foreach ($categories as $category)
+                <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                  <label >{{ $category->name }}</label>
+                </div>
+                <div class="inline-flex w-1/5">
+                  <input class=" rounded-md" name="category" type="checkbox" value="{{ $category->id }}" id="category"
+                    @if (in_array($category->id, explode(',', request()->input('filter.category'))))
+                        checked
+                    @endif
+                  >
+                </div>
+              @endforeach
+              <button class="text-white font-bold w-full">Show venues</button>
+              <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                <label >All Venues</label>
+              </div>
+              <div class="inline-flex w-1/5">
+                <input class=" rounded-md" name="venueAll" type="checkbox" value="all" id="venueAll">
+              </div>
+              @foreach ($venues as $venue)
+                <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                  <label >{{ $venue->title }}</label>
+                </div>
+                <div class="inline-flex w-1/5">
+                  <input class=" rounded-md" name="venue" type="checkbox" value="{{ $venue->id }}" id="venue"
+                    @if (in_array($venue->id, explode(',', request()->input('filter.venue'))))
+                        checked
+                    @endif
+                  >
+                </div>
+              @endforeach
+              <div class="items-center w-1/4 mx-auto">
+                <button class="bg-blue-100 rounded-sm mx-auto w-full my-2 text-xs sm:text-sm" type="button" id="filter">Filter</button>
+              </div>
+              
+            </div>
+        </div>  
+  
     <div class="container my-8 mx-8">
         
       <div class="flex justify-between mb-4">
@@ -23,6 +74,9 @@
       @foreach ($points as $point)
       
       <div
+          x-data="{ open: false }"
+          x-show="{ open: false }"
+          id="{{ $point->category_id }}"
           class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
           <a href="/points/{{ $point->slug }}" class="">
 
@@ -49,7 +103,8 @@
               <div class="text-md">
                   
                   <p class="text-sm md:text-lg mb-6 h-10">
-                      {{ $point->description }}                   
+                      {{ $point->description }}
+                      {{ $point->category->name ?? "" }}                   
                   </p>
                   
                   
@@ -204,7 +259,7 @@
         </div>
       </a>
         @endforeach
-        
+       
       </div>
   </div>
 
@@ -1081,7 +1136,93 @@
       
     </div>
   </div>
+ 
+  <script>
+
+    // by categories & venues
+
+    function getIds(checkboxName) {
+        let checkBoxes = document.getElementsByName(checkboxName);
+        let ids = Array.prototype.slice.call(checkBoxes)
+                        .filter(ch => ch.checked==true)
+                        .map(ch => ch.value);
+        return ids;
+    }
+
+    function filterResults () {
+
+        let categoryIds = getIds("category");
+        let venueIds = getIds("venue");
+
+        let href = 'loyalties?';
+
+        if(categoryIds.length) {
+            href += '&filter[category]=' + categoryIds;
+        }
+
+        if(venueIds.length) {
+            href += '&filter[venue]=' + venueIds;
+        }
+
+        document.location.href=href;
+    }
+
+    document.getElementById("filter").addEventListener("click", filterResults);
+    // document.getElementById("filterVenue").addEventListener("click", filterResults);
+    
+
+
+    //Check All Categories
+
+    function checkCategories(checked = true) {
+    const cbs = document.querySelectorAll('input[name="category"]');
+    cbs.forEach((cb) => {
+        cb.checked = checked;
+    });
+    }
+
+    const btnc = document.querySelector('#categoryAll');
+    btnc.onclick = checkAllCategories; 
+
+    function checkAllCategories() {
+        checkCategories();
+        // reassign click event handler
+        this.onclick = uncheckAllCategories;
+    }
+
+    function uncheckAllCategories() {
+        checkCategories(false);
+        // reassign click event handler
+        this.onclick = checkAllCategories;
+    }
+
+    //Check All Venues
+
+    function checkVenues(checked = true) {
+    const cbsv = document.querySelectorAll('input[name="venue"]');
+    cbsv.forEach((cb) => {
+        cb.checked = checked;
+    });
+    }
+
+    const btnv = document.querySelector('#venueAll');
+    btnv.onclick = checkAllVenues; 
+
+    function checkAllVenues() {
+        checkVenues();
+        // reassign click event handler
+        this.onclick = uncheckAllVenues;
+    }
+
+    function uncheckAllVenues() {
+        checkVenues(false);
+        // reassign click event handler
+        this.onclick = checkAllVenues;
+    }
+
+</script>
+  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/themes/airbnb.min.css">
+       --}}
   
-
-
 </x-app-layout>

@@ -22,7 +22,9 @@ class CategoryRepository implements CategoryInterface
 
     public function getAllCategories()
     {
-        return $this->model->all();
+        return $this->model
+            ->oldest('name')
+            ->get();
     }
 
     public function getAllManagerCategories() 
