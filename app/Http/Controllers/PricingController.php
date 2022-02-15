@@ -11,7 +11,7 @@ class PricingController extends Controller
 
   public function __construct()
   {
-      $this->middleware('auth', ['except' => ['index']]);
+      $this->middleware('auth', ['except' => ['index', 'webhook']]);
       
   }
     /**
@@ -153,7 +153,7 @@ class PricingController extends Controller
 
         header('Content-Type: application/json');
 
-        $YOUR_DOMAIN = 'https://clicky.com/success.html';
+        $YOUR_DOMAIN = 'https://cklicky.com/success.html';
 
         try {
         // retrieve JSON from POST body
@@ -181,13 +181,11 @@ class PricingController extends Controller
 
        
         // This is your real test secret API key.
-        // \Stripe\Stripe::setApiKey('sk_test_51JD6nUBKVezto0GXr3gTPK0uJuspZw8ZsOWFpRxzcR9IlvtwFdKZrhjZhYKVIz4EspkOVztPOnYosFJwUv1HOeTn00BuBpp4vH');
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         // Replace this endpoint secret with your endpoint's unique secret
         // If you are testing with the CLI, find the secret by running 'stripe listen'
         // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
         // at https://dashboard.stripe.com/webhooks
-        // $endpoint_secret = 'whsec_qC5UYBo9CGpT9gF18YM1MItu1lH3TgaH';
         $endpoint_secret = env('STRIPE_ENDPOINT_SECRET');
         
         
