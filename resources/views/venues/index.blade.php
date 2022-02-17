@@ -316,7 +316,7 @@ infoWindow.setContent(
   //       });
 
       
-  //     const label = "{{ $venue->title }}";
+  //     
 
   //     marker.addListener("click", () => {
   //     infoWindow.setContent(label);

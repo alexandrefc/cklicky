@@ -67,7 +67,7 @@ class VenueController extends Controller
             $categories = $categoryInterface->getAllCategories();
             return view('venues.create', compact('categories'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 
@@ -148,7 +148,7 @@ class VenueController extends Controller
 
             return redirect('/venues')->banner('Venue has been deleted successfully !');
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 

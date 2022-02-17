@@ -60,7 +60,7 @@ class PointController extends Controller
         if(Gate::allows('admin_only', auth()->user())){
             return view('points.create', compact('venues', 'categories', 'points', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
         
     }
@@ -164,7 +164,7 @@ class PointController extends Controller
 
         return redirect('/points');
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
 
         

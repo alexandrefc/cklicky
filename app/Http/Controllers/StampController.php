@@ -58,7 +58,7 @@ class StampController extends Controller
         if(Gate::allows('admin_only', auth()->user())){
             return view('stamps.create', compact('venues', 'categories', 'stamps', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
         
     }
@@ -164,7 +164,7 @@ class StampController extends Controller
             return redirect('/stamps');
 
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 

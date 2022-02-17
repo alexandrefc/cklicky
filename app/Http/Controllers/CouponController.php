@@ -61,7 +61,7 @@ class CouponController extends Controller
         if(Gate::allows('admin_only', auth()->user())){
             return view('coupons.create', compact('venues', 'categories', 'coupons'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 
@@ -196,7 +196,7 @@ class CouponController extends Controller
             return redirect('/coupons');
         
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 
@@ -209,7 +209,7 @@ class CouponController extends Controller
         {
             $myCoupon->addToMyCoupons($couponId, $userId);
 
-            // return redirect('/loyalties')->banner('Coupon has been added to favourites succesfully !');
+            // return redirect('/loyalty')->banner('Coupon has been added to favourites succesfully !');
             return back()->banner('Coupon has been added to favourites successfully !');
 
         } else {

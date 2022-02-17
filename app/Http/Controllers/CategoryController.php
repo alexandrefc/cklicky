@@ -40,7 +40,7 @@ class CategoryController extends Controller
 
             return view('cms.categories', compact('categories'));
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return back()->dangerBanner('Only Admin is allowed !');
         }
     }
 
@@ -109,7 +109,7 @@ class CategoryController extends Controller
             return redirect('/categories/create');
         
         } else {
-            return redirect('/loyalties')->dangerBanner('Only Admin is allowed !');
+            return redirect('/loyalty')->dangerBanner('Only Admin is allowed !');
         }
     }
 }
