@@ -32,7 +32,8 @@ class VenueController extends Controller
     public function index()
     {
         $venues = $this->venueInterface->getAllManagerVenues();
-        $location = "Kraków Polska";
+        
+        
         
        
 

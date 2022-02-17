@@ -37,11 +37,21 @@ class VenueRepository implements VenueInterface
 
     public function getAllTestingVenues()
     {
-        return QueryBuilder::for(Venue::class)
-            ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'id')])
-            ->testing()
-            ->latest()
-            ->get();
+        if(auth()->user())
+        {
+            return QueryBuilder::for(Venue::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'id')])
+                ->testing()
+                ->latest()
+                ->get();
+        } else {
+            return QueryBuilder::for(Venue::class)
+                ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
+                ->where('user_id', 1)
+                ->latest()
+                ->get();
+        }
+
     }
 
     
@@ -60,6 +70,15 @@ class VenueRepository implements VenueInterface
     {
         $slug = (new CreateSlug())->createSlug($request->title);
         $logo_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
+
+        if ($request->hasFile('map_icon'))
+        {
+            $map_icon_path = (new UploadImage())->uploadMapIcon($request->map_icon, $request->title);
+        } else {
+            $map_icon_path = 'marker.png';
+        }
+
+        // $map_icon_path = (new UploadImage())->uploadMapIcon($request->map_icon, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         
@@ -77,7 +96,8 @@ class VenueRepository implements VenueInterface
             'website' => $request->website,
             'category_id' => $request->category_id,
             'test_email' => auth()->user()->test_email,
-            'coordinates' => $coordinates
+            'coordinates' => $coordinates,
+            'map_icon_path' => $map_icon_path
         ]);
     }
 
@@ -99,6 +119,7 @@ class VenueRepository implements VenueInterface
         $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         
         $existing_image_path = $venue->logo_path;
+        $existing_map_icon_path = $venue->map_icon_path;
 
         // Should be new qrcode and slug ?
 
@@ -109,10 +130,18 @@ class VenueRepository implements VenueInterface
         
         if ($request->hasFile('logo'))
         {
-            $updated_image_path = (new UploadImage())->updateImage($request->logo, $request->title);
+            $updated_image_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
             (new UploadImage())->deleteImage($existing_image_path);
         } else {
             $updated_image_path = $existing_image_path;
+        }
+
+        if ($request->hasFile('map_icon'))
+        {
+            $updated_map_icon_path = (new UploadImage())->uploadMapIcon($request->map_icon, $request->title);
+            (new UploadImage())->deleteImage($existing_map_icon_path);
+        } else {
+            $updated_map_icon_path = $existing_map_icon_path;
         }
         
         $this->model->where('slug', $slug)
@@ -128,7 +157,8 @@ class VenueRepository implements VenueInterface
                 'website' => $request->website,
                 'category_id' => $request->category_id,
                 'test_email' => auth()->user()->test_email,
-                'coordinates' => $coordinates
+                'coordinates' => $coordinates,
+                'map_icon_path' => $updated_map_icon_path
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug

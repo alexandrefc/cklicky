@@ -12,7 +12,7 @@ class Venue extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'pin', 'slug', 'logo_path', 'qrcode_path', 'user_id', 
-    'manage_by_id', 'location', 'email', 'website', 'category_id', 'test_email', 'coordinates' ];
+    'manage_by_id', 'location', 'email', 'website', 'category_id', 'test_email', 'coordinates', 'map_icon_path' ];
 
     protected $casts = [
         'coordinates' => AsCollection::class,
@@ -47,5 +47,6 @@ class Venue extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    
 
 }

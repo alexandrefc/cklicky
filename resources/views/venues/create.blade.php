@@ -110,15 +110,46 @@
                                     Add Company Logo
                                     {{-- <abbr class="hidden" title="required">*</abbr> --}}
                                 </label>
-						        <div class="flex items-center pb-6">
-							        <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
-                                        {{-- <img class="p-1 w-full h-20 mr-4 object-center " src="" alt="Logo"> --}}
-                                    </div>
-								    <label class="cursor-pointer ">
-                                        <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse</span>
-                                        <input name="logo" type="file" class="hidden" :multiple="multiple" :accept="accept">
-                                    </label>
+						        <div class="w-full items-center pb-2">
+                                    
+							        {{-- <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden"> --}}
+                                        @livewire('upload-logo')
+                                    {{-- </div> --}}
+                                    
+
+								    {{-- <label class="cursor-pointer ">
+                                        <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse Logo</span>
+                                        <input name="logo" type="file" class="" :multiple="multiple" :accept="accept">
+                                    </label> --}}
 							    </div>
+						    </div>
+                            <div class="md:space-y-2 mb-5">
+						        <label 
+                                    class="text-xs font-semibold text-gray-600 pt-2">
+                                    Add Map Icon
+                                    {{-- <abbr class="hidden" title="required">*</abbr> --}}
+                                </label>
+                                <div class="w-full items-center pb-2">
+                                    
+							        {{-- <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden"> --}}
+                                        @livewire('upload-map-icon')
+                                    {{-- </div> --}}
+                                    
+
+								    {{-- <label class="cursor-pointer ">
+                                        <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse Logo</span>
+                                        <input name="logo" type="file" class="" :multiple="multiple" :accept="accept">
+                                    </label> --}}
+							    </div>
+						        {{-- <div class="flex items-center pb-6"> --}}
+							        {{-- <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                        <img class="p-1 w-full h-20 mr-4 object-center " src="" alt="Logo">
+                                    </div> --}}
+								    {{-- <label class="cursor-pointer ">
+                                        <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse Map Icon</span>
+                                        <input name="map_icon" type="file" class="" :multiple="multiple" :accept="accept">
+                                    </label>
+							    </div> --}}
 						    </div>
 						    <div class="md:flex flex-row md:space-x-4 w-full text-xs">
 							    <div class="mb-3 space-y-2 w-full text-xs">
@@ -172,6 +203,7 @@
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">Company Address</label>
                                     <input 
+                                        required="required"
                                         placeholder="Address" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
                                         type="text" 

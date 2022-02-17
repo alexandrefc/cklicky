@@ -82,6 +82,15 @@ class UploadImage
         
         return $newImageName;
     }
+
+    public function uploadMapIcon($image, $title)
+    {
+        $newImageName = uniqid() . '-' . str_replace(' ', '', $title) . '.' . $image->extension();
+        Image::make($image)->resize(25, 25)->save($image);
+        $image->storeAs('public/images/icons', $newImageName);
+        
+        return $newImageName;
+    }
       
     public function updateImage($image, $title)
     {
@@ -123,6 +132,18 @@ class UploadImage
             {
             unlink(storage_path('app/public/images/loyalty/' . $image_fs_path));
             }
+        } 
+    }
+
+    public function deleteIcon($icon_path) 
+    {
+        if($icon_path)
+        {
+            if(file_exists(storage_path('app/public/images/icons/' . $icon_path)))
+            {
+                unlink(storage_path('app/public/images/icons/' . $icon_path));
+            }
+            
         } 
     }
 

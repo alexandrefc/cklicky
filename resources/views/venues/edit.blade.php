@@ -54,20 +54,39 @@
                         @method('PUT')
 
                         <div class="form">
-                            <div class="md:space-y-2 mb-3">
+                            <div class="mb-3">
                                 <label 
                                     class="text-xs font-semibold text-gray-600 py-2">
                                     Update Company Logo
                                         {{-- <abbr class="hidden" title="required">*</abbr> --}}
                                 </label>
-                                    <div class="flex items-center py-6">
-                                        <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
-                                            <img class="p-1 w-full h-20 mr-4 object-center " src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}" alt="Logo">
+                                    <div class="flex items-center py-2">
+                                        <div class="w-1/3 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                            <img class="p-1 h-full m-auto object-center " src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}" alt="Logo">
                                         </div>
-                                            <label class="cursor-pointer ">
-                                                <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse</span>
-                                                    <input name="logo" type="file" class="hidden" :multiple="multiple" :accept="accept">
-                                            </label>
+                                            {{-- <label class="cursor-pointer "> --}}
+                                                {{-- <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse</span> --}}
+                                                    {{-- <input name="logo" type="file" class="" :multiple="multiple" :accept="accept"> --}}
+                                            {{-- </label> --}}
+                                            @livewire('upload-logo')
+                                    </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label 
+                                    class="text-xs font-semibold text-gray-600 py-2">
+                                    Update Map Icon
+                                        {{-- <abbr class="hidden" title="required">*</abbr> --}}
+                                </label>
+                                    <div class="flex items-center py-2">
+                                        <div class="w-1/4 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                            <img class="p-1 h-full m-auto object-center " src="{{ asset('storage/images/icons/' . $venue->map_icon_path) }}" alt="Map Icon">
+                                        </div>
+                                            {{-- <label class="cursor-pointer "> --}}
+                                                {{-- <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse</span> --}}
+                                                    {{-- <input name="map_icon" type="file" class="" :multiple="multiple" :accept="accept">
+                                            </label> --}}
+                                            @livewire('upload-map-icon')
                                     </div>
                             </div>
                             <div class="md:flex flex-row md:space-x-4 w-full text-xs">
@@ -101,7 +120,7 @@
                                         placeholder="example@mail.com" 
                                         value="{{ $venue->email }}"
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
-                                        required="required" 
+                                        
                                         type="text" 
                                         name="email" 
                                         id="email">
@@ -134,6 +153,7 @@
                                 <div class="w-full flex flex-col mb-3">
                                     <label class="font-semibold text-gray-600 py-2">Company Address</label>
                                     <input 
+                                        required="required"
                                         placeholder="Address" 
                                         value="{{ $venue->location }}" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
@@ -191,7 +211,7 @@
                             <div class="flex-auto w-full mb-1 text-xs space-y-2">
                                 <label class="font-semibold text-gray-600 py-2">Description</label>
                                     <textarea 
-                                        required="" 
+                                        
                                         name="description" 
                                         id="description" 
                                         class="min-h-[100px] max-h-[300px] h-28 appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg  py-4 px-4" 

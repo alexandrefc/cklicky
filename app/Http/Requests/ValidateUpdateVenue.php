@@ -26,7 +26,9 @@ class ValidateUpdateVenue extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
-            'logo' => 'nullable|mimes:jpg,png,jpeg|max:5048'
+            'logo' => 'nullable|mimes:jpg,png,jpeg|max:5048',
+            'map_icon' => 'mimes:jpg,png,jpeg|max:5048',
+            'location' => 'required|string|max:255'
         ];
     }
 

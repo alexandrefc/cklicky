@@ -791,7 +791,7 @@
               
               
               <p class="text:sm md:text-lg my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">
-                Total offers: {{ $venue->points->count() ?? "0" }}                   
+                Total offers: {{ ($venue->points->count() + $venue->coupons->count() + $venue->stamps->count()) ?? "0" }}                   
               </p>
 
               <p class="text-xs md:text-sm mb-1">
@@ -808,7 +808,7 @@
                       {{ $venue->location ?? "No location available" }}
                   </p>
                   <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
-                      Go to the map ->
+                    Show directions ->
                   </p>
               </a>
               

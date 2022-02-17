@@ -2,9 +2,9 @@
     {{-- <form wire:submit.prevent="save"> --}}
         {{-- <input name="logo" type="file" wire:model="logo" class=""> --}}
         <div class="w-1/4">
-            <label class="cursor-pointer ">
-                <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse Image</span>
-                <input name="image" type="file" class="hidden" :multiple="multiple" :accept="accept" wire:model="image">
+            <label class="cursor-pointer">
+                <span class="focus:outline-none text-white text-sm py-2 px-4 rounded-full bg-green-400 hover:bg-green-500 hover:shadow-lg">Browse Map Icon</span>
+                <input name="map_icon" type="file" class="hidden" :multiple="multiple" :accept="accept" wire:model="image">
             </label>
         </div>
         

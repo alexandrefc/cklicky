@@ -11,7 +11,7 @@
             {!! Mapper::render() !!}
         </div>
     </div> --}}
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    {{-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> --}}
 
 {{-- <body onload="initialize()"> --}}
     <div id="map" style="width: auto; height: 480px; margin-left: auto; margin-right: auto;"></div>
@@ -46,11 +46,11 @@
                     
         
         <div
-            id="{{ $venue->id }}"
+            
             class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
           
             <a href="/venues/{{ $venue->id }}" class="w-full ">
-              <div class="">
+              <div id="{{ $venue->id }}" class="">
                 <img
                   class="w-4/5 p-2 mx-auto hover:shadow-xl rounded-lg"
                   src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}"
@@ -76,8 +76,8 @@
                     </p>
                     
                     
-                    <p class="text:sm md:text-lg my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">
-                      Total offers: {{ $venue->points->count() ?? "0" }}                   
+                    <p id="{{ $venue->title }}" class="text:sm md:text-lg my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">
+                      Total offers: {{ ($venue->points->count() + $venue->coupons->count() + $venue->stamps->count()) ?? "0" }}                   
                     </p>
 
                     <p class="text-xs md:text-xs mb-1">
@@ -101,7 +101,7 @@
                         </p>
                         
                         <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
-                            Go to the map ->
+                            Show directions ->
                         </p>
                         
                     </a>
@@ -173,7 +173,9 @@ function initMap() {
   const venues =  {!! json_encode($venues->toArray()) !!};
   
   venues.forEach(element => {
-    
+   
+    const offersAmount = document.getElementById(element.title).innerHTML;
+
     const label = element.title ;
     const contentString =
     '<div class="text-xs"id="content">' +
@@ -183,32 +185,36 @@ function initMap() {
     '<div id="bodyContent">' +
     "<p><b>" +element.description+
     '</b> <p class="text:xs my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">' +
-    "Total offers: " + '{{ $venue->points->count() ?? "0" }}</p>' +
+    offersAmount + '</p>' +
+    '<p class="text-xs md:text-xs mb-1">' +
+    'Category: '+element.category.name+'</p>'    +
     '<p class="text-xs md:text-xs mb-1">' +
     'Email: '+element.email+'</p>'    + 
     '<p class="text-xs md:text-xs mb-1">' +
     'Website: '+element.website+'</p>'    +               
-    '<p><a href="#'+element.id+'">' +
+    '<p><a href="/venues/'+element.id+'">' +
     "<b>Go to the venue -> </b></a> " +
     "</p>" +
     "</div>" +
     "</div>";
    
-    // const image = "http://cklicky.test/images/loyalty/"+element.logo_path+"";
+    const image = "http://cklicky.test/images/icons/"+element.map_icon_path+"";
+    
 
     const message = element.description;
     const coordinates = element.coordinates;
     const marker = new google.maps.Marker({
         position: coordinates,
         map: map,
-       
-        // icon: image,
+        icon: image,
+        
+        
         });
 
         marker.addListener("click", () => {
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
-        map.setZoom(12);
+        map.setZoom(6);
         map.setCenter(marker.getPosition());
 
       });
@@ -222,10 +228,12 @@ function initMap() {
   });
 
   const locationButton = document.createElement("button");
-
+  
 locationButton.textContent = "Show offers nearby";
 locationButton.classList.add("custom-map-control-button");
 map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+
 locationButton.addEventListener("click", () => {
   // Try HTML5 geolocation.
   if (navigator.geolocation) {

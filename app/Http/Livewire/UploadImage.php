@@ -11,19 +11,19 @@ class UploadImage extends Component
  
     public $image;
 
-    public function save()
-    {
-        $this->validate([
-            'image.*' => 'image|max:1024', // 1MB Max
-        ]);
+    // public function save()
+    // {
+    //     $this->validate([
+    //         'logo.*' => 'image|max:1024', // 1MB Max
+    //     ]);
  
-        $this->image->store('images');
+    //     $this->logo->store('images');
         
        
-        session()->flash('success', 'Images has been successfully Uploaded.');
+    //     session()->flash('success', 'Images has been successfully Uploaded.');
  
-        return redirect()->back();
-    }
+    //     return redirect()->back();
+    // }
 
     public function render()
     {

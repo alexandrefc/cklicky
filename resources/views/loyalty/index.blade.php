@@ -104,7 +104,7 @@
                   
                   <p class="text-sm md:text-lg mb-6 h-10">
                       {{ $point->description }}
-                      {{ $point->category->name ?? "" }}                   
+                                         
                   </p>
                   
                   
@@ -1075,7 +1075,7 @@
                 
                 
                 <p class="text:sm md:text-lg my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">
-                  Total offers: {{ $venue->points->count() ?? "0" }}                   
+                  Total offers: {{ ($venue->points->count() + $venue->coupons->count() + $venue->stamps->count()) ?? "0" }}                   
                 </p>
   
                 <p class="text-xs md:text-sm mb-1">
@@ -1092,7 +1092,7 @@
                         {{ $venue->location ?? "No location available" }}
                     </p>
                     <p class="text-xs text-indigo-700 italic hover:text-indigo-900 pb-1 mb-3">
-                        Go to the map ->
+                        Show directions ->
                     </p>
                 </a>
                 
@@ -1154,7 +1154,7 @@
         let categoryIds = getIds("category");
         let venueIds = getIds("venue");
 
-        let href = 'loyalties?';
+        let href = 'loyalty?';
 
         if(categoryIds.length) {
             href += '&filter[category]=' + categoryIds;

@@ -41,22 +41,22 @@
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/loyalties">
+                    <a href="/loyalty">
                         Loyalty programs
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/loyalties">
+                    <a href="/loyalty">
                         Coupons
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/loyalties">
+                    <a href="/loyalty">
                         Points
                     </a>
                 </li>
                 <li class="pb-1">
-                    <a href="/loyalties">
+                    <a href="/loyalty">
                         Stamps
                     </a>
                 </li>

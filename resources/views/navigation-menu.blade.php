@@ -29,8 +29,11 @@
                             {{ __('My Loyalties') }}
                         </x-jet-nav-link>
                     @endauth
-                    <x-jet-nav-link href="/loyalties" :active="request()->routeIs('loyalty')">
+                    <x-jet-nav-link href="/loyalty" :active="request()->routeIs('loyalty')">
                         {{ __('Loyalty Templates') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="/map" :active="request()->routeIs('map')">
+                        {{ __('Map') }}
                     </x-jet-nav-link>
                     {{-- @auth
                     <x-jet-nav-link href="/venues" :active="request()->is('venues')">
@@ -46,7 +49,7 @@
                     
                     
                 </div>
-                @guest
+                {{-- @guest
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
                             {{ __('Login') }}
@@ -56,7 +59,7 @@
                         </x-jet-nav-link>
                     </div>
                     
-                @endguest
+                @endguest --}}
             </div>
 
     
@@ -191,7 +194,7 @@
             </div>
         @endauth
         @guest
-        <div class="hidden -mr-48 ml-4 md:inline-flex self-center rounded-md shadow justify-self-end">
+        <div class="hidden -mr-80 ml-4 md:inline-flex self-center rounded-md shadow justify-self-end">
             <a href="/login" class="inline-flex items-center justify-self-end px-3 py-1 border border-transparent text-base font-medium rounded-md text-white bg-green-500 hover:bg-green-700">
             Login
             </a>
@@ -231,8 +234,11 @@
                     {{ __('My Loyalties') }}
                 </x-jet-responsive-nav-link>
             @endauth
-            <x-jet-responsive-nav-link href="/loyalties" :active="request()->routeIs('promotions')">
-                {{ __('Promotions') }}
+            <x-jet-responsive-nav-link href="/loyalty" :active="request()->routeIs('loyalty')">
+                {{ __('Loyalty Templates') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="/map" :active="request()->routeIs('map')">
+                {{ __('Map') }}
             </x-jet-responsive-nav-link>
             {{-- <x-jet-responsive-nav-link href="/venues" :active="request()->routeIs('venues')">
                 {{ __('Venues') }}

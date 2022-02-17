@@ -4,6 +4,7 @@ use App\Mail\WelcomeMail;
 use App\Mail\PasswordChangedMail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CMSController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\StampController;
@@ -94,7 +95,9 @@ Route::post('coupons/mail/{id}', [CouponController::class, 'confirmSendCouponByM
 
 Route::resource('/venues', VenueController::class);
 
+// Map
 
+Route::get('/map', [MapController::class, 'index'])->name('map');
 
 // Info pages controllers
 
@@ -103,7 +106,7 @@ Route::get('/about/#whitelabelsolution', [AboutController::class, 'whiteLabelSol
 Route::get('/myloyalties/{user_id}', [MyLoyaltyController::class, 'index'])->name('myloyalties');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 
-Route::get('/loyalties', [LoyaltyController::class, 'index'])->name('loyalty');
+Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty');
 
 Route::resource('/loyalty', LoyaltyController::class);
 
