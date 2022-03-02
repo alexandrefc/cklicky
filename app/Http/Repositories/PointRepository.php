@@ -44,13 +44,13 @@ class PointRepository implements PointInterface
         {
             return QueryBuilder::for(Point::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+                ->active()->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
             return QueryBuilder::for(Point::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->where('made_by_id', 1)
+                ->active()->where('made_by_id', 1)
                 ->latest()
                 ->get();
         }
@@ -136,7 +136,8 @@ class PointRepository implements PointInterface
             'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
             
         ]); 
     }
@@ -203,7 +204,8 @@ class PointRepository implements PointInterface
             'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug
@@ -273,8 +275,19 @@ class PointRepository implements PointInterface
         } else {
             return FALSE;
         }
-
     } 
+
+    public function checkIfCampaignIsActive($pointId) 
+    {
+        $point = $this->getPointById($pointId);
+        
+        if ($point->active)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
     // todo: move to MyPoint repo
     public function addPointRewardToMyPoints($pointId, $userId)
@@ -286,7 +299,7 @@ class PointRepository implements PointInterface
 
         if (!($myPoint->checkIfMyPointExists($rewardId, $userId)))
         {
-            $myPoint->addToMyPoints($rewardId, $userId, $user_time_to_redeem);
+            $myPoint->addToMy($rewardId, $userId, $user_time_to_redeem);
         } 
     }
     public function addPointRewardToMyCoupons($pointId, $userId)
@@ -298,7 +311,7 @@ class PointRepository implements PointInterface
 
         if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
         {
-            $myCoupon->addToMyCoupons($rewardId, $userId);
+            $myCoupon->addToMy($rewardId, $userId);
         } 
     }
 

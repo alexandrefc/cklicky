@@ -76,7 +76,7 @@
                     {{ $point->start_date || $point->end_date ? "Valid between:" : ""}}
                     {{ $point->start_date ? date('j M, Y', strtotime($point->start_date)) : " "}} - {{ $point->end_date ? date('j M, Y', strtotime($point->end_date)) : "" }}                 
                   </p>
-                  
+                </a>
                   
                   {{-- <p class="text-sm mb-1">
                   Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
@@ -229,7 +229,7 @@
           
          
             
-          </a>
+          
       
         </div>
 
@@ -319,7 +319,7 @@
                   {{ $coupon->start_date ? date('j M, Y', strtotime($coupon->start_date)) : " "}} - {{ $coupon->end_date ? date('j M, Y', strtotime($coupon->end_date)) : "" }}                 
                 </p>
                 
-
+              </a>
             
             <div class="flex space-x-1 mb-1">
               <div class="flex-1 w=4/5 m-auto text-center">
@@ -397,7 +397,7 @@
         
        
           
-        </a>
+        
     
       </div>
 
@@ -654,7 +654,7 @@
                 {{ $stamp->start_date ? date('j M, Y', strtotime($stamp->start_date)) : " "}} - {{ $stamp->end_date ? date('j M, Y', strtotime($stamp->end_date)) : "" }}                 
               </p>
               
-            
+            </a>
               
 
           
@@ -723,7 +723,7 @@
       
      
         
-      </a>
+      
   
     </div>
 

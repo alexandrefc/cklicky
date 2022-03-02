@@ -32,6 +32,10 @@ interface CouponInterface
    
     public function checkIfUserIsManager($couponId);
 
+    public function checkIfNowIsInValidTime($couponId);
+
+    public function checkIfCampaignIsActive($couponId);
+
     public function addCouponRewardToMyCoupons($couponId, $userId);
 
     public function getTimeToRedeem($couponId);

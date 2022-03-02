@@ -55,7 +55,6 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::resource('/categories', CategoryController::class);
-
 Route::resource('/cms', CMSController::class);
 Route::resource('/coupons', CouponController::class);
 Route::resource('points', PointController::class);
@@ -67,24 +66,22 @@ Route::resource('stamps', StampController::class);
 Route::post('coupons/addtomy/{coupon_id}', [CouponController::class, 'addToMyCoupons'])->name('addToMyCoupons');
 Route::put('coupons/confirmredeem/{slug}', [CouponController::class, 'confirmRedeem']);
 Route::get('coupons/redeem/{coupon_id}/{user_id}', [CouponController::class, 'redeem'])->name('redeem');
-Route::delete('coupons/removefrommy/{coupon_id}', [CouponController::class, 'removeFromMy'])->name('removeFromMyCoupons');
+Route::delete('coupons/removefrommy/{coupon_id}', [CouponController::class, 'deactivateMy'])->name('removeFromMyCoupons');
 
 
 Route::post('points/addtomy/{point_id}', [PointController::class, 'addToMyPoints'])->name('addToMyPoints');
 Route::put('points/confirmaddpoints/{slug}', [PointController::class, 'confirmAddPoints']);
 Route::get('points/addpoints/{point_id}/{user_id}', [PointController::class, 'addPoints'])->name('addPoints');
-Route::delete('points/removefrommy/{point_id}', [PointController::class, 'removeFromMy'])->name('removeFromMyPoints');
-
-
+Route::delete('points/removefrommy/{point_id}', [PointController::class, 'deactivateMy'])->name('removeFromMyPoints');
 
 
 Route::post('stamps/addtomy/{stamp_id}', [StampController::class, 'addToMyStamps'])->name('addToMyStamps');
 Route::put('stamps/confirmaddstamps/{slug}', [StampController::class, 'confirmAddStamps']);
 Route::get('stamps/addstamps/{point_id}/{user_id}', [StampController::class, 'addStamps'])->name('addStamps');
-Route::delete('stamps/removefrommy/{stamp_id}', [StampController::class, 'removeFromMy'])->name('removeFromMyStamps');
+Route::delete('stamps/removefrommy/{stamp_id}', [StampController::class, 'deactivateMy'])->name('removeFromMyStamps');
 
 Route::post('venues/addtomy/{venue_id}', [VenueController::class, 'addToMyVenues'])->name('addToMyVenues');
-Route::delete('venues/removefrommy/{venue_id}', [VenueController::class, 'removeFromMy'])->name('removeFromMyVenues');
+Route::delete('venues/removefrommy/{venue_id}', [VenueController::class, 'deactivateMy'])->name('removeFromMyVenues');
 
 // Mailing
 Route::post('points/mail/{id}', [PointController::class, 'confirmSendPointByMail']);
@@ -103,7 +100,7 @@ Route::get('/map', [MapController::class, 'index'])->name('map');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/about/#whitelabelsolution', [AboutController::class, 'whiteLabelSolution'])->name('whiteLabelSolution');
-Route::get('/myloyalties/{user_id}', [MyLoyaltyController::class, 'index'])->name('myloyalties');
+Route::get('/myloyalties/{uuid}', [MyLoyaltyController::class, 'index'])->name('myloyalties');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 
 Route::get('/loyalty', [LoyaltyController::class, 'index'])->name('loyalty');

@@ -174,7 +174,7 @@
                                     <input 
                                         placeholder="example@mail.com" 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
-                        
+                                        required="required"
                                         type="text" 
                                         name="email" 
                                         id="email">
@@ -192,6 +192,7 @@
                                         </span>
                                     </div>
                                     <input 
+                                        required="required"
                                         type="text" 
                                         class="flex-shrink flex-grow flex-auto leading-normal w-px border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow" 
                                         placeholder="example.com"
@@ -210,10 +211,7 @@
                                         name="location" 
                                         id="location">
                                 </div>
-                                
-
-                                
-                                
+                                  
                             </div>
 
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">

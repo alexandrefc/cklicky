@@ -27,12 +27,12 @@
       <div class="flex justify-between mb-4">
           <h2 class="font-semibold text-xl leading-tight">
               Venues
-              <a href="/venues/create" class="">
+              {{-- <a href="/venues/create" class="">
                   <span
                       class="text-salmon font-medium text-lg ml-2 hover:underline">
                       + Create new venue
                   </span>
-              </a>
+              </a> --}}
           </h2>
       </div>
       
@@ -108,7 +108,7 @@
                  
                   <div class="flex space-x-1 mb-1">
                     <div class="flex-1 w=4/5 m-auto text-center">
-                        <form 
+                        {{-- <form 
                             action="/venues/addtomy/{{ $venue->id }}"
                             method="POST"
                             enctype="multipart/form-data">
@@ -120,7 +120,8 @@
                                 class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                                 Add to My
                             </button>
-                        </form>
+                        </form> --}}
+                        @livewire('add-remove-from-my-button', ['model' => 'venue', 'campaign' => $venue])
                     </div>
         
                     

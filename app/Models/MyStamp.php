@@ -10,9 +10,15 @@ class MyStamp extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['stamp_id', 'user_id', 'stamps_amount', 'add_stamps_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
+    protected $fillable = ['stamp_id', 'user_id', 'stamps_amount', 'add_stamps_qrcode_path', 
+        'user_time_to_redeem', 'user_reset_time', 'is_active'];
 
-    public function addToMyStamps($stampId, $userId)
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+
+    public function addToMy($stampId, $userId)
     {
         // $userId = auth()->user()->id;
         $addStampsQrcodePath = (new CreateQrcode())->createAddStampsQrcode($stampId, $userId);
@@ -27,7 +33,7 @@ class MyStamp extends Model
 
     public function getMyStampsByUserId()
     {
-        return self::where('user_id', auth()->user()->id)->latest()->get();
+        return self::where('user_id', auth()->user()->id)->active()->latest()->get();
     }
 
     public function getMyStampById($stampId, $userId)
@@ -35,10 +41,33 @@ class MyStamp extends Model
         return self::where('stamp_id', $stampId)->where('user_id', $userId)->first();
     }
 
+    public function getMyActiveStampById($stampId, $userId)
+    {
+        return self::where('stamp_id', $stampId)->where('user_id', $userId)->active()->first();
+    }
+
     public function getAllMyStampById($stampId)
     {
         return self::where('stamp_id', $stampId)->get();
         
+    }
+
+    public function activateMy($stampId) 
+    {
+        $myStamp = $this->getMyStampById($stampId, auth()->user()->id);
+       
+        $myStamp->update([
+            'is_active' => 1
+        ]);
+    }
+    
+    public function deactivateMy($stampId) 
+    {
+        $myStamp = $this->getMyStampById($stampId, auth()->user()->id);
+       
+        $myStamp->update([
+            'is_active' => 0
+        ]);
     }
 
     public function removeFromMy($stampId) 
@@ -49,9 +78,20 @@ class MyStamp extends Model
         $stamp->delete();
     }
 
-    public function checkIfMyStampExists($stampId, $userId)
+    public function checkIfMyExists($stampId, $userId)
     {
         return self::where('stamp_id', $stampId)->where('user_id', $userId)->exists();
+    }
+
+    public function checkIfMyIsActive($stampId, $userId) 
+    {
+        $myStamp = $this->getMyStampById($stampId, $userId);
+        if($myStamp->is_active == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+        
     }
 
     public function checkIfRewardIsAvailable($stamp, $userId)

@@ -160,18 +160,32 @@ class VenueController extends Controller
         $userId = auth()->user()->id;
        
 
-        if (!($myVenue->checkIfMyVenueExists($venueId, $userId)))
+        if (!($myVenue->checkIfMyExists($venueId, $userId)))
         {
-            $myVenue->addToMyVenues($venueId, $userId);
+            $myVenue->addToMy($venueId, $userId);
+            $myVenue->activateMy($venueId, $userId);
 
             return back()->banner('Venue has been added to favourites successfully !');
         
-        } else {
+        } elseif (!($myVenue->checkIfMyIsActive($venueId, $userId))) {
             
-            // return redirect('/stamps')->dangerBanner('stamp has been already added to favourites !');
+            $myVenue->activateMy($venueId, $userId);
+
+            return back()->banner('Venue has been added to favourites successfully !');
+            
+        } else {
             return back()->dangerBanner('This Venue has been already added to favourites !');
         }
 
+    }
+
+    public function deactivateMy($venueId)
+    {
+        $myVenue = new MyVenue;
+
+        $myVenue->deactivateMy($venueId);
+
+        return back()->banner('Venue has been removed from favourites !');
     }
 
     public function removeFromMy($venueId)

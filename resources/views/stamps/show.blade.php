@@ -112,7 +112,7 @@
                         
                     </p>
                     <div class="flex space-x-1 mb-2">
-                        <div class="flex-1 w=4/5 m-auto text-center">
+                        {{-- <div class="flex-1 w=4/5 m-auto text-center">
                             @if (!$myStamp)
                                 <form 
                                     action="/stamps/addtomy/{{ $stamp->id }}"
@@ -143,7 +143,9 @@
                                     </form>
                                 </div>
                             @endif
-                        </div>
+                        </div> --}}
+                        
+                        @livewire('add-remove-from-my-button', ['model' => 'stamp', 'campaign' => $stamp])
             
                         @if($myStamp ? $myStamp->finished : 0)
                             <div class="flex-1 w=4/5 m-auto text-center">

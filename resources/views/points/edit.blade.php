@@ -64,7 +64,11 @@
                         />
                 </div>
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
+                @livewire('update-campaign-image', ['imagePath' => $point->image_path])
+
+                @livewire('update-campaign-full-screen-image', ['imagePath' => $point->image_fs_path])
+
+                {{-- <div class="grid grid-cols-1 mt-5 mx-7">
                     <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">
                         Upload Photo
                     </label>
@@ -72,25 +76,25 @@
                         <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
                             <div class='flex flex-col items-center justify-center pt-1'>
                                 <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                                <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p>
                                 <input type='file' name="image" class="" />
                             </div>
                         </label>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="grid grid-cols-1 mt-5 mx-7">
+                {{-- <div class="grid grid-cols-1 mt-5 mx-7">
                     <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold mb-1">Upload full screen image</label>
                       <div class='flex items-center justify-center w-full'>
                           <label class='flex flex-col border-4 border-dashed w-full h-24 hover:bg-gray-100 hover:border-purple-300 group'>
                               <div class='flex flex-col items-center justify-center pt-1'>
                                 <svg class="w-10 h-10 text-purple-400 group-hover:text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                {{-- <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p> --}}
+                                <p class='lowercase text-sm text-gray-400 group-hover:text-purple-600 pt-1 tracking-wider'>Select a photo</p>
                                 <input type='file' name="imageFS" class="" />
                               </div>
                           </label>
                       </div>
-                </div>
+                </div> --}}
           
                 <div class="grid grid-cols-1 mt-5 mx-7">
                     <label class="md:text-sm text-xs text-gray-500 text-light font-extrabold">YouTube video embed id</label>
@@ -575,7 +579,19 @@
             </select>
           </div>
       
-          
+          <div class="grid grid-cols-1 mt-5 mx-7">
+            <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Activate campaign</label>
+            
+              <div 
+                class="bg-green-100 text-center uppercase md:text-sm text-xs text-gray-500 text-light font-semibold py-2 px-3 rounded-lg border-2 border-green-500 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                <label for="is_active">Activate campaign after submission</label>
+                <input class="rounded ml-3 " type="checkbox" name="is_active" id="is_active" value="1"
+                    @if ($point->is_active) 
+                        checked
+                    @endif>
+              </div>
+            
+          </div>
       
           
       

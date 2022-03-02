@@ -155,11 +155,11 @@
               </div>
             </div>
           </a>
-              
-            
+         
+          
           <div class="flex space-x-1 mb-1 mx-5">
             <div class="flex-1 w=4/5 m-auto text-left">
-                <form 
+                {{-- <form 
                 action="/stamps/{{ $stamp->slug }}"
                 method="POST">
                 @csrf
@@ -170,30 +170,41 @@
                         class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                         Delete
                     </button>
-                </form>
+                </form> --}}
+                @livewire('delete-campaign', ['slug' => $stamp->slug, 'url' => 'stamps'])
             </div>
+
+            
             <div class="flex-1 w=4/5 m-auto text-center">
-                <form 
+                {{-- <form 
                   action="/stamps/mail/{{ $stamp->id }}"
                   method="POST">
                   @csrf
                   
                     <button 
                         type="submit"
-                        class=" bg-pink-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                        class=" bg-pink-500 hover:bg-pink-400 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                         Mail
                     </button>
-                </form>
+                </form> --}}
+                @livewire('send-mail-button', ['campaignId' => $stamp->id])
             </div>
 
             <div class="flex-1 w=4/5 m-auto text-right">
               
                   <a 
                       href="/stamps/{{ $stamp->slug }}/edit"
-                      class="bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                      class="bg-pink-700 hover:bg-pink-600 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                   Edit
                   </a>
             </div>
+            
+           
+            
+          
+          </div>
+          <div class="w-3/4 mx-auto mt-6">
+            @livewire('is-active-toggle', ['model' => $stamp, 'field' => 'is_active'], key($stamp->id))
           </div>
                 <div class="m-6">
                     <img
@@ -203,7 +214,8 @@
                     />
                 </div>
             </div>
-
+            
+            
               {{-- @endif --}}
             @endforeach
               

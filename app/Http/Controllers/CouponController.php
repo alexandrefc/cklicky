@@ -99,7 +99,7 @@ class CouponController extends Controller
         {
             $userId = auth()->user()->id;
         
-            if($myCoupon->checkIfMyCouponExists($coupon->id, $userId))
+            if($myCoupon->checkIfMyExists($coupon->id, $userId))
             {
                 $isMyCoupon = TRUE; 
                 if($myCoupon->checkIfCouponIsRedeemed($coupon->id, $userId))
@@ -123,7 +123,7 @@ class CouponController extends Controller
 
         // $userId = auth()->user()->id;
         
-        // if($myCoupon->checkIfMyCouponExists($coupon->id, $userId))
+        // if($myCoupon->checkIfMyExists($coupon->id, $userId))
         // {
         //     $isMyCoupon = TRUE; 
         //     if($myCoupon->checkIfCouponIsRedeemed($coupon->id, $userId))
@@ -205,18 +205,34 @@ class CouponController extends Controller
         $myCoupon = new MyCoupon;
         $userId = auth()->user()->id;
 
-        if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
+        if (!($myCoupon->checkIfMyExists($couponId, $userId)))
         {
-            $myCoupon->addToMyCoupons($couponId, $userId);
+            $myCoupon->addToMy($couponId, $userId);
 
-            // return redirect('/loyalty')->banner('Coupon has been added to favourites succesfully !');
+            $myCoupon->activateMy($couponId, $userId);
+
             return back()->banner('Coupon has been added to favourites successfully !');
-
-        } else {
+        
+        } elseif (!($myCoupon->checkIfMyIsActive($couponId, $userId))) {
             
+            $myCoupon->activateMy($couponId, $userId);
+
+            return back()->banner('Coupon has been added to favourites successfully !');
+            
+        } else {
+
             return back()->dangerBanner('This Coupon has been already added to favourites !');
         }
 
+    }
+
+    public function deactivateMy($couponId)
+    {
+        $myCoupon = new MyCoupon;
+
+        $myCoupon->deactivateMy($couponId);
+
+        return back()->banner('Coupon campaign has been removed from favourites !');
     }
 
     public function removeFromMy($couponId)
@@ -228,14 +244,15 @@ class CouponController extends Controller
         return back()->banner('Coupon campaign has been removed from favourites !');
     }
 
+
     public function confirmRedeem($couponId)
     {
         $myCoupon = new MyCoupon;
         $userId = auth()->user()->id;
         
-        if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
+        if (!($myCoupon->checkIfMyExists($couponId, $userId)))
         {
-            $myCoupon->addToMyCoupons($couponId, $userId);
+            $myCoupon->addToMy($couponId, $userId);
         }
 
         $coupon = $this->couponInterface->getCouponById($couponId);
@@ -250,32 +267,43 @@ class CouponController extends Controller
         $myCoupon = new MyCoupon;
         $coupon = $this->couponInterface->getCouponById($couponId);
 
-        if (($this->couponInterface->checkIfUserIsManager($couponId)))
+        if($this->couponInterface->checkIfCampaignIsActive($couponId))
         {
-            if (!($myCoupon->checkIfMyCouponExists($couponId, $userId)))
+            if($this->stampInterface->checkIfNowIsInValidTime($couponId))
             {
-                $myCoupon->addToMyCoupons($couponId, $userId);
-                $myCoupon->redeemCoupon($couponId, $userId);
-                if($myCoupon->checkIfRewardIsAvailable($couponId, $userId))
+                if (($this->couponInterface->checkIfUserIsManager($couponId)))
                 {
-                    $this->couponInterface->addCouponRewardToMyCoupons($couponId, $userId);
-                }
-    
-                return redirect('/coupons/' . $coupon->slug)->banner('Coupon has been redeemed successfully !');
-                    
-            } else {
-                if (!($myCoupon->checkIfCouponIsRedeemed($couponId, $userId)))
-                {
-                    $myCoupon->redeemCoupon($couponId, $userId);
+                    if (!($myCoupon->checkIfMyExists($couponId, $userId)))
+                    {
+                        $myCoupon->addToMy($couponId, $userId);
+                        $myCoupon->redeemCoupon($couponId, $userId);
+                        
+                        if($myCoupon->checkIfRewardIsAvailable($couponId, $userId))
+                        {
+                            $this->couponInterface->addCouponRewardToMyCoupons($couponId, $userId);
+                        }
 
-                    return redirect('/coupons/' . $coupon->slug)->banner('Coupon has been redeemed successfully !');
-                
+                        return redirect('/coupons/' . $coupon->slug)->banner('Coupon has been redeemed successfully !');
+                            
+                    } else {
+                        if (!($myCoupon->checkIfCouponIsRedeemed($couponId, $userId)))
+                        {
+                            $myCoupon->redeemCoupon($couponId, $userId);
+
+                            return redirect('/coupons/' . $coupon->slug)->banner('Coupon has been redeemed successfully !');
+                        
+                        } else {
+                            return redirect('/coupons/' . $coupon->slug)->dangerBanner('This coupon has been already redeemed !');
+                        }
+                    }
                 } else {
-                    return redirect('/coupons/' . $coupon->slug)->dangerBanner('This coupon has been already redeemed !');
+                    return redirect('/coupons/' . $coupon->slug)->dangerBanner('Please show qrcode to seller. Only Manager is permitted to redeem coupon.');
                 }
+            } else {
+                return redirect('/coupons/' . $coupon->slug)->dangerBanner('Uuups, this camapaign seems to be not valid now !');
             }
         } else {
-            return redirect('/coupons/' . $coupon->slug)->dangerBanner('Please show qrcode to seller. Only Manager is permitted to redeem coupon.');
+            return redirect('/coupons/' . $coupon->slug)->dangerBanner('Uuups, this camapaign seems to be not active now !');
         }
         
     }
@@ -297,9 +325,9 @@ class CouponController extends Controller
 
             if($mailCampaign->x_time_to_redeem)
             {
-                if(!$myCampaign->checkIfMyCouponExists($id, $user->id))
+                if(!$myCampaign->checkIfMyExists($id, $user->id))
                 {
-                    $myCampaign->addToMyCoupons($id, $user->id);
+                    $myCampaign->addToMy($id, $user->id);
                 }
                 $myCampaign->updateTimeToRedeem($id, $user->id);
             }

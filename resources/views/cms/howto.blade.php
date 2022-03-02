@@ -3,9 +3,9 @@
 
 
 
-    <body>
+    
 
-        <article id="the-article">
+        {{-- <article id="the-article"> --}}
     
     <div>
         <div class="mx-auto max-w-6xl">
@@ -608,8 +608,8 @@
         </div>
     </div>
     
-    </article>
-    
+    {{-- </article> --}}
+{{--     
     <div
         x-data="scrollHandler(document.getElementById('the-article'))"
         x-cloak
@@ -624,8 +624,8 @@
         x-data="devtools()"
         x-show="alpines.length"
         x-init="start()">
-    </div>
-    <script>
+    </div> --}}
+    {{-- <script>
     function scrollHandler(element = null) {
         return {
             height: 0,
@@ -648,8 +648,7 @@
     }
     
     </script>
-    </body>
-
+     --}}
 
 
 

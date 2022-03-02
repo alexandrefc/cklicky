@@ -86,7 +86,7 @@
                 </li>
                 @auth
                 <li class="pb-1">
-                    <a href="/myloyalties/{{auth()->user()->id}} ">
+                    <a href="/myloyalties/{{auth()->user()->uuid}} ">
                         My offers
                     </a>
                 </li>

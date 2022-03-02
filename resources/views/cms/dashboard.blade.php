@@ -5,10 +5,9 @@
             
         </h2>
     </x-slot> --}}
+    
 
-
-    <div>
-        {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
+    {{-- <div> --}}
         
         <div x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-200">
             <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
@@ -77,9 +76,9 @@
                     </a>
                 </nav>
             </div>
-            <div class="flex-1 flex flex-col overflow-hidden">
+            {{-- <div class="flex-1 flex flex-col overflow-hidden"> --}}
  
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                     <div class="container mx-auto px-6 py-8 w-4/5">
                         <h3 class="text-gray-700 text-center text-3xl font-medium mb-8">Create your campaigns</h3>
         
@@ -240,37 +239,9 @@
                             </div>
                         </div>
                     </div>
-                </main>
-            </div>
+                </div>
+            {{-- </div> --}}
         </div>
-    </div>
+    {{-- </div> --}}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {{-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
-        </div>
-    </div> --}}
 </x-app-layout>

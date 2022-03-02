@@ -134,7 +134,7 @@
                   Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
                   </p> --}}
                   
-                  
+                </a>
                   {{-- <span class="">
                   <a 
                       href="/points/{{ $point->slug }}"
@@ -207,7 +207,7 @@
               </div> --}}
               <div class="flex space-x-1 mb-1">
                 <div class="flex-1 w=4/5 m-auto text-center">
-                    <form 
+                    {{-- <form 
                         action="/points/addtomy/{{ $point->id }}"
                         method="POST"
                         enctype="multipart/form-data">
@@ -218,7 +218,8 @@
                             class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                             Add to My
                         </button>
-                    </form>
+                    </form> --}}
+                    @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
                 </div>
     
                 <div class="flex-1 w=4/5 m-auto text-center">
@@ -257,7 +258,7 @@
           {{-- </a> --}}
       
         </div>
-      </a>
+     
         @endforeach
        
       </div>
@@ -332,7 +333,7 @@
                 Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
                 </p> --}}
                 
-                
+              </a>
                 {{-- <span class="">
                 <a 
                     href="/points/{{ $point->slug }}"
@@ -405,7 +406,7 @@
             </div> --}}
             <div class="flex space-x-1 mb-1">
               <div class="flex-1 w=4/5 m-auto text-center">
-                  <form 
+                  {{-- <form 
                       action="/coupons/addtomy/{{ $coupon->id }}"
                       method="POST"
                       enctype="multipart/form-data">
@@ -416,7 +417,8 @@
                           class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                           Add to My
                       </button>
-                  </form>
+                  </form> --}}
+                  @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
               </div>
   
               <div class="flex-1 w=4/5 m-auto text-center">
@@ -455,7 +457,7 @@
         {{-- </a> --}}
     
       </div>
-    </a>
+   
       @endforeach
       
     </div>
@@ -555,7 +557,7 @@
               Points collected: {{ "0" }}/{{ $point->total_points ?? "" }}                   
               </p> --}}
               
-              
+            </a>
               {{-- <span class="">
               <a 
                   href="/points/{{ $point->slug }}"
@@ -628,7 +630,7 @@
           </div> --}}
           <div class="flex space-x-1 mb-1">
             <div class="flex-1 w=4/5 m-auto text-center">
-                <form 
+                {{-- <form 
                     action="/stamps/addtomy/{{ $stamp->id }}"
                     method="POST"
                     enctype="multipart/form-data">
@@ -639,7 +641,8 @@
                         class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                         Add to My
                     </button>
-                </form>
+                </form> --}}
+                @livewire('add-remove-from-my-button', ['model' => 'stamp', 'campaign' => $stamp])
             </div>
 
             <div class="flex-1 w=4/5 m-auto text-center">
@@ -676,7 +679,7 @@
       
      
         
-      </a>
+      
   
     </div>
 
@@ -754,10 +757,10 @@
                 
                 {{ date('j M, Y', strtotime($coupon->start_date)) }} - {{ date('j M, Y', strtotime($coupon->end_date)) }}                  
               </p> --}}
-              
-          <div class="flex space-x-1 mb-1 absolute inset-x-0 bottom-4">
+            </a>
+          <div class="flex w-11/12 space-x-1 mb-1 absolute inset-x-0 bottom-4 mx-auto">
             <div class="text-center m-auto w-1/2">
-                <form 
+                {{-- <form 
                     action="/coupons/addtomy/{{ $coupon->id }}"
                     method="POST"
                     enctype="multipart/form-data">
@@ -768,7 +771,8 @@
                         class="bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                         Add to My
                     </button>
-                </form>
+                </form> --}}
+                @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
             </div>
 
             <div class="text-center m-auto w-1/2">
@@ -781,7 +785,7 @@
             
                     <button 
                         type="submit"
-                        class="bg-pink-700 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
+                        class="bg-pink-700 bg-opacity-50 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                         Redeem
                     </button>            
                 </form>
@@ -801,7 +805,7 @@
       {{-- </a> --}}
   
     </div>
-  </a>
+  
     @endforeach
     
   </div>
@@ -874,10 +878,10 @@
       
      
         
-      
-      <div class="flex w-4/5 space-x-1 mb-1 absolute inset-x-0 bottom-4 m-auto">
-        <div class=" text-center m-auto w-1/2">
-          <form 
+      </a>
+      <div class="flex w-11/12 space-x-1 mb-1 absolute inset-x-0 bottom-4 mx-auto">
+        <div class="text-center m-auto w-1/2">
+          {{-- <form 
               action="/points/addtomy/{{ $point->id }}"
               method="POST"
               enctype="multipart/form-data">
@@ -888,10 +892,11 @@
                   class=" bg-yellow-500 bg-opacity-50 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                   Add to My
               </button>
-          </form>
+          </form> --}}
+          @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
         </div>
 
-        <div class=" text-center m-auto w-1/2">
+        <div class="text-center m-auto w-1/2">
             <form 
                 action="/points/confirmaddpoints/{{ $point->id }}"
                 method="POST"
@@ -911,7 +916,7 @@
 
     
 
-  </a>
+ 
 
 
 
@@ -1100,7 +1105,7 @@
             
                 <div class="flex space-x-1 mb-1">
                   <div class="flex-1 w=4/5 m-auto text-center">
-                      <form 
+                      {{-- <form 
                           action="/venues/addtomy/{{ $venue->id }}"
                           method="POST"
                           enctype="multipart/form-data">
@@ -1112,7 +1117,8 @@
                               class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                               Add to My
                           </button>
-                      </form>
+                      </form> --}}
+                      @livewire('add-remove-from-my-button', ['model' => 'venue', 'campaign' => $venue])
                   </div>
       
                   

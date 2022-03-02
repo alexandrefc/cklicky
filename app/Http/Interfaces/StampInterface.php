@@ -30,6 +30,8 @@ interface StampInterface
 
     public function checkIfNowIsInValidTime($stampId);
 
+    public function checkIfCampaignIsActive($stampId);
+
     public function addStampRewardToMyStamps($stampId, $userId);
 
     public function addStampRewardToMyCoupons($stampId, $userId);

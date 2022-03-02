@@ -21,10 +21,16 @@ class MyPoint extends Model
     // }
 
     use HasFactory;
-    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 'user_reset_time'];
+    protected $fillable = ['point_id', 'user_id', 'points_amount', 'add_points_qrcode_path', 'user_time_to_redeem', 
+    'user_reset_time', 'is_active'];
 
 
-    public function addToMyPoints($pointId, $userId)
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+    
+    public function addToMy($pointId, $userId)
     {
         $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
         
@@ -34,7 +40,7 @@ class MyPoint extends Model
             'add_points_qrcode_path' => $addPointsQrcodePath
         ]);
     } 
-    // public function addToMyPoints($pointId, $userId, $user_time_to_redeem)
+    // public function addToMy($pointId, $userId, $user_time_to_redeem)
     // {
     //     // $userId = auth()->user()->id;
     //     $addPointsQrcodePath = (new CreateQrcode())->createAddPointsQrcode($pointId, $userId);
@@ -62,7 +68,7 @@ class MyPoint extends Model
 
     public function getMyPointsByUserId()
     {
-        return self::where('user_id', auth()->user()->id)->latest()->get();
+        return self::where('user_id', auth()->user()->id)->active()->latest()->get();
     }
 
     public function getMyPointById($pointId, $userId)
@@ -75,6 +81,23 @@ class MyPoint extends Model
         return self::where('point_id', $pointId)->get();
     }
 
+    public function activateMy($pointId) 
+    {
+        $myPoint = $this->getMyPointById($pointId, auth()->user()->id);
+       
+        $myPoint->update([
+            'is_active' => 1
+        ]);
+    }
+    public function deactivateMy($pointId) 
+    {
+        $myPoint = $this->getMyPointById($pointId, auth()->user()->id);
+       
+        $myPoint->update([
+            'is_active' => 0
+        ]);
+    }
+
     public function removeFromMy($pointId) 
     {
         $point = $this->getMyPointById($pointId, auth()->user()->id);
@@ -83,9 +106,20 @@ class MyPoint extends Model
         $point->delete();
     }
 
-    public function checkIfMyPointExists($pointId, $userId)
+    public function checkIfMyExists($pointId, $userId)
     {
         return self::where('point_id', $pointId)->where('user_id', $userId)->exists();
+    }
+
+    public function checkIfMyIsActive($pointId, $userId) 
+    {
+        $myPoint = $this->getMyPointById($pointId, $userId);
+        if($myPoint->is_active == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+        
     }
 
     public function checkIfRewardIsAvailable($point, $userId)

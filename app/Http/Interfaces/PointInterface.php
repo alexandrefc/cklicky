@@ -32,6 +32,8 @@ interface PointInterface
 
     public function checkIfNowIsInValidTime($pointId);
 
+    public function checkIfCampaignIsActive($pointId);
+
     public function addPointRewardToMyPoints($pointId, $userId);
 
     public function addPointRewardToMyCoupons($pointId, $userId);

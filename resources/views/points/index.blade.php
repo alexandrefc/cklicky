@@ -139,7 +139,7 @@
               
               <div class="flex space-x-1 mb-1 mx-5">
                 <div class="flex-1 w=4/5 m-auto text-left">
-                    <form 
+                    {{-- <form 
                     action="/points/{{ $point->slug }}"
                     method="POST">
                     @csrf
@@ -150,7 +150,8 @@
                             class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                             Delete
                         </button>
-                    </form>
+                    </form> --}}
+                    @livewire('delete-campaign', ['slug' => $point->slug, 'url' => 'points'])
                 </div>
                 <div class="flex-1 w=4/5 m-auto text-center">
                     <form 
@@ -174,6 +175,9 @@
                       Edit
                       </a>
                 </div>
+              </div>
+              <div class="w-3/4 mx-auto mt-6">
+                @livewire('is-active-toggle', ['model' => $point, 'field' => 'is_active'], key($point->id))
               </div>
               
                   <div class="m-6">

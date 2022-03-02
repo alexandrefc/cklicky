@@ -68,9 +68,11 @@
         </div>
         <div class="flex-1 flex flex-col overflow-hidden">
 
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
-                
-            </main>
+            <div class="flex-1 overflow-x-hidden overflow-y-auto bg-white">
+                <div>
+                    @yield('content')
+                </div>
+            </div>
         </div>
     </div>
 </div>

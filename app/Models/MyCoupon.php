@@ -9,9 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class MyCoupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['coupon_id', 'user_id', 'redeem_qrcode_path'];
+    protected $fillable = ['coupon_id', 'user_id', 'redeem_qrcode_path', 'is_active'];
 
-    public function addToMyCoupons($couponId, $userId)
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+    
+    public function addToMy($couponId, $userId)
     {
         $redeemQrcodePath = (new CreateQrcode())->createRedeemQrcode($couponId, $userId);
 
@@ -21,6 +26,23 @@ class MyCoupon extends Model
             'redeem_qrcode_path' => $redeemQrcodePath            
         ]);
     } 
+
+    public function activateMy($couponId) 
+    {
+        $myCoupon = $this->getMyCouponById($couponId, auth()->user()->id);
+       
+        $myCoupon->update([
+            'is_active' => 1
+        ]);
+    }
+    public function deactivateMy($couponId) 
+    {
+        $myCoupon = $this->getMyCouponById($couponId, auth()->user()->id);
+       
+        $myCoupon->update([
+            'is_active' => 0
+        ]);
+    }
 
     public function getRedeemQrcodePath($couponId)
     {
@@ -40,8 +62,7 @@ class MyCoupon extends Model
 
     public function getMyCouponsByUserId()
     {
-        return self::where('user_id', auth()->user()->id)
-            ->get();
+        return self::where('user_id', auth()->user()->id)->active()->latest()->get();
     }
 
     
@@ -61,9 +82,20 @@ class MyCoupon extends Model
 
     
 
-    public function checkIfMyCouponExists($couponId, $userId)
+    public function checkIfMyExists($couponId, $userId)
     {
         return self::where('coupon_id', $couponId)->where('user_id', $userId)->exists();
+    }
+
+    public function checkIfMyIsActive($couponId, $userId) 
+    {
+        $myCoupon = $this->getMyCouponById($couponId, $userId);
+        if($myCoupon->is_active == 1) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+        
     }
     
     public function checkIfCouponIsRedeemed($couponId, $userId)

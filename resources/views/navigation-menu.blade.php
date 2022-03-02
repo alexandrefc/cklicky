@@ -25,7 +25,7 @@
                         {{ __('White label solution') }}
                     </x-jet-nav-link>
                     @auth
-                        <x-jet-nav-link href="/myloyalties/{{ auth()->user()->id }}" :active="request()->routeIs('myloyalties')">
+                        <x-jet-nav-link href="/myloyalties/{{ auth()->user()->uuid }}" :active="request()->routeIs('myloyalties')">
                             {{ __('My Loyalties') }}
                         </x-jet-nav-link>
                     @endauth

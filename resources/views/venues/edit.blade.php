@@ -60,15 +60,13 @@
                                     Update Company Logo & Map icon - leave blank if you don't want to change
                                         {{-- <abbr class="hidden" title="required">*</abbr> --}}
                                 </label>
-                                    <div class="flex items-center py-2">
-                                        <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                    <div class="flex-row sm:flex items-center py-2">
+                                        <div class="w-full sm:w-1/2 my-1 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
                                             <img class="p-1 h-full m-auto object-center " src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}" alt="Logo">
                                         </div>
-                                        <div class="w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                        <div class="w-full sm:w-1/2 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
                                             <img class="p-1 h-full m-auto object-center " src="{{ asset('storage/images/icons/' . $venue->map_icon_path) }}" alt="Map Icon">
                                         </div>
-                                           
-                                            
                                     </div>
                                     <div class="w-full py-2">
                                         @livewire('upload-logo')
@@ -111,7 +109,7 @@
                                         placeholder="example@mail.com" 
                                         value="{{ $venue->email }}"
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" 
-                                        
+                                        required="required"
                                         type="text" 
                                         name="email" 
                                         id="email">
@@ -134,6 +132,7 @@
                                         <input 
                                         type="text" 
                                         name="website"
+                                        required="required"
                                         class="flex-shrink flex-grow flex-auto leading-normal w-px border border-l-0 h-10 border-grey-light rounded-lg rounded-l-none px-3 relative focus:border-blue focus:shadow" 
                                         placeholder="example.com"
                                         value="{{ $venue->website }}">

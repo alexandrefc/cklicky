@@ -35,8 +35,9 @@ class MyLoyaltyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($uuid)
     {
+
         $myCoupons = $this->myCouponModel->getMyCouponsByUserId();
         $myPoints = $this->myPointModel->getMyPointsByUserId();
         $myStamps = $this->myStampModel->getMyStampsByUserId();

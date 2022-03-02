@@ -42,13 +42,13 @@ class CouponRepository implements CouponInterface
         {
             return QueryBuilder::for(Coupon::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+                ->active()->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
             return QueryBuilder::for(Coupon::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->where('made_by_id', 1)
+                ->active()->where('made_by_id', 1)
                 ->latest()
                 ->get();
         }
@@ -92,8 +92,6 @@ class CouponRepository implements CouponInterface
         return $this->model->where('slug', $slug)->first();
     }
 
-    
-
     public function createCoupon($request)
     {
         $slug = (new CreateSlug())->createSlug($request->title);
@@ -127,7 +125,8 @@ class CouponRepository implements CouponInterface
             'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
         ]);
     }
 
@@ -206,7 +205,8 @@ class CouponRepository implements CouponInterface
             'age' => ($request->age),
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
             
             // 'reset_time' => $request->timeReset,
             // 'type_of_reset_time' => $request->timeResetPeriod,
@@ -229,8 +229,32 @@ class CouponRepository implements CouponInterface
         } else {
             return FALSE;
         }
+    } 
+
+    public function checkIfNowIsInValidTime($couponId)
+    {
+        $coupon = $this->getCouponById($couponId);
+        
+        if ($coupon->start_date <= now() && now() <= $coupon->end_date || $coupon->start_date == 0 || $coupon->end_date == 0)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
 
     } 
+
+    public function checkIfCampaignIsActive($couponId) 
+    {
+        $coupon = $this->getCouponById($couponId);
+        
+        if ($coupon->active)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
     public function addCouponRewardToMyCoupons($couponId, $userId)
     {
@@ -241,7 +265,7 @@ class CouponRepository implements CouponInterface
 
         if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
         {
-            $myCoupon->addToMyCoupons($rewardId, $userId);
+            $myCoupon->addToMy($rewardId, $userId);
         } 
     }
 

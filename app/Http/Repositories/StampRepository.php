@@ -44,17 +44,16 @@ class StampRepository implements StampInterface
         {
             return QueryBuilder::for(Stamp::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->testing()->gender()->age()->scheduledWeb()->scheduledTime()
+                ->active()->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
                 ->get();
         } else {
             return QueryBuilder::for(Stamp::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
-                ->where('made_by_id', 1)
+                ->active()->where('made_by_id', 1)
                 ->latest()
                 ->get();
         }
-        
     }
 
     public function getAllWebStamps()
@@ -129,7 +128,8 @@ class StampRepository implements StampInterface
             'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email 
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
             
         ]); 
 
@@ -205,7 +205,8 @@ class StampRepository implements StampInterface
             'age' => $request->age,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'test_email' => auth()->user()->test_email 
+            'test_email' => auth()->user()->test_email,
+            'is_active' => $request->is_active
             // 'qrcode_path' => $updated_qrcode_path,
             // 'made_by_id' => auth()->user()->id,
             // 'slug' => $updated_slug
@@ -294,6 +295,18 @@ class StampRepository implements StampInterface
 
     } 
 
+    public function checkIfCampaignIsActive($stampId) 
+    {
+        $stamp = $this->getStampById($stampId);
+        
+        if ($stamp->active)
+        {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     // todo: move to MyStamp repo
     public function addStampRewardToMyStamps($stampId, $userId)
     {
@@ -302,9 +315,9 @@ class StampRepository implements StampInterface
         $rewardId = $stamp->reward_id;
         $user_time_to_redeem = $this->getTimeToRedeem($stampId);
 
-        if (!($myStamp->checkIfMyStampExists($rewardId, $userId)))
+        if (!($myStamp->checkIfMyExists($rewardId, $userId)))
         {
-            $myStamp->addToMyStamps($rewardId, $userId, $user_time_to_redeem);
+            $myStamp->addToMy($rewardId, $userId, $user_time_to_redeem);
         } 
       
     }
@@ -318,7 +331,7 @@ class StampRepository implements StampInterface
 
         if (!($myCoupon->checkIfMyCouponExists($rewardId, $userId)))
         {
-            $myCoupon->addToMyCoupons($rewardId, $userId);
+            $myCoupon->addToMy($rewardId, $userId);
         } 
 
     }

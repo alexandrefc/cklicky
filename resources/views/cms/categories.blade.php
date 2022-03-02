@@ -7,12 +7,14 @@
     </x-slot> --}}
 
 
-    <div>
-        {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
+    {{-- <div> --}}
         
-        <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
+        <div x-data="{ sidebarOpen: true }" class="flex bg-gray-200">
+            
             <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
-        
+            
+            <div @click="sidebarOpen = true" class="lg:hidden text-green-700 font-extrabold text-xl bg-gray-200 w-1/12"></div>
+
             <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform  bg-gradient-to-b from-green-700 to-green-300 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
                 <div class="flex items-center justify-center mt-8">
                     <div class="flex items-center">
@@ -26,7 +28,7 @@
                 </div>
         
                 <nav class="mt-10">
-                    <a class="flex items-center mt-4 py-2 px-6 bg-gray-700 bg-opacity-25 text-white font-bold" href="/dashboard">
+                    <a class="flex items-center mt-4 py-2 px-6  text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="/dashboard">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -38,7 +40,7 @@
                         <span class="mx-3">Loyalty campaigns</span>
                     </a>
         
-                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
+                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold bg-gray-700 bg-opacity-25"
                         href="/categories/create">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -50,7 +52,7 @@
                         <span class="mx-3">Categories</span>
                     </a>
         
-                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 "
+                    <a class="flex items-center mt-4 py-2 px-6 text-white font-bold hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
                         href="/app-users">
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -75,9 +77,9 @@
                     </a>
                 </nav>
             </div>
-            <div class="flex-1 flex flex-col overflow-hidden">
+            {{-- <div class="flex-1 flex flex-col overflow-hidden"> --}}
  
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                     <div class="container mx-auto px-6 py-8 w-4/5">
                         <h3 class="text-gray-700 text-center text-3xl font-medium mb-8">Manage your categories</h3>
         
@@ -97,7 +99,7 @@
                               
                               <div class="grid grid-cols-1 mt-5 mx-7 mb-5">
                                   <label class="uppercase md:text-sm text-xs text-gray-500 text-light font-semibold">Current Categories</label>
-                                    <div class="grid grid-cols-2 py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 py-2 px-3 rounded-lg border-2 border-purple-300 mt-1 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent">
                                       @foreach ($categories as $category)
                                         <div class="grid grid-cols-1 border-b  border-purple-300 mb-2">
                                             {{ $category->name }}
@@ -159,9 +161,9 @@
                           </div>
 
                     </div>
-                </main>
-            </div>
-        </div>
+                </div>
+            {{-- </div> --}}
+        {{-- </div> --}}
     </div>
 
 

@@ -107,8 +107,8 @@
                     </a>
                    
                 <div class="flex space-x-1 mb-1">
-                  <div class="flex-1 w=4/5 m-auto text-center">
-                      <form 
+                  <div class="flex-1 w=4/5 m-auto">
+                      {{-- <form 
                       action="/venues/{{ $venue->slug }}"
                       method="POST">
                       @csrf
@@ -119,7 +119,8 @@
                               class=" bg-red-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
                               Delete
                           </button>
-                      </form>
+                      </form> --}}
+                      @livewire('delete-venue', ['slug' => $venue->slug, 'url' => 'venues'])
                   </div>
       
                   <div class="flex-1 w=4/5 m-auto text-right">

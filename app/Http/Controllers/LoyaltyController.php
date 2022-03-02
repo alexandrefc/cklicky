@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use Illuminate\Support\Str;
 use App\Services\CreateSlug;
 use Illuminate\Http\Request;
+use App\Services\SetPublicId;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -45,6 +46,7 @@ class LoyaltyController extends Controller
      */
     public function index(CategoryInterface $categoryInterface)
     {
+       
         // $coupons = $this->couponModel->getAllWebScheduledCoupons();
         // $coupons = $this->couponModel->getAllGenderCoupons();
         // $coupons = $this->couponModel->getAllAgeCoupons();

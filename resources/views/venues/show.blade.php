@@ -79,13 +79,13 @@
                  
                   <div class="flex space-x-4">
                     <div class="flex-1 w=4/5 m-auto text-center">
-                      <p class=" text:lg md:text-xl my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
+                      <p class="text:xs md:text-xs my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-3 rounded-3xl">
                         Total offers: {{ $venue->points->count() + $venue->coupons->count() + $venue->coupons->count() ?? "0" }}   
                                       
                       </p>
                     </div>
-                      <div class="flex-3 w=4/5 m-auto text-center">
-                          <form 
+                      <div class="flex-1 w=4/5 m-auto text-center">
+                          {{-- <form 
                               action="/venues/addtomy/{{ $venue->id }}"
                               method="POST"
                               enctype="multipart/form-data">
@@ -96,7 +96,8 @@
                                   class=" bg-pink-700 text-gray-100 text-sm font-extrabold py-2 px-3 rounded-3xl">
                                   Add to My
                               </button>
-                          </form>
+                          </form> --}}
+                          @livewire('add-remove-from-my-button', ['model' => 'venue', 'campaign' => $venue])
                       </div>
           
                   </div>

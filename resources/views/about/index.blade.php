@@ -162,20 +162,20 @@
           </div>
 
           <div id="whitelabelsolution" 
-            class="text-center p-10 bg-gradient-to-b from-yellow-400 to-red-500 text-white">
+            class="text-2xl sm:text-4xl text-center p-10 bg-gradient-to-b from-yellow-400 to-red-500 text-white">
             <h2 class="text-3xl pb-5">
                 White label solution services
             </h2>
-            <span class="font-extrabold block text-4xl py-1">
+            <span class="font-extrabold block  py-1">
                 We build a web app with admin panel with your branding. 
             </span>
-            <span class="font-extrabold block text-4xl py-1">
+            <span class="font-extrabold block  py-1">
                 We take care of technology, development and new feature releases.
             </span>
-            <span class="font-extrabold block text-4xl py-1">
+            <span class="font-extrabold block  py-1">
                 <br>
             </span>
-            <span class="font-extrabold block text-4xl py-1">
+            <span class="font-extrabold block  py-1">
                 All this in just 14 days.
             </span>
         </div>
