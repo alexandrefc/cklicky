@@ -210,8 +210,9 @@
                                         type="text" 
                                         name="location" 
                                         id="location">
+                                    
                                 </div>
-                                  
+                               
                             </div>
 
                             <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
@@ -240,7 +241,7 @@
                                     <select 
                                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                                         name="category_id">
-                                        {{-- <option value="">All categories</option> --}}
+                                        <option value="47">No category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
@@ -283,7 +284,8 @@
                                     type="reset"> 
                                     Cancel 
                                 </button>
-                                <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500">
+                                <button 
+                                    class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500">
                                     Save
                                 </button>
                             </div>
@@ -295,5 +297,8 @@
         </div>
 
     </div>
+
+
+   
 
 </x-app-layout>

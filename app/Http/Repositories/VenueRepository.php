@@ -3,6 +3,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\Venue;
+use App\Services\Geocode;
 use App\Services\CreateSlug;
 use App\Services\UploadImage;
 use App\Services\CreateQrcode;
@@ -43,13 +44,13 @@ class VenueRepository implements VenueInterface
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'id')])
                 ->testing()
                 ->latest()
-                ->get();
+                ->lazy();
         } else {
             return QueryBuilder::for(Venue::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->where('user_id', 1)
                 ->latest()
-                ->get();
+                ->lazy();
         }
 
     }
@@ -80,7 +81,8 @@ class VenueRepository implements VenueInterface
 
         // $map_icon_path = (new UploadImage())->uploadMapIcon($request->map_icon, $request->title);
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
-        $coordinates = Geocoder::getCoordinatesForAddress($request->location);
+        // $coordinates = Geocoder::getCoordinatesForAddress($request->location);
+        $coordinates = (new Geocode())->geocode($request->location);
         
         return $this->model->create([
             'title' => $request->title,
@@ -116,7 +118,8 @@ class VenueRepository implements VenueInterface
     public function updateVenue($request, $slug)
     {
         $venue = $this->model->where('slug', $slug)->first();
-        $coordinates = Geocoder::getCoordinatesForAddress($request->location);
+        // $coordinates = Geocoder::getCoordinatesForAddress($request->location);
+        $coordinates = (new Geocode())->geocode($request->location);
         
         $existing_image_path = $venue->logo_path;
         $existing_map_icon_path = $venue->map_icon_path;

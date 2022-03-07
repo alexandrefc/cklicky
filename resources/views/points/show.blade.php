@@ -116,8 +116,10 @@
                                 </div>
                             @endif
                         </div> --}}
-
-                        @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
+                     
+                            @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
+                
+                        
             
                         @if($myPoint ? $myPoint->finished : 0)
                             <div class="flex-1 w=4/5 m-auto text-center">

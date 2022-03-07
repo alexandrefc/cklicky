@@ -20,7 +20,7 @@ class AddRemoveFromMyButton extends Component
 
     public function mount(MyStamp $myStamp, MyPoint $myPoint, MyCoupon $myCoupon, MyVenue $myVenue)
     {
-        $userId = auth()->user()->id;
+        
         
         if ($this->model == 'stamp')
         {
@@ -39,17 +39,21 @@ class AddRemoveFromMyButton extends Component
             $this->myCampaign = $myVenue;
         }
 
-        
-        if (!($this->myCampaign->checkIfMyExists($this->campaign->id, auth()->user()->id)))
+        if (auth()->check())
         {
-            return $this->active = FALSE;
-        
-        } elseif (!($this->myCampaign->checkIfMyIsActive($this->campaign->id, auth()->user()->id))) {
+            if (!($this->myCampaign->checkIfMyExists($this->campaign->id, auth()->user()->id)))
+            {
+                return $this->active = FALSE;
             
-            return $this->active = FALSE;
-            
+            } elseif (!($this->myCampaign->checkIfMyIsActive($this->campaign->id, auth()->user()->id))) {
+                
+                return $this->active = FALSE;
+                
+            } else {
+                return $this->active = TRUE;
+            }
         } else {
-            return $this->active = TRUE;
+            return $this->active = FALSE;
         }
         
     }

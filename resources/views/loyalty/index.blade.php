@@ -8,19 +8,19 @@
         </h2>
     </x-slot> --}}
 
-        <div x-data="{ open: false }" class="bg-gradient-to-b from-green-700 to-green-300 w-4/5 sm:w-5/12 md:w-1/3 lg:w-1/5">
+        <div x-data="{ open: false }" class="bg-gradient-to-b from-green-700 to-green-300 w-4/5 sm:w-5/12 md:w-1/3 lg:w-1/3 xl:w-1/5">
           <button class="text-white font-bold w-full" @click="open = ! open">Choose brands and categories =></button>
           
             <div style="display: none !important;" x-show="open" @click.outside="open = false">
               <button class="text-white font-bold w-full">Show categories</button>
-              <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+              <div class="inline-flex w-3/4 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
                 <label >All Categories</label>
               </div>
-              <div class="inline-flex w-1/5">
-                <input class=" rounded-md" name="categoryAll" type="checkbox" value="all" id="categoryAll">
+              <div class="inline-flex w-1/5 text-right">
+                <input class=" rounded-md" name="category" type="checkbox" value="0" id="categoryAll">
               </div>
               @foreach ($categories as $category)
-                <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                <div class="inline-flex w-3/4 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
                   <label >{{ $category->name }}</label>
                 </div>
                 <div class="inline-flex w-1/5">
@@ -32,14 +32,14 @@
                 </div>
               @endforeach
               <button class="text-white font-bold w-full">Show venues</button>
-              <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+              <div class="inline-flex w-3/4 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
                 <label >All Venues</label>
               </div>
               <div class="inline-flex w-1/5">
                 <input class=" rounded-md" name="venueAll" type="checkbox" value="all" id="venueAll">
               </div>
               @foreach ($venues as $venue)
-                <div class="inline-flex w-1/2 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
+                <div class="inline-flex w-3/4 sm:w-3/4 ml-2 text-gray-100 text-xs font-extrabold">
                   <label >{{ $venue->title }}</label>
                 </div>
                 <div class="inline-flex w-1/5">
@@ -66,6 +66,8 @@
           </h2>
       </div>
       
+      
+        
       
       <div
         id="scrollContainer"
@@ -207,19 +209,11 @@
               </div> --}}
               <div class="flex space-x-1 mb-1">
                 <div class="flex-1 w=4/5 m-auto text-center">
-                    {{-- <form 
-                        action="/points/addtomy/{{ $point->id }}"
-                        method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                
-                        <button 
-                            type="submit"
-                            class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                            Add to My
-                        </button>
-                    </form> --}}
+                 
                     @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
+                  
+                    
+                    
                 </div>
     
                 <div class="flex-1 w=4/5 m-auto text-center">
@@ -252,18 +246,22 @@
                   </div> --}}
             </div>
 
-          
-         
-            
           {{-- </a> --}}
       
         </div>
-     
+        
+        {{-- @livewire('load-more', ['model' => $point]) --}}
         @endforeach
-       
-      </div>
+        
+     
+        
+     
   </div>
-
+  {{-- <div>
+    {{ $points->links() }}
+  
+  </div> --}}
+</div>
   <div class="container my-8 mx-8">
         
     <div class="flex justify-between mb-4">
@@ -406,6 +404,9 @@
             </div> --}}
             <div class="flex space-x-1 mb-1">
               <div class="flex-1 w=4/5 m-auto text-center">
+               
+                  @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
+               
                   {{-- <form 
                       action="/coupons/addtomy/{{ $coupon->id }}"
                       method="POST"
@@ -418,7 +419,7 @@
                           Add to My
                       </button>
                   </form> --}}
-                  @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
+                  {{-- @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon]) --}}
               </div>
   
               <div class="flex-1 w=4/5 m-auto text-center">
@@ -630,19 +631,11 @@
           </div> --}}
           <div class="flex space-x-1 mb-1">
             <div class="flex-1 w=4/5 m-auto text-center">
-                {{-- <form 
-                    action="/stamps/addtomy/{{ $stamp->id }}"
-                    method="POST"
-                    enctype="multipart/form-data">
-                    @csrf
-            
-                    <button 
-                        type="submit"
-                        class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                        Add to My
-                    </button>
-                </form> --}}
-                @livewire('add-remove-from-my-button', ['model' => 'stamp', 'campaign' => $stamp])
+                
+               
+                  @livewire('add-remove-from-my-button', ['model' => 'stamp', 'campaign' => $stamp])
+                
+                
             </div>
 
             <div class="flex-1 w=4/5 m-auto text-center">
@@ -760,6 +753,9 @@
             </a>
           <div class="flex w-11/12 space-x-1 mb-1 absolute inset-x-0 bottom-4 mx-auto">
             <div class="text-center m-auto w-1/2">
+            
+                  @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
+               
                 {{-- <form 
                     action="/coupons/addtomy/{{ $coupon->id }}"
                     method="POST"
@@ -772,7 +768,7 @@
                         Add to My
                     </button>
                 </form> --}}
-                @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon])
+                {{-- @livewire('add-remove-from-my-button', ['model' => 'coupon', 'campaign' => $coupon]) --}}
             </div>
 
             <div class="text-center m-auto w-1/2">
@@ -881,6 +877,9 @@
       </a>
       <div class="flex w-11/12 space-x-1 mb-1 absolute inset-x-0 bottom-4 mx-auto">
         <div class="text-center m-auto w-1/2">
+        
+              @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
+         
           {{-- <form 
               action="/points/addtomy/{{ $point->id }}"
               method="POST"
@@ -893,7 +892,7 @@
                   Add to My
               </button>
           </form> --}}
-          @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point])
+          {{-- @livewire('add-remove-from-my-button', ['model' => 'point', 'campaign' => $point]) --}}
         </div>
 
         <div class="text-center m-auto w-1/2">
@@ -1105,20 +1104,10 @@
             
                 <div class="flex space-x-1 mb-1">
                   <div class="flex-1 w=4/5 m-auto text-center">
-                      {{-- <form 
-                          action="/venues/addtomy/{{ $venue->id }}"
-                          method="POST"
-                          enctype="multipart/form-data">
-                          @csrf
-                          
                   
-                          <button 
-                              type="submit"
-                              class=" bg-yellow-500 text-gray-100 text-xs font-extrabold py-2 px-3 rounded-3xl">
-                              Add to My
-                          </button>
-                      </form> --}}
                       @livewire('add-remove-from-my-button', ['model' => 'venue', 'campaign' => $venue])
+                   
+                      
                   </div>
       
                   
@@ -1142,6 +1131,32 @@
       
     </div>
   </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
+
+<script type="text/javascript">
+    // $('ul.pagination').hide();
+    // $(function() {
+    //     $('.scrolling-pagination').jscroll({
+    //         autoTrigger: true,
+    //         padding: 0,
+    //         nextSelector: '.pagination li.active + li a',
+    //         contentSelector: 'div.scrolling-pagination',
+    //         callback: function() {
+    //             $('ul.pagination').remove();
+    //         }
+    //     });
+    // });
+
+    // window.onscroll = function(ev) {
+    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //         // window.livewire.emit('load-more');
+    //         $('ul.pagination li.active li a');
+
+    //     }
+    // };
+</script>
  
   <script>
 

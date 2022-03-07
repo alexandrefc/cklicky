@@ -46,13 +46,13 @@ class StampRepository implements StampInterface
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->active()->testing()->gender()->age()->scheduledWeb()->scheduledTime()
                 ->latest()
-                ->get();
+                ->lazy();
         } else {
             return QueryBuilder::for(Stamp::class)
                 ->allowedFilters([AllowedFilter::exact('category', 'category_id'), AllowedFilter::exact('venue', 'venue_id')])
                 ->active()->where('made_by_id', 1)
                 ->latest()
-                ->get();
+                ->lazy();
         }
     }
 
