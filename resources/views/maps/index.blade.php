@@ -80,7 +80,7 @@
                     Total offers: {{ ($count = $venue->points->count() + $venue->coupons->count() + $venue->stamps->count()) ?? "0" }}                   
                   </p>
 
-                  <p class="text-xs md:text-xs mb-1">
+                  <p id="{{ $venue->category->id }}" class="text-xs md:text-xs mb-1">
                       Category: {{ $venue->category->name ?? "No Category" }}                   
                   </p>
                   <p class="text-xs md:text-xs mb-1">
@@ -169,7 +169,7 @@ const venues =  {!! json_encode($venues->toArray()) !!};
 venues.forEach(element => {
  
   const offersAmount = document.getElementById(element.title).innerHTML;
-
+  const categoryName = document.getElementById(element.category_id).innerHTML;
   const label = element.title ;
   const contentString =
   '<div class="text-xs"id="content">' +
@@ -181,7 +181,7 @@ venues.forEach(element => {
   '</b> <p class="text:xs my-4 text-center bg-yellow-300 text-gray-600 font-bold py-2 px-2 rounded-3xl">' +
   offersAmount + '</p>' +
   '<p class="text-xs md:text-xs mb-1">' +
-  'Category: '+element.category.name+'</p>'    +
+  ''+categoryName+'</p>'    +
   '<p class="text-xs md:text-xs mb-1">' +
   'Email: '+element.email+'</p>'    + 
   '<p class="text-xs md:text-xs mb-1">' +

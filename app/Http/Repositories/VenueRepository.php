@@ -69,6 +69,7 @@ class VenueRepository implements VenueInterface
 
     public function createVenue($request)
     {
+        
         $slug = (new CreateSlug())->createSlug($request->title);
         $logo_path = (new UploadImage())->uploadLogo($request->logo, $request->title);
 
@@ -83,6 +84,7 @@ class VenueRepository implements VenueInterface
         $qrcode_path = (new CreateQrcode())->createPointQrcode($slug, $request->title);
         // $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         $coordinates = (new Geocode())->geocode($request->location);
+
         
         return $this->model->create([
             'title' => $request->title,
@@ -117,6 +119,7 @@ class VenueRepository implements VenueInterface
 
     public function updateVenue($request, $slug)
     {
+        
         $venue = $this->model->where('slug', $slug)->first();
         // $coordinates = Geocoder::getCoordinatesForAddress($request->location);
         $coordinates = (new Geocode())->geocode($request->location);

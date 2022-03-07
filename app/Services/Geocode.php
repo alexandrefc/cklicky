@@ -18,11 +18,12 @@ class Geocode
     }
     public function geocode($address)
     {
-        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&key='.env( 'GOOGLE_API_KEY' );
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&key='.env( 'GOOGLE_GEO_KEY' );
         
         $client = new \GuzzleHttp\Client();
         $geocodeResponse = $client->get( $url )->getBody();
         $geocodeData = json_decode( $geocodeResponse );
+        
         $coordinates['lat'] = null;
         $coordinates['lng'] = null;
         if( !empty( $geocodeData )
@@ -33,8 +34,7 @@ class Geocode
                 $coordinates['lng'] = $geocodeData->results[0]->geometry->location->lng;
                 // $coordinates = $geocodeData->results[0]->geometry->location;
             }
-        
-        // dd($coordinates);
+       
         return $coordinates;
     }
 }
