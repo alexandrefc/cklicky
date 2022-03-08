@@ -130,7 +130,7 @@
                       @endif
                     </p>
                     <p class="text-xs  mb-3 mt-2 md:mb-6">
-                      Campaign valid between:
+                      Campaign valid:
                       {{ $point->start_date ? date('j M, Y', strtotime($point->start_date)) : " "}} - {{ $point->end_date ? date('j M, Y', strtotime($point->end_date)) : "" }}
                     </p>
                 </div>

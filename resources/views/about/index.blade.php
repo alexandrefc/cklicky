@@ -1451,7 +1451,7 @@
           </a>
         </div>
         <div class="ml-3 inline-flex rounded-md shadow">
-          <a href="/loyalties" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50">
+          <a href="/loyalty" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50">
             Learn more
           </a>
         </div>

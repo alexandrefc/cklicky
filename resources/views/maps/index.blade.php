@@ -50,7 +50,8 @@
           class="flex-none w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 w-max-350px h-max-350px mr-8 md:pb-4 border rounded-lg">
         
           <a href="/venues/{{ $venue->id }}" class="w-full ">
-            <div id="{{ $venue->id }}" class="">
+            {{-- <div id="{{ $venue->id }}" class=""> --}}
+              <div class="">
               <img
                 class="w-4/5 p-2 mx-auto hover:shadow-xl rounded-lg"
                 src="{{ asset('storage/images/loyalty/' . $venue->logo_path) }}"
@@ -235,9 +236,10 @@ if (navigator.geolocation) {
       };
 
       infoWindow.setPosition(pos);
-      infoWindow.setContent("Location found.");
+      infoWindow.setContent("You are here");
       infoWindow.open(map);
       map.setCenter(pos);
+      map.setZoom(12);
     },
     () => {
       handleLocationError(true, infoWindow, map.getCenter());
