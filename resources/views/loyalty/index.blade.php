@@ -1082,7 +1082,7 @@
                   Total offers: {{ ($venue->points->count() + $venue->coupons->count() + $venue->stamps->count()) ?? "0" }}                   
                 </p>
   
-                <p class="text-xs mb-1">
+                <p class="text-xs mb-2">
                     Category: {{ $venue->category->name ?? "No Category" }}                   
                     </p>
                 <a 
